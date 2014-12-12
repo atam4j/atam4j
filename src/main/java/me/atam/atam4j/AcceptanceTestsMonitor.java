@@ -1,20 +1,27 @@
 package me.atam.atam4j;
 
+import com.google.common.io.Resources;
 import io.dropwizard.Application;
 import io.dropwizard.lifecycle.setup.ScheduledExecutorServiceBuilder;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import me.atam.atam4j.configuration.AcceptanceTestsAppConfiguration;
+import me.atam.atam4j.configuration.ConfigLoader;
 import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
 import me.atam.atam4j.health.AcceptanceTestsState;
 
+import java.io.File;
 import java.util.concurrent.TimeUnit;
 
 public class AcceptanceTestsMonitor extends Application<AcceptanceTestsAppConfiguration> {
 
     public static final int TEN_MINUTES_IN_SECONDS = 60 * 10;
 
-    public static void main(final String[] args) throws Exception {
+    public static void main(String[] args) throws Exception {
+        if (args == null || args.length==0) {
+            args = new String[]{"server", new File(Resources.getResource("app-config.yml").toURI()).getAbsolutePath()};
+        }
+
         new AcceptanceTestsMonitor().run(args);
     }
 
