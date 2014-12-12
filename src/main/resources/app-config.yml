@@ -1,5 +1,3 @@
-# Custom application configuration
-helloWorldMessage: Welcome to atam4j
 
 # Dropwizard server configuration
 server:
