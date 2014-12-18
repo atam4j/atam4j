@@ -9,7 +9,6 @@ import java.util.concurrent.TimeUnit;
 
 public class AcceptanceTestHealthCheckManager {
 
-
     public static final int TEN_MINUTES_IN_SECONDS = 60 * 10;
 
     private Environment environment;
@@ -23,8 +22,8 @@ public class AcceptanceTestHealthCheckManager {
     public void initialise() {
         AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
 
-        ScheduledExecutorServiceBuilder executorServiceBuilder = environment.lifecycle().scheduledExecutorService("acceptance-tests-runner");
-
+        ScheduledExecutorServiceBuilder executorServiceBuilder = environment.lifecycle().
+                scheduledExecutorService("acceptance-tests-runner");
 
         executorServiceBuilder.build().scheduleAtFixedRate(
                 new AcceptanceTestsRunnerTask(acceptanceTestsState, testClasses),

@@ -15,7 +15,6 @@ public class AcceptanceTestsRunnerTask implements Runnable {
 
     Class testClasses[];
 
-
     public AcceptanceTestsRunnerTask(AcceptanceTestsState testsState, Class[] testClasses) {
         this.testClasses = testClasses;
         AcceptanceTestsRunnerTask.testsState = testsState;
@@ -24,7 +23,6 @@ public class AcceptanceTestsRunnerTask implements Runnable {
     @Override
     public void run() {
         LOGGER.info("Starting tests at {}", new Date());
-
 
         Result result = JUnitCore.runClasses(testClasses);
         testsState.setResult(result);
