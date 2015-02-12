@@ -27,6 +27,6 @@ public class ConfigLoader<T> {
     }
 
     private String getFileName() {
-        return "config-local.yml";
+        return "default-test-config.yml";
     }
 }
