@@ -18,6 +18,7 @@
         <junit.version>4.11</junit.version>
         <dw.version>0.7.1</dw.version>
         <target-jdk>1.8</target-jdk>
+        <mockito-core.version>1.10.19</mockito-core.version>
     </properties>
 
     <dependencies>
@@ -30,6 +31,14 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
+        </dependency>
+
+        <!-- Test Dependencies -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>${mockito-core.version}</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

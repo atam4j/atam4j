@@ -9,24 +9,29 @@ public class ConfigLoader<T> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ConfigLoader.class);
     private Class<T> configClass;
+    private String configFileName;
 
-    public ConfigLoader(Class<T> configClass) {
+    public ConfigLoader(Class<T> configClass, String configFileName) {
         this.configClass = configClass;
+        this.configFileName = configFileName;
     }
 
     public T getTestConfig(){
         try {
             ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-            String filename = getFileName();
-            LOGGER.info(String.format("Loading config from: %s", filename));
-            return mapper.readValue(this.getClass().getClassLoader().getResourceAsStream(filename), configClass);
+            LOGGER.info(String.format("Loading config from: %s", configFileName));
+            return mapper.readValue(this.getClass().getClassLoader().getResourceAsStream(configFileName), configClass);
         }
         catch(Exception e){
             throw new RuntimeException(e);
         }
     }
 
-    private String getFileName() {
-        return "default-test-config.yml";
+    public String getConfigFileName() {
+        return configFileName;
+    }
+
+    public Class<T> getConfigClass() {
+        return configClass;
     }
 }
