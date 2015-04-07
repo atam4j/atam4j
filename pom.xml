@@ -6,7 +6,7 @@
 
     <groupId>me.atam</groupId>
     <artifactId>atam4j</artifactId>
-    <version>0.1.0</version>
+    <version>0.2-SNAPSHOT</version>
 
     <name>${project.artifactId}</name>
     <description>Library that enables using acceptance tests as monitors</description>
