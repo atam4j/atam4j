@@ -51,7 +51,9 @@ git push
 3. Tag code 
 > git tag -a v${versionNumber} -m 'version ${versionNumber}’
     
-4. Deploy to maven central    
+4. Create release in Github - [https://github.com/atam4j/atam4j/releases](https://github.com/atam4j/atam4j/releases)    
+
+5. Deploy to maven central    
 > mvn clean deploy
 
 
