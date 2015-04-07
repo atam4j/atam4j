@@ -40,8 +40,20 @@ Look for non-snapshot version
 Only [core committers](Core-Committers.md) can release atam4j to maven central. You need Sonatype Nexus OSS account info for atam.me.
 
 ##### Steps
-> mvn versions:set -DnewVersion={version number}    
-mvn clean deploy
+
+1. Set version of the release    
+> mvn versions:set -DnewVersion=${versionNumber}
+
+2. Commit the version back to git and push to remote 
+> git commit -a -m "Preparing release v${versionNumber}"    
+git push
+
+3. Tag code 
+> git tag -a v${versionNumber} -m 'version ${versionNumber}’
+    
+4. Deploy to maven central    
+> mvn clean deploy
+
 
 
 
