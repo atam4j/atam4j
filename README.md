@@ -11,17 +11,20 @@ Acceptance Tests As Monitors
     <dependency>    
        <groupId>me.atam</groupId>    
        <artifactId>atam4j</artifactId>    
-       <version>0.1.0</version>    
+       <version>0.2.0</version>    
     </dependency>
 
 ## Using atam4j
 
 1. Include the atam4j maven dependency.
+
 2. Write Junit based tests in the usual manner, with the exception of including them in the main application classpath 
 instead of the tests classpath. This can be done by including them in the `src/main/java directory` instead of the 
 `src/test/java` directory.
+
 3. Instantiate the `AcceptanceTestHealthCheckManager` in the `run` method of your dropwizard application class.
 > new AcceptanceTestHealthCheckManager(environment, TEN_MINUTES_IN_SECONDS, HelloWorldTest.class).initialise();
+
 4. Run the dropwizard app and observe the status of the acceptnace tests reported under the health-check endpoint.
 
 Refer to [atam4j-sample-app](https://github.com/atam4j/atam4j-sample-app) for a complete working example.
