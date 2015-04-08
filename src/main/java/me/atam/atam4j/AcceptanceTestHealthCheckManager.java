@@ -13,8 +13,16 @@ public class AcceptanceTestHealthCheckManager {
 
     private Environment environment;
     private Class testClasses[];
+    private int testsInterval;
 
     public AcceptanceTestHealthCheckManager(Environment environment, Class ... testClasses) {
+        this.environment = environment;
+        this.testClasses = testClasses;
+        this.testsInterval = TEN_MINUTES_IN_SECONDS;
+    }
+
+    public AcceptanceTestHealthCheckManager(Environment environment, int testsInterval, Class ... testClasses) {
+        this.testsInterval = testsInterval;
         this.environment = environment;
         this.testClasses = testClasses;
     }
@@ -28,7 +36,7 @@ public class AcceptanceTestHealthCheckManager {
         executorServiceBuilder.build().scheduleAtFixedRate(
                 new AcceptanceTestsRunnerTask(acceptanceTestsState, testClasses),
                 2,
-                TEN_MINUTES_IN_SECONDS,
+                testsInterval,
                 TimeUnit.SECONDS);
 
         environment.healthChecks().register("Track Acceptance Tests HealthCheck", new AcceptanceTestsHealthCheck(acceptanceTestsState));
