@@ -39,6 +39,6 @@ public class AcceptanceTestHealthCheckManager {
                 testsInterval,
                 TimeUnit.SECONDS);
 
-        environment.healthChecks().register("Track Acceptance Tests HealthCheck", new AcceptanceTestsHealthCheck(acceptanceTestsState));
+        environment.healthChecks().register("Acceptance Tests HealthCheck", new AcceptanceTestsHealthCheck(acceptanceTestsState));
     }
 }
