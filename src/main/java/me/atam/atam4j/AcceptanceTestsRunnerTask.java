@@ -3,6 +3,7 @@ package me.atam.atam4j;
 import me.atam.atam4j.health.AcceptanceTestsState;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
+import org.junit.runner.notification.Failure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +34,12 @@ public class AcceptanceTestsRunnerTask implements Runnable {
                 result.getFailureCount(),
                 result.getRunTime()
         );
+
+        for (Failure failure: result.getFailures()){
+            LOGGER.error(failure.getDescription().toString(), failure.getException());
+        }
+
+
     }
 
 
