@@ -3,6 +3,9 @@ atam4j
 
 Acceptance Tests As Monitors
 
+* A simple library that allows you to run junit tests as monitoring checks.
+* Runs tests on a schedule and exposes results via a restful api that can called from your monitoring (e.g. nagios, zabbix, icinga, pingdom etc etc)
+
 ## Latest Build Status
 
 [![Build Status](https://travis-ci.org/atam4j/atam4j.svg?branch=master)](https://travis-ci.org/atam4j/atam4j)
