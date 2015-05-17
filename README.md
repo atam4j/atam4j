@@ -23,7 +23,7 @@ Acceptance Tests As Monitors
 
 1. Include the atam4j maven dependency.
 
-2. Write Junit based tests in the usual manner, with the exception of including them in the main application classpath 
+2. Write Junit based tests in the usual manner, with the exception of adding a `@Monitor` annotation to the class and including them in the main application classpath 
 instead of the tests classpath. This can be done by including them in the `src/main/java directory` instead of the 
 `src/test/java` directory.
 
