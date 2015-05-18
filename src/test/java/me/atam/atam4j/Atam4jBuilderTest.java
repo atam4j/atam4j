@@ -20,7 +20,7 @@ public class Atam4jBuilderTest {
     @Test
     public void givenBuilderNotSuppliedWithTestClasses_whenBuildCalled_thenExceptionThrown(){
         builder.withEnvironment(mock(Environment.class));
-        buildShouldThrowExceptionWithMessage("No test classes specified");
+        buildShouldThrowExceptionWithMessage("No test classes or annotation scanning specified");
     }
 
     @Test

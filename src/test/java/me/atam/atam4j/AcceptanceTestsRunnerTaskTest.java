@@ -42,13 +42,13 @@ public class AcceptanceTestsRunnerTaskTest {
     }
 
     @Test
-    public void testPassingAndFailingTestReportsFailure(){
+    public void testPassingAndFailingTestReportsFailure() {
         Class[] passingAndFailingTest = {FailingTest.class, PassingTest.class};
         assertFalse(runTestsAndGetResult(passingAndFailingTest).wasSuccessful());
     }
 
     @Test
-    public void testThatExceptionFromTestsGetsLogged(){
+    public void testThatExceptionFromTestsGetsLogged() {
         Class[] testThatFailsToBeInitialised = {TestThatFailsOnInitialisation.class};
         assertFalse(runTestsAndGetResult(testThatFailsToBeInitialised ).wasSuccessful());
         assertThat(logger.getLoggingEvents(), hasItem(LoggingEventWithThrowableMatcher.hasThrowableThatContainsString("Nasty Exception")));

@@ -14,7 +14,6 @@ import org.slf4j.LoggerFactory;
 
 import java.util.Date;
 import java.util.Optional;
-import java.util.Set;
 
 public class AcceptanceTestsRunnerTask implements Runnable {
 
@@ -48,12 +47,12 @@ public class AcceptanceTestsRunnerTask implements Runnable {
     }
 
     private Class<?>[] getTestClasses(final Optional<Class[]> testClasses) {
-        return testClasses.orElseGet(() -> {
-            final Set<Class<?>> monitors = new Reflections(new ConfigurationBuilder()
+        return testClasses.orElseGet(() ->
+            new Reflections(new ConfigurationBuilder()
                     .setUrls(ClasspathHelper.forJavaClassPath())
                     .setScanners(new SubTypesScanner(), new TypeAnnotationsScanner()))
-                    .getTypesAnnotatedWith(Monitor.class);
-            return monitors.toArray(new Class[monitors.size()]);
-        });
+                    .getTypesAnnotatedWith(Monitor.class)
+                    .stream()
+                    .toArray(Class[]::new));
     }
 }
