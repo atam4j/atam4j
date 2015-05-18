@@ -1,6 +1,8 @@
 atam4j
 ======
 
+[![Join the chat at https://gitter.im/atam4j/atam4j](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/atam4j/atam4j?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Acceptance Tests As Monitors
 
 * A simple library that allows you to run junit tests as monitoring checks.
