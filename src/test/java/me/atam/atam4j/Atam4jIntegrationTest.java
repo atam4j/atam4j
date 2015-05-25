@@ -16,11 +16,9 @@ import static org.mockito.Mockito.when;
 
 public class Atam4jIntegrationTest {
 
-
     private Environment environment = mock(Environment.class);
     private LifecycleEnvironment lifeCycleEnvironment = new LifecycleEnvironment();
     private HealthCheckRegistry healthCheckRegistry = new HealthCheckRegistry();
-
 
     @Before
     public void setUp() throws Exception {
@@ -31,9 +29,8 @@ public class Atam4jIntegrationTest {
     @Test
     public void givenHealthCheckManagerWithPassingTest_whenInitialized_thenTestsAreHealthy() throws Exception{
 
-        new Atam4j.Atam4jBuilder()
-                .withTestClasses(new Class[]{PassingTest.class})
-                .withEnvironment(environment)
+        new Atam4j.Atam4jBuilder(environment)
+                .withTestClasses(PassingTest.class)
                 .withInitialDelay(0)
                 .build()
                 .initialise();

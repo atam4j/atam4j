@@ -27,15 +27,14 @@ public class Atam4j {
 
     public static class Atam4jBuilder {
 
-        private Environment environment = null;
+        private Environment environment;
         private Class testClasses[] = null;
         private long initialDelay = 60;
         private long period = 300;
         private TimeUnit unit = TimeUnit.SECONDS;
 
-        public Atam4jBuilder withEnvironment(Environment environment) {
+        public Atam4jBuilder(Environment environment) {
             this.environment = environment;
-            return this;
         }
 
         public Atam4jBuilder withTestClasses(Class[] testClasses) {
