@@ -25,9 +25,9 @@ public class AcceptanceTestHealthCheckManager {
         private AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
         private Environment environment = null;
         private Class testClasses[] = null;
-        private long initialDelay = 1;
+        private long initialDelay = 0;
         private long period = 1;
-        private TimeUnit unit = TimeUnit.MINUTES;
+        private TimeUnit unit = TimeUnit.SECONDS;
 
 
         public AcceptanceTestsRunnerTaskSchedulerBuilder withAcceptanceTestsState(AcceptanceTestsState acceptanceTestsState) {
