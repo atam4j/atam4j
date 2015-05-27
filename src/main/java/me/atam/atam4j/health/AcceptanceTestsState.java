@@ -6,8 +6,6 @@ import java.util.Optional;
 
 public class AcceptanceTestsState {
 
-    private boolean running;
-
     private Optional<Result> result = Optional.empty();
 
     public Optional<Result> getResult() {
@@ -18,11 +16,4 @@ public class AcceptanceTestsState {
         this.result = Optional.of(result);
     }
 
-    public synchronized boolean isRunning() {
-        return running;
-    }
-
-    public synchronized void setRunning(boolean running) {
-        this.running = running;
-    }
 }
