@@ -29,8 +29,8 @@ public class Atam4j {
         private AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
         private Environment environment = null;
         private Class testClasses[] = null;
-        private long initialDelay = 0;
-        private long period = 1;
+        private long initialDelay = 60;
+        private long period = 300;
         private TimeUnit unit = TimeUnit.SECONDS;
 
         public Atam4jBuilder withAcceptanceTestsState(AcceptanceTestsState acceptanceTestsState) {
