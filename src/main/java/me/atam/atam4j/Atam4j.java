@@ -8,9 +8,10 @@ import java.util.concurrent.TimeUnit;
 
 public class Atam4j {
 
+    private static AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
+    private static Environment environment;
+
     private AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler;
-    private AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
-    private Environment environment;
 
     public Atam4j(AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler,
                   Environment environment) {
@@ -26,17 +27,11 @@ public class Atam4j {
 
     public static class Atam4jBuilder {
 
-        private AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
         private Environment environment = null;
         private Class testClasses[] = null;
         private long initialDelay = 60;
         private long period = 300;
         private TimeUnit unit = TimeUnit.SECONDS;
-
-        public Atam4jBuilder withAcceptanceTestsState(AcceptanceTestsState acceptanceTestsState) {
-            this.acceptanceTestsState = acceptanceTestsState;
-            return this;
-        }
 
         public Atam4jBuilder withEnvironment(Environment environment) {
             this.environment = environment;
