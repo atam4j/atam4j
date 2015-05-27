@@ -10,7 +10,8 @@ public class AcceptanceTestHealthCheckManager {
     private AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler;
     private AcceptanceTestsHealthCheckInitializer acceptanceTestsHealthCheckInitializer;
 
-    public AcceptanceTestHealthCheckManager(AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler, AcceptanceTestsHealthCheckInitializer acceptanceTestsHealthCheckInitializer) {
+    public AcceptanceTestHealthCheckManager(AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler,
+                                            AcceptanceTestsHealthCheckInitializer acceptanceTestsHealthCheckInitializer) {
         this.acceptanceTestsRunnerTaskScheduler = acceptanceTestsRunnerTaskScheduler;
         this.acceptanceTestsHealthCheckInitializer = acceptanceTestsHealthCheckInitializer;
     }
@@ -28,7 +29,6 @@ public class AcceptanceTestHealthCheckManager {
         private long initialDelay = 0;
         private long period = 1;
         private TimeUnit unit = TimeUnit.SECONDS;
-
 
         public AcceptanceTestsRunnerTaskSchedulerBuilder withAcceptanceTestsState(AcceptanceTestsState acceptanceTestsState) {
             this.acceptanceTestsState = acceptanceTestsState;
@@ -60,16 +60,15 @@ public class AcceptanceTestHealthCheckManager {
             return this;
         }
 
-        public AcceptanceTestHealthCheckManager build(){
+        public AcceptanceTestHealthCheckManager build() {
 
-            if (environment == null){
+            if (environment == null) {
                 throw new IllegalStateException("No Environment specified");
             }
 
-            if (testClasses == null){
+            if (testClasses == null) {
                 throw new IllegalStateException("No test classes specified");
             }
-
 
             return new AcceptanceTestHealthCheckManager(
                     new AcceptanceTestsRunnerTaskScheduler(
@@ -84,7 +83,4 @@ public class AcceptanceTestHealthCheckManager {
                         environment));
         }
     }
-
-
-
 }
