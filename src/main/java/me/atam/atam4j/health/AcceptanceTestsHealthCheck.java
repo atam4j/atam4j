@@ -7,6 +7,7 @@ public class AcceptanceTestsHealthCheck extends HealthCheck {
 
     public static final String TOO_EARLY_MESSAGE = "Too early to tell - tests not complete yet";
     public static final String OK_MESSAGE = "All is A OK!";
+    public static final String FAILURE_MESSAGE = "Number of failures:";
 
     private static AcceptanceTestsState testsState;
 
@@ -23,7 +24,7 @@ public class AcceptanceTestsHealthCheck extends HealthCheck {
                 return AcceptanceTestsHealthCheck.Result.healthy(OK_MESSAGE);
             } else {
                 StringBuilder messageBuilder = new StringBuilder();
-                messageBuilder.append(String.format("Number of failures %d", testsState.getResult().get().getFailureCount()));
+                messageBuilder.append(String.format(FAILURE_MESSAGE + " %d.", testsState.getResult().get().getFailureCount()));
                 for (Failure failure : testsState.getResult().get().getFailures()) {
                     messageBuilder.append(" ");
                     messageBuilder.append(failure.getMessage());
