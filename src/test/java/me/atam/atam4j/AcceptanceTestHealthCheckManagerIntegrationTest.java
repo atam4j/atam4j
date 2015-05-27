@@ -34,6 +34,7 @@ public class AcceptanceTestHealthCheckManagerIntegrationTest {
         new Atam4j.Atam4jBuilder()
                 .withTestClasses(new Class[]{PassingTest.class})
                 .withEnvironment(environment)
+                .withInitialDelay(0)
                 .build()
                 .initialise();
 
