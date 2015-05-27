@@ -27,10 +27,15 @@ Acceptance Tests As Monitors
 instead of the tests classpath. This can be done by including them in the `src/main/java directory` instead of the 
 `src/test/java` directory.
 
-3. Instantiate the `AcceptanceTestHealthCheckManager` in the `run` method of your dropwizard application class.
-> new AcceptanceTestHealthCheckManager(environment, TEN_MINUTES_IN_SECONDS, HelloWorldTest.class).initialise();
+3. Instantiate  `Atam4j` in the `run` method of your dropwizard application class.    
 
-4. Run the dropwizard app and observe the status of the acceptnace tests reported under the health-check endpoint.
+        new Atam4j.Atam4jBuilder()     
+            .withTestClasses(new Class[]{HelloWorldTest.class})     
+            .withEnvironment(environment)      
+            .build()      
+            .initialise();
+
+4. Run the dropwizard app and observe the status of the acceptance tests reported under the health-check endpoint.
 
 Refer to [atam4j-sample-app](https://github.com/atam4j/atam4j-sample-app) for a complete working example.
 
