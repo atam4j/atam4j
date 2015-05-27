@@ -16,7 +16,7 @@ Acceptance Tests As Monitors
     <dependency>    
        <groupId>me.atam</groupId>    
        <artifactId>atam4j</artifactId>    
-       <version>0.2.0</version>    
+       <version>0.3.0</version>    
     </dependency>
 
 ## Using atam4j
