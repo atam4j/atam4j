@@ -14,7 +14,12 @@ public class AcceptanceTestsRunnerTaskScheduler {
     private long period;
     private TimeUnit unit;
 
-    public AcceptanceTestsRunnerTaskScheduler(Environment environment, Class[] testClasses, AcceptanceTestsState acceptanceTestsState, long initialDelay, long period, TimeUnit unit) {
+    public AcceptanceTestsRunnerTaskScheduler(Environment environment,
+                                              Class[] testClasses,
+                                              AcceptanceTestsState acceptanceTestsState,
+                                              long initialDelay,
+                                              long period,
+                                              TimeUnit unit) {
         this.environment = environment;
         this.testClasses = testClasses;
         this.acceptanceTestsState = acceptanceTestsState;
