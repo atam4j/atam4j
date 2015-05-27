@@ -1,27 +1,30 @@
 package me.atam.atam4j;
 
 import io.dropwizard.setup.Environment;
+import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
 import me.atam.atam4j.health.AcceptanceTestsState;
 
 import java.util.concurrent.TimeUnit;
 
-public class AcceptanceTestHealthCheckManager {
+public class Atam4j {
 
     private AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler;
-    private AcceptanceTestsHealthCheckInitializer acceptanceTestsHealthCheckInitializer;
+    private AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
+    private Environment environment;
 
-    public AcceptanceTestHealthCheckManager(AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler,
-                                            AcceptanceTestsHealthCheckInitializer acceptanceTestsHealthCheckInitializer) {
+    public Atam4j(AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler,
+                  Environment environment) {
         this.acceptanceTestsRunnerTaskScheduler = acceptanceTestsRunnerTaskScheduler;
-        this.acceptanceTestsHealthCheckInitializer = acceptanceTestsHealthCheckInitializer;
+        this.environment = environment;
     }
 
     public void initialise() {
         acceptanceTestsRunnerTaskScheduler.scheduleAcceptanceTestsRunnerTask();
-        acceptanceTestsHealthCheckInitializer.initialize();
+        AcceptanceTestsHealthCheck healthCheck = new AcceptanceTestsHealthCheck(acceptanceTestsState);
+        environment.healthChecks().register(AcceptanceTestsHealthCheck.NAME, healthCheck);
     }
 
-    public static class AcceptanceTestsRunnerTaskSchedulerBuilder{
+    public static class Atam4jBuilder {
 
         private AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
         private Environment environment = null;
@@ -30,37 +33,37 @@ public class AcceptanceTestHealthCheckManager {
         private long period = 1;
         private TimeUnit unit = TimeUnit.SECONDS;
 
-        public AcceptanceTestsRunnerTaskSchedulerBuilder withAcceptanceTestsState(AcceptanceTestsState acceptanceTestsState) {
+        public Atam4jBuilder withAcceptanceTestsState(AcceptanceTestsState acceptanceTestsState) {
             this.acceptanceTestsState = acceptanceTestsState;
             return this;
         }
 
-        public AcceptanceTestsRunnerTaskSchedulerBuilder withEnvironment(Environment environment) {
+        public Atam4jBuilder withEnvironment(Environment environment) {
             this.environment = environment;
             return this;
         }
 
-        public AcceptanceTestsRunnerTaskSchedulerBuilder withTestClasses(Class[] testClasses) {
+        public Atam4jBuilder withTestClasses(Class[] testClasses) {
             this.testClasses = testClasses;
             return this;
         }
 
-        public AcceptanceTestsRunnerTaskSchedulerBuilder withInitialDelay(long initialDelay) {
+        public Atam4jBuilder withInitialDelay(long initialDelay) {
             this.initialDelay = initialDelay;
             return this;
         }
 
-        public AcceptanceTestsRunnerTaskSchedulerBuilder withPeriod(long period) {
+        public Atam4jBuilder withPeriod(long period) {
             this.period = period;
             return this;
         }
 
-        public AcceptanceTestsRunnerTaskSchedulerBuilder withUnit(TimeUnit unit) {
+        public Atam4jBuilder withUnit(TimeUnit unit) {
             this.unit = unit;
             return this;
         }
 
-        public AcceptanceTestHealthCheckManager build() {
+        public Atam4j build() {
 
             if (environment == null) {
                 throw new IllegalStateException("No Environment specified");
@@ -70,7 +73,7 @@ public class AcceptanceTestHealthCheckManager {
                 throw new IllegalStateException("No test classes specified");
             }
 
-            return new AcceptanceTestHealthCheckManager(
+            return new Atam4j(
                     new AcceptanceTestsRunnerTaskScheduler(
                         environment,
                         testClasses,
@@ -78,9 +81,7 @@ public class AcceptanceTestHealthCheckManager {
                         initialDelay,
                         period,
                         unit),
-                    new AcceptanceTestsHealthCheckInitializer(
-                        acceptanceTestsState,
-                        environment));
+                    this.environment);
         }
     }
 }

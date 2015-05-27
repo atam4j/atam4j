@@ -31,7 +31,7 @@ public class AcceptanceTestHealthCheckManagerIntegrationTest {
     @Test
     public void givenHealthCheckManagerWithPassingTest_whenInitialized_thenTestsAreHealthy() throws Exception{
 
-        new AcceptanceTestHealthCheckManager.AcceptanceTestsRunnerTaskSchedulerBuilder()
+        new Atam4j.Atam4jBuilder()
                 .withTestClasses(new Class[]{PassingTest.class})
                 .withEnvironment(environment)
                 .build()

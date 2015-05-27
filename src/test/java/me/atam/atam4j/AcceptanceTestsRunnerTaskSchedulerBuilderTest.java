@@ -10,7 +10,7 @@ import static org.mockito.Mockito.mock;
 
 public class AcceptanceTestsRunnerTaskSchedulerBuilderTest {
 
-    AcceptanceTestHealthCheckManager.AcceptanceTestsRunnerTaskSchedulerBuilder builder = new AcceptanceTestHealthCheckManager.AcceptanceTestsRunnerTaskSchedulerBuilder();
+    Atam4j.Atam4jBuilder builder = new Atam4j.Atam4jBuilder();
 
     @Test
     public void givenBuilderNotSuppliedWithEnvironment_whenBuildCalled_thenExceptionThrown(){
