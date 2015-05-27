@@ -6,7 +6,6 @@ import me.atam.atam4j.health.AcceptanceTestsState;
 
 public class AcceptanceTestsHealthCheckInitializer {
 
-
     private AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
     private Environment environment;
 

@@ -38,9 +38,6 @@ public class AcceptanceTestsRunnerTask implements Runnable {
         for (Failure failure: result.getFailures()){
             LOGGER.error(failure.getDescription().toString(), failure.getException());
         }
-
-
     }
-
 
 }
