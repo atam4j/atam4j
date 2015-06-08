@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
 
-public class AcceptanceTestsRunnerTaskSchedulerBuilderTest {
+public class Atam4jBuilderTest {
 
     Atam4j.Atam4jBuilder builder = new Atam4j.Atam4jBuilder();
 

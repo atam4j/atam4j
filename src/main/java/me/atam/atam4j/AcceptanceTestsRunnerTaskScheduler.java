@@ -9,7 +9,7 @@ public class AcceptanceTestsRunnerTaskScheduler {
 
     private Environment environment;
     private Class testClasses[];
-    private AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
+    private AcceptanceTestsState acceptanceTestsState;
     private long initialDelay;
     private long period;
     private TimeUnit unit;
@@ -38,4 +38,7 @@ public class AcceptanceTestsRunnerTaskScheduler {
                 unit);
     }
 
+    public AcceptanceTestsState getAcceptanceTestsState() {
+        return acceptanceTestsState;
+    }
 }
