@@ -9,6 +9,8 @@ import java.util.concurrent.TimeUnit;
 public class Atam4j {
 
     private Environment environment;
+    private AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
+
     private AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler;
 
     public Atam4j(AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler,
@@ -18,8 +20,8 @@ public class Atam4j {
     }
 
     public void initialise() {
-        acceptanceTestsRunnerTaskScheduler.scheduleAcceptanceTestsRunnerTask();
-        AcceptanceTestsHealthCheck healthCheck = new AcceptanceTestsHealthCheck(acceptanceTestsRunnerTaskScheduler.getAcceptanceTestsState());
+        acceptanceTestsRunnerTaskScheduler.scheduleAcceptanceTestsRunnerTask(acceptanceTestsState);
+        AcceptanceTestsHealthCheck healthCheck = new AcceptanceTestsHealthCheck(acceptanceTestsState);
         environment.healthChecks().register(AcceptanceTestsHealthCheck.NAME, healthCheck);
     }
 
@@ -70,7 +72,6 @@ public class Atam4j {
                     new AcceptanceTestsRunnerTaskScheduler(
                         environment,
                         testClasses,
-                        new AcceptanceTestsState(),
                         initialDelay,
                         period,
                         unit),
