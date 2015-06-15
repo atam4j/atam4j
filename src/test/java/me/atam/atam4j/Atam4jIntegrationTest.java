@@ -14,7 +14,7 @@ import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class AcceptanceTestHealthCheckManagerIntegrationTest {
+public class Atam4jIntegrationTest {
 
 
     private Environment environment = mock(Environment.class);
@@ -31,9 +31,10 @@ public class AcceptanceTestHealthCheckManagerIntegrationTest {
     @Test
     public void givenHealthCheckManagerWithPassingTest_whenInitialized_thenTestsAreHealthy() throws Exception{
 
-        new AcceptanceTestHealthCheckManager.AcceptanceTestsRunnerTaskSchedulerBuilder()
+        new Atam4j.Atam4jBuilder()
                 .withTestClasses(new Class[]{PassingTest.class})
                 .withEnvironment(environment)
+                .withInitialDelay(0)
                 .build()
                 .initialise();
 

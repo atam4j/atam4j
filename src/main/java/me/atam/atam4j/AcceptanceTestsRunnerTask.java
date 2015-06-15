@@ -14,7 +14,7 @@ public class AcceptanceTestsRunnerTask implements Runnable {
     private static final Logger LOGGER = LoggerFactory.getLogger(AcceptanceTestsRunnerTask.class);
     private static AcceptanceTestsState testsState;
 
-    Class testClasses[];
+    private Class testClasses[];
 
     public AcceptanceTestsRunnerTask(AcceptanceTestsState testsState, Class[] testClasses) {
         this.testClasses = testClasses;
@@ -38,9 +38,6 @@ public class AcceptanceTestsRunnerTask implements Runnable {
         for (Failure failure: result.getFailures()){
             LOGGER.error(failure.getDescription().toString(), failure.getException());
         }
-
-
     }
-
 
 }
