@@ -10,9 +10,6 @@ import org.junit.runner.Result;
 import uk.org.lidalia.slf4jtest.TestLogger;
 import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 
-import java.util.Optional;
-
-import static java.util.Optional.empty;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertThat;
@@ -25,42 +22,28 @@ public class AcceptanceTestsRunnerTaskTest {
 
     @Test
     public void testPassingTestsRun(){
-        Class[] passingTests = {PassingTest.class};
-        assertTrue(runTestsAndGetResult(passingTests).wasSuccessful());
-    }
-
-    @Test
-    public void testPassingTestRunsUsingAnnotation(){
-        assertTrue(runTestsAndGetResult().wasSuccessful());
+        assertTrue(runTestsAndGetResult(PassingTest.class).wasSuccessful());
     }
 
     @Test
     public void testFailingTestFailsAndErrorIsLogged(){
-        Class[] failingTest = {FailingTest.class};
-        assertFalse(runTestsAndGetResult(failingTest).wasSuccessful());
+        assertFalse(runTestsAndGetResult(FailingTest.class).wasSuccessful());
         assertThat(logger.getLoggingEvents(), hasItem(LoggingEventWithThrowableMatcher.hasThrowableThatContainsString("Was expecting false to be true")));
     }
 
     @Test
     public void testPassingAndFailingTestReportsFailure() {
-        Class[] passingAndFailingTest = {FailingTest.class, PassingTest.class};
-        assertFalse(runTestsAndGetResult(passingAndFailingTest).wasSuccessful());
+        assertFalse(runTestsAndGetResult(FailingTest.class, PassingTest.class).wasSuccessful());
     }
 
     @Test
     public void testThatExceptionFromTestsGetsLogged() {
-        Class[] testThatFailsToBeInitialised = {TestThatFailsOnInitialisation.class};
-        assertFalse(runTestsAndGetResult(testThatFailsToBeInitialised ).wasSuccessful());
+        assertFalse(runTestsAndGetResult(TestThatFailsOnInitialisation.class).wasSuccessful());
         assertThat(logger.getLoggingEvents(), hasItem(LoggingEventWithThrowableMatcher.hasThrowableThatContainsString("Nasty Exception")));
     }
 
-    private Result runTestsAndGetResult(Class[] passingTests) {
-        new AcceptanceTestsRunnerTask(acceptanceTestsState, Optional.of(passingTests)).run();
-        return acceptanceTestsState.getResult().get();
-    }
-
-    private Result runTestsAndGetResult() {
-        new AcceptanceTestsRunnerTask(acceptanceTestsState, empty()).run();
+    private Result runTestsAndGetResult(Class... passingTests) {
+        new AcceptanceTestsRunnerTask(acceptanceTestsState, passingTests).run();
         return acceptanceTestsState.getResult().get();
     }
 }

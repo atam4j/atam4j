@@ -42,6 +42,21 @@ public class Atam4jIntegrationTest {
         assertThat(getHealthCheckResult().isHealthy(), CoreMatchers.is(true));
     }
 
+    @Test
+    public void givenHealthCheckManagerUsingAnnotationScanning_whenInitialized_thenTestsAreHealthy() throws Exception{
+
+        new Atam4j.Atam4jBuilder(environment)
+                .withInitialDelay(0)
+                .build()
+                .initialise();
+
+        //nasty - this is so that the scheduler has run by the time we call the healthcheck
+        Thread.sleep(100);
+
+        assertThat(getHealthCheckResult().getMessage(), CoreMatchers.equalTo(AcceptanceTestsHealthCheck.OK_MESSAGE));
+        assertThat(getHealthCheckResult().isHealthy(), CoreMatchers.is(true));
+    }
+
     private HealthCheck.Result getHealthCheckResult() {
         return environment.healthChecks().runHealthCheck(AcceptanceTestsHealthCheck.NAME);
     }

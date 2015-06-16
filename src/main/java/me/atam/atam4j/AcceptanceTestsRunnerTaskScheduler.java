@@ -3,19 +3,18 @@ package me.atam.atam4j;
 import io.dropwizard.setup.Environment;
 import me.atam.atam4j.health.AcceptanceTestsState;
 
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 public class AcceptanceTestsRunnerTaskScheduler {
 
     private final Environment environment;
-    private final Optional<Class[]> testClasses;
+    private final Class[] testClasses;
     private final long initialDelay;
     private final long period;
     private final TimeUnit unit;
 
     public AcceptanceTestsRunnerTaskScheduler(final Environment environment,
-                                              final Optional<Class[]> testClasses,
+                                              final Class[] testClasses,
                                               final long initialDelay,
                                               final long period,
                                               final TimeUnit unit) {

@@ -1,20 +1,26 @@
 package me.atam.atam4j;
 
+import com.google.common.base.Preconditions;
 import io.dropwizard.setup.Environment;
 import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
 import me.atam.atam4j.health.AcceptanceTestsState;
+import org.reflections.Reflections;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
+import org.reflections.util.ClasspathHelper;
+import org.reflections.util.ConfigurationBuilder;
 
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 public class Atam4j {
 
-    private Environment environment;
-    private AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
+    private final Environment environment;
+    private final AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
+    private final AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler;
 
-    private AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler;
-
-    public Atam4j(AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler,
-                  Environment environment) {
+    public Atam4j(final AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler,
+                  final Environment environment) {
         this.acceptanceTestsRunnerTaskScheduler = acceptanceTestsRunnerTaskScheduler;
         this.environment = environment;
     }
@@ -28,17 +34,17 @@ public class Atam4j {
     public static class Atam4jBuilder {
 
         private Environment environment;
-        private Class testClasses[] = null;
+        private Optional<Class[]> testClasses = Optional.empty();
         private long initialDelay = 60;
         private long period = 300;
         private TimeUnit unit = TimeUnit.SECONDS;
 
         public Atam4jBuilder(Environment environment) {
-            this.environment = environment;
+            this.environment = Preconditions.checkNotNull(environment);
         }
 
-        public Atam4jBuilder withTestClasses(Class[] testClasses) {
-            this.testClasses = testClasses;
+        public Atam4jBuilder withTestClasses(Class... testClasses) {
+            this.testClasses = Optional.of(testClasses);
             return this;
         }
 
@@ -58,23 +64,28 @@ public class Atam4j {
         }
 
         public Atam4j build() {
-
-            if (environment == null) {
-                throw new IllegalStateException("No Environment specified");
-            }
-
-            if (testClasses == null) {
-                throw new IllegalStateException("No test classes specified");
-            }
-
             return new Atam4j(
                     new AcceptanceTestsRunnerTaskScheduler(
                         environment,
-                        testClasses,
+                        findTestClasses(),
                         initialDelay,
                         period,
                         unit),
                     this.environment);
+        }
+
+        private Class[] findTestClasses() {
+            final Class[] classes = testClasses.orElseGet(() ->
+                    new Reflections(new ConfigurationBuilder()
+                            .setUrls(ClasspathHelper.forJavaClassPath())
+                            .setScanners(new SubTypesScanner(), new TypeAnnotationsScanner()))
+                            .getTypesAnnotatedWith(Monitor.class)
+                            .stream()
+                            .toArray(Class[]::new));
+            if(classes.length == 0) {
+                throw new NoTestClassFoundException("Could not find any annotated test classes and no classes were provided via the Atam4jBuilder.");
+            }
+            return classes;
         }
     }
 }
