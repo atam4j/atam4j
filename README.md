@@ -31,14 +31,14 @@ detect them or simply supply an array of classes to the builder.
 
 3. Instantiate `Atam4j` in the `run` method of your dropwizard application class.    
 
-If specifying an explicit array of Test classes:
+    If specifying an explicit array of Test classes:
 
         new Atam4j.Atam4jBuilder(environment)     
             .withTestClasses(HelloWorldTest.class) 
             .build()      
             .initialise();
             
-If using `@Monitor` annotations to auto-detect test classes:            
+    If using `@Monitor` annotations to auto-detect test classes:            
             
         new Atam4j.Atam4jBuilder(environment)      
             .build()      
@@ -81,7 +81,7 @@ for atam.me.
 git push
 
 3. Tag code 
-> git tag -a v${versionNumber} -m 'version ${versionNumber}’
+> git tag -a v${versionNumber} -m 'version ${versionNumber}'     
 git push origin v${versionNumber}
     
 4. Create release in Github - [https://github.com/atam4j/atam4j/releases](https://github.com/atam4j/atam4j/releases)    
