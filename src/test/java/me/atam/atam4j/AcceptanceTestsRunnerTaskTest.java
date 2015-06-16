@@ -5,7 +5,6 @@ import me.atam.atam4j.ignore.FailingTest;
 import me.atam.atam4j.ignore.PassingTest;
 
 import me.atam.atam4j.ignore.TestThatFailsOnInitialisation;
-import org.apache.log4j.spi.LoggingEvent;
 import org.junit.Test;
 import org.junit.runner.Result;
 import uk.org.lidalia.slf4jtest.TestLogger;
@@ -21,37 +20,30 @@ public class AcceptanceTestsRunnerTaskTest {
     AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
     TestLogger logger = TestLoggerFactory.getTestLogger(AcceptanceTestsRunnerTask.class);
 
-
     @Test
     public void testPassingTestsRun(){
-        Class[] passingTests = {PassingTest.class};
-        assertTrue(runTestsAndGetResult(passingTests).wasSuccessful());
+        assertTrue(runTestsAndGetResult(PassingTest.class).wasSuccessful());
     }
 
     @Test
     public void testFailingTestFailsAndErrorIsLogged(){
-        Class[] failingTest = {FailingTest.class};
-        assertFalse(runTestsAndGetResult(failingTest).wasSuccessful());
+        assertFalse(runTestsAndGetResult(FailingTest.class).wasSuccessful());
         assertThat(logger.getLoggingEvents(), hasItem(LoggingEventWithThrowableMatcher.hasThrowableThatContainsString("Was expecting false to be true")));
     }
 
     @Test
-    public void testPassingAndFailingTestReportsFailure(){
-        Class[] passingAndFailingTest = {FailingTest.class, PassingTest.class};
-        assertFalse(runTestsAndGetResult(passingAndFailingTest).wasSuccessful());
+    public void testPassingAndFailingTestReportsFailure() {
+        assertFalse(runTestsAndGetResult(FailingTest.class, PassingTest.class).wasSuccessful());
     }
 
     @Test
-    public void testThatExceptionFromTestsGetsLogged(){
-        Class[] testThatFailsToBeInitialised = {TestThatFailsOnInitialisation.class};
-        assertFalse(runTestsAndGetResult(testThatFailsToBeInitialised ).wasSuccessful());
+    public void testThatExceptionFromTestsGetsLogged() {
+        assertFalse(runTestsAndGetResult(TestThatFailsOnInitialisation.class).wasSuccessful());
         assertThat(logger.getLoggingEvents(), hasItem(LoggingEventWithThrowableMatcher.hasThrowableThatContainsString("Nasty Exception")));
     }
 
-    private Result runTestsAndGetResult(Class[] passingTests) {
+    private Result runTestsAndGetResult(Class... passingTests) {
         new AcceptanceTestsRunnerTask(acceptanceTestsState, passingTests).run();
         return acceptanceTestsState.getResult().get();
     }
-
-
 }

@@ -7,17 +7,17 @@ import java.util.concurrent.TimeUnit;
 
 public class AcceptanceTestsRunnerTaskScheduler {
 
-    private Environment environment;
-    private Class testClasses[];
-    private long initialDelay;
-    private long period;
-    private TimeUnit unit;
+    private final Environment environment;
+    private final Class[] testClasses;
+    private final long initialDelay;
+    private final long period;
+    private final TimeUnit unit;
 
-    public AcceptanceTestsRunnerTaskScheduler(Environment environment,
-                                              Class[] testClasses,
-                                              long initialDelay,
-                                              long period,
-                                              TimeUnit unit) {
+    public AcceptanceTestsRunnerTaskScheduler(final Environment environment,
+                                              final Class[] testClasses,
+                                              final long initialDelay,
+                                              final long period,
+                                              final TimeUnit unit) {
         this.environment = environment;
         this.testClasses = testClasses;
         this.initialDelay = initialDelay;
@@ -25,14 +25,12 @@ public class AcceptanceTestsRunnerTaskScheduler {
         this.unit = unit;
     }
 
-    public void scheduleAcceptanceTestsRunnerTask(AcceptanceTestsState acceptanceTestsState) {
-        AcceptanceTestsRunnerTask acceptanceTestsRunnerTask = new AcceptanceTestsRunnerTask(acceptanceTestsState, testClasses);
+    public void scheduleAcceptanceTestsRunnerTask(final AcceptanceTestsState acceptanceTestsState) {
         environment.lifecycle().
                 scheduledExecutorService("acceptance-tests-runner").build().scheduleAtFixedRate(
-                acceptanceTestsRunnerTask,
+                new AcceptanceTestsRunnerTask(acceptanceTestsState, testClasses),
                 initialDelay,
                 period,
                 unit);
     }
-
 }

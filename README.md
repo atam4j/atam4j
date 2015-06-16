@@ -25,13 +25,13 @@ Acceptance Tests As Monitors
 
 2. Write Junit based tests in the usual manner, with the exception of including them in the main application classpath 
 instead of the tests classpath. This can be done by including them in the `src/main/java directory` instead of the 
-`src/test/java` directory.
+`src/test/java` directory. You can choose to either add a `@Monitor` annotation to your test classes and let atam4j detect them or 
+simply supply an array of classes to the builder.
 
-3. Instantiate  `Atam4j` in the `run` method of your dropwizard application class.    
+3. Instantiate `Atam4j` in the `run` method of your dropwizard application class.    
 
-        new Atam4j.Atam4jBuilder()     
-            .withTestClasses(new Class[]{HelloWorldTest.class})     
-            .withEnvironment(environment)      
+        new Atam4j.Atam4jBuilder(environment)     
+            .withTestClasses(HelloWorldTest.class) 
             .build()      
             .initialise();
 

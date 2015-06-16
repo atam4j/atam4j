@@ -12,13 +12,14 @@ import java.util.Date;
 public class AcceptanceTestsRunnerTask implements Runnable {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AcceptanceTestsRunnerTask.class);
-    private static AcceptanceTestsState testsState;
 
-    private Class testClasses[];
+    private final AcceptanceTestsState testsState;
+    private final Class[] testClasses;
 
-    public AcceptanceTestsRunnerTask(AcceptanceTestsState testsState, Class[] testClasses) {
+    AcceptanceTestsRunnerTask(final AcceptanceTestsState testsState,
+                              final Class... testClasses) {
+        this.testsState = testsState;
         this.testClasses = testClasses;
-        AcceptanceTestsRunnerTask.testsState = testsState;
     }
 
     @Override
@@ -35,9 +36,8 @@ public class AcceptanceTestsRunnerTask implements Runnable {
                 result.getRunTime()
         );
 
-        for (Failure failure: result.getFailures()){
+        for (Failure failure: result.getFailures()) {
             LOGGER.error(failure.getDescription().toString(), failure.getException());
         }
     }
-
 }

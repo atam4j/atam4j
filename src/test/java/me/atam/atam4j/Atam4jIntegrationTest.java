@@ -16,11 +16,9 @@ import static org.mockito.Mockito.when;
 
 public class Atam4jIntegrationTest {
 
-
     private Environment environment = mock(Environment.class);
     private LifecycleEnvironment lifeCycleEnvironment = new LifecycleEnvironment();
     private HealthCheckRegistry healthCheckRegistry = new HealthCheckRegistry();
-
 
     @Before
     public void setUp() throws Exception {
@@ -31,9 +29,23 @@ public class Atam4jIntegrationTest {
     @Test
     public void givenHealthCheckManagerWithPassingTest_whenInitialized_thenTestsAreHealthy() throws Exception{
 
-        new Atam4j.Atam4jBuilder()
-                .withTestClasses(new Class[]{PassingTest.class})
-                .withEnvironment(environment)
+        new Atam4j.Atam4jBuilder(environment)
+                .withTestClasses(PassingTest.class)
+                .withInitialDelay(0)
+                .build()
+                .initialise();
+
+        //nasty - this is so that the scheduler has run by the time we call the healthcheck
+        Thread.sleep(100);
+
+        assertThat(getHealthCheckResult().getMessage(), CoreMatchers.equalTo(AcceptanceTestsHealthCheck.OK_MESSAGE));
+        assertThat(getHealthCheckResult().isHealthy(), CoreMatchers.is(true));
+    }
+
+    @Test
+    public void givenHealthCheckManagerUsingAnnotationScanning_whenInitialized_thenTestsAreHealthy() throws Exception{
+
+        new Atam4j.Atam4jBuilder(environment)
                 .withInitialDelay(0)
                 .build()
                 .initialise();

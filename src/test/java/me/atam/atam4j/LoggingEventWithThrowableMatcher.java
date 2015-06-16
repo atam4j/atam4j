@@ -1,6 +1,5 @@
 package me.atam.atam4j;
 
-
 import org.hamcrest.Description;
 import org.hamcrest.Factory;
 import org.hamcrest.TypeSafeMatcher;
@@ -27,8 +26,4 @@ public class LoggingEventWithThrowableMatcher extends TypeSafeMatcher<LoggingEve
     public static LoggingEventWithThrowableMatcher hasThrowableThatContainsString(String message) {
         return new LoggingEventWithThrowableMatcher(message);
     }
-
-
-
-
 }
