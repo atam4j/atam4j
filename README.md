@@ -6,7 +6,8 @@ atam4j
 Acceptance Tests As Monitors
 
 * A simple library that allows you to run junit tests as monitoring checks.
-* Runs tests on a schedule and exposes results via a restful api that can called from your monitoring (e.g. nagios, zabbix, icinga, pingdom etc etc)
+* Runs tests on a schedule and exposes results via a restful api that can called from your monitoring (e.g. nagios, 
+zabbix, icinga, pingdom etc etc)
 
 ## Latest Build Status
 
@@ -67,7 +68,8 @@ Look for non-snapshot version
 
 #### Release - Manual
 ##### Prerequisite
-Only [core committers](Core-Committers.md) can release atam4j to maven central. You need Sonatype Nexus OSS account info for atam.me.
+Only [core committers](Core-Committers.md) can release atam4j to maven central. You need Sonatype Nexus OSS account info
+for atam.me.
 
 ##### Steps
 
