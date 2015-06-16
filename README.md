@@ -77,7 +77,7 @@ for atam.me.
 > mvn versions:set -DnewVersion=${versionNumber}
 
 2. Commit the version back to git and push to remote 
-> git commit -a -m "Preparing release v${versionNumber}"    
+> git commit -a -m "Prepare release v${versionNumber}"    
 git push
 
 3. Tag code 
