@@ -25,15 +25,23 @@ Acceptance Tests As Monitors
 
 2. Write Junit based tests in the usual manner, with the exception of including them in the main application classpath 
 instead of the tests classpath. This can be done by including them in the `src/main/java directory` instead of the 
-`src/test/java` directory. You can choose to either add a `@Monitor` annotation to your test classes and let atam4j detect them or 
-simply supply an array of classes to the builder.
+`src/test/java` directory. You can choose to either add a `@Monitor` annotation to your test classes and let atam4j 
+detect them or simply supply an array of classes to the builder.
 
 3. Instantiate `Atam4j` in the `run` method of your dropwizard application class.    
+
+If specifying an explicit array of Test classes:
 
         new Atam4j.Atam4jBuilder(environment)     
             .withTestClasses(HelloWorldTest.class) 
             .build()      
             .initialise();
+            
+If using `@Monitor` annotations to auto-detect test classes:            
+            
+        new Atam4j.Atam4jBuilder(environment)      
+            .build()      
+            .initialise();            
 
 4. Run the dropwizard app and observe the status of the acceptance tests reported under the health-check endpoint.
 
