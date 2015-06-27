@@ -1,16 +1,15 @@
 package me.atam.atam4j;
 
-import io.dropwizard.setup.Environment;
+import com.codahale.metrics.health.HealthCheckRegistry;
+import me.atam.atam4j.ignore.PassingTest;
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.mockito.Mockito.mock;
 
 public class Atam4jBuilderTest {
 
     @Test
-    public void givenBuilderConstructedWithValidEnvironment_whenBuildCalled_thenManagerReturned() {
-        Atam4j.Atam4jBuilder builder = new Atam4j.Atam4jBuilder(mock(Environment.class));
+    public void givenBuilderConstructedWithHealthCheckRegistry_whenBuildCalled_thenManagerReturned() {
+        Atam4j.Atam4jBuilder builder = new Atam4j.Atam4jBuilder(new HealthCheckRegistry()).withTestClasses(PassingTest.class);
         Assert.assertNotNull(builder.build());
     }
 

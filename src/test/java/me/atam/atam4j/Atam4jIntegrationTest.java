@@ -2,34 +2,21 @@ package me.atam.atam4j;
 
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
-import io.dropwizard.lifecycle.setup.LifecycleEnvironment;
-import io.dropwizard.setup.Environment;
 import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
 import me.atam.atam4j.ignore.PassingTest;
 import org.hamcrest.CoreMatchers;
-import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 public class Atam4jIntegrationTest {
 
-    private Environment environment = mock(Environment.class);
-    private LifecycleEnvironment lifeCycleEnvironment = new LifecycleEnvironment();
     private HealthCheckRegistry healthCheckRegistry = new HealthCheckRegistry();
-
-    @Before
-    public void setUp() throws Exception {
-        when(environment.lifecycle()).thenReturn(lifeCycleEnvironment);
-        when(environment.healthChecks()).thenReturn(healthCheckRegistry);
-    }
 
     @Test
     public void givenHealthCheckManagerWithPassingTest_whenInitialized_thenTestsAreHealthy() throws Exception{
 
-        new Atam4j.Atam4jBuilder(environment)
+        new Atam4j.Atam4jBuilder(healthCheckRegistry)
                 .withTestClasses(PassingTest.class)
                 .withInitialDelay(0)
                 .build()
@@ -45,7 +32,7 @@ public class Atam4jIntegrationTest {
     @Test
     public void givenHealthCheckManagerUsingAnnotationScanning_whenInitialized_thenTestsAreHealthy() throws Exception{
 
-        new Atam4j.Atam4jBuilder(environment)
+        new Atam4j.Atam4jBuilder(healthCheckRegistry)
                 .withInitialDelay(0)
                 .build()
                 .initialise();
@@ -58,6 +45,6 @@ public class Atam4jIntegrationTest {
     }
 
     private HealthCheck.Result getHealthCheckResult() {
-        return environment.healthChecks().runHealthCheck(AcceptanceTestsHealthCheck.NAME);
+        return healthCheckRegistry.runHealthCheck(AcceptanceTestsHealthCheck.NAME);
     }
 }
