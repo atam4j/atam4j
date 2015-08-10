@@ -29,22 +29,22 @@ instead of the tests classpath. This can be done by including them in the `src/m
 `src/test/java` directory. You can choose to either add a `@Monitor` annotation to your test classes and let atam4j 
 detect them or simply supply an array of classes to the builder.
 
-3. Instantiate `Atam4j` in the `run` method of your dropwizard application class.    
+3. Instantiate `Atam4j` in your application.    
 
     If specifying an explicit array of Test classes:
 
-        new Atam4j.Atam4jBuilder(environment)     
+        new Atam4j.Atam4jBuilder(metricsHealthCheckRegistry)     
             .withTestClasses(HelloWorldTest.class) 
             .build()      
             .initialise();
             
     If using `@Monitor` annotations to auto-detect test classes:            
             
-        new Atam4j.Atam4jBuilder(environment)      
+        new Atam4j.Atam4jBuilder(metricsHealthCheckRegistry)      
             .build()      
             .initialise();            
 
-4. Run the dropwizard app and observe the status of the acceptance tests reported under the health-check endpoint.
+4. Run your app and observe the status of the acceptance tests reported by the metrics health-check.
 
 Refer to [atam4j-sample-app](https://github.com/atam4j/atam4j-sample-app) for a complete working example.
 
