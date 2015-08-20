@@ -1,9 +1,9 @@
-package me.atam.atam4j.ignore;
+package me.atam.atam4j.dummytests;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
 
 public class TestThatFailsOnInitialisation {
 
@@ -14,6 +14,6 @@ public class TestThatFailsOnInitialisation {
 
     @Test
     public void testThatWouldPassIfRun(){
-        assertTrue(true);
+        Assert.assertTrue(true);
     }
 }

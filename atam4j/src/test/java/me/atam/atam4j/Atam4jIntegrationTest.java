@@ -2,8 +2,8 @@ package me.atam.atam4j;
 
 import com.codahale.metrics.health.HealthCheck;
 import com.codahale.metrics.health.HealthCheckRegistry;
+import me.atam.atam4j.dummytests.PassingTest;
 import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
-import me.atam.atam4j.ignore.PassingTest;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 

@@ -1,15 +1,15 @@
-package me.atam.atam4j.ignore;
+package me.atam.atam4j.dummytests;
 
 import me.atam.atam4j.Monitor;
+import org.junit.Assert;
 import org.junit.Test;
 
-import static org.junit.Assert.assertTrue;
 
 @Monitor
 public class PassingTest {
 
     @Test
     public void testThatPasses(){
-        assertTrue(true);
+        Assert.assertTrue(true);
     }
 }

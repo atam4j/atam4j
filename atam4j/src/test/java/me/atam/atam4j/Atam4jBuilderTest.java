@@ -1,7 +1,7 @@
 package me.atam.atam4j;
 
 import com.codahale.metrics.health.HealthCheckRegistry;
-import me.atam.atam4j.ignore.PassingTest;
+import me.atam.atam4j.dummytests.PassingTest;
 import org.junit.Assert;
 import org.junit.Test;
 

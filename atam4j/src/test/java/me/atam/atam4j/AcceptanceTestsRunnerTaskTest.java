@@ -1,10 +1,9 @@
 package me.atam.atam4j;
 
+import me.atam.atam4j.dummytests.FailingTest;
+import me.atam.atam4j.dummytests.PassingTest;
+import me.atam.atam4j.dummytests.TestThatFailsOnInitialisation;
 import me.atam.atam4j.health.AcceptanceTestsState;
-import me.atam.atam4j.ignore.FailingTest;
-import me.atam.atam4j.ignore.PassingTest;
-
-import me.atam.atam4j.ignore.TestThatFailsOnInitialisation;
 import org.junit.Test;
 import org.junit.runner.Result;
 import uk.org.lidalia.slf4jtest.TestLogger;
