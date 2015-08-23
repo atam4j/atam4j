@@ -1,6 +1,7 @@
 package me.atam.atam4jsampleapp;
 
 import io.dropwizard.Configuration;
+import io.dropwizard.testing.ConfigOverride;
 import io.dropwizard.testing.ResourceHelpers;
 import io.dropwizard.testing.junit.DropwizardAppRule;
 import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
@@ -17,8 +18,8 @@ import javax.ws.rs.core.Response;
 public class Atam4JApplicationAcceptanceTest {
 
     @ClassRule
-    public static final DropwizardAppRule<Configuration> RULE =
-            new DropwizardAppRule<>(Atam4JApplication.class, ResourceHelpers.resourceFilePath("app-config.yml"));
+    public static final DropwizardAppRule<ApplicationConfiguration> RULE =
+            new DropwizardAppRule<>(Atam4JApplication.class, ResourceHelpers.resourceFilePath("app-config.yml"), ConfigOverride.config("testClasses", "me.atam.atam4j.dummytests.PassingTest"));
 
     @Test
     public void givenSampleApplicationStarted_whenHealthCheckCalled_thenTooEarlyMessageReceived(){

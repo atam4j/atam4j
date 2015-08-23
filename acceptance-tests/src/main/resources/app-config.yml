@@ -1,4 +1,8 @@
 # Dropwizard server configuration
+
+testClasses:
+  - me.atam.atam4j.dummytests.PassingTest
+
 server:
 
   applicationConnectors:

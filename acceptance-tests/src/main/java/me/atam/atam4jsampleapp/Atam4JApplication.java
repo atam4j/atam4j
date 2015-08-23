@@ -10,7 +10,7 @@ import me.atam.atam4j.Atam4j;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-public class Atam4JApplication extends Application<Configuration> {
+public class Atam4JApplication extends Application<ApplicationConfiguration> {
 
     public static final int INITIAL_DELAY = 1;
 
@@ -28,13 +28,14 @@ public class Atam4JApplication extends Application<Configuration> {
     }
 
     @Override
-    public void run(final Configuration configuration, final Environment environment) throws Exception {
+    public void run(final ApplicationConfiguration configuration, final Environment environment) throws Exception {
         // enable starting dw app without any resources defined
         environment.jersey().disable();
         new Atam4j.Atam4jBuilder(environment.healthChecks())
                 .withUnit(TimeUnit.MILLISECONDS)
                 .withInitialDelay(INITIAL_DELAY)
                 .withPeriod(5000)
+                .withTestClasses(configuration.getTestClasses())
                 .build()
                 .initialise();
     }
