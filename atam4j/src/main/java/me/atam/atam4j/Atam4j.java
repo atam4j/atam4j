@@ -1,6 +1,7 @@
 package me.atam.atam4j;
 
 import com.codahale.metrics.health.HealthCheckRegistry;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
 import me.atam.atam4j.health.AcceptanceTestsState;
@@ -41,6 +42,9 @@ public class Atam4j {
 
         public Atam4jBuilder(HealthCheckRegistry healthCheckRegistry) {
             this.healthCheckRegistry = Preconditions.checkNotNull(healthCheckRegistry);
+        }
+
+        public Atam4jBuilder() {
         }
 
         public Atam4jBuilder withTestClasses(Class... testClasses) {
