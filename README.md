@@ -17,7 +17,7 @@ zabbix, icinga, pingdom etc etc)
     <dependency>    
        <groupId>me.atam</groupId>    
        <artifactId>atam4j</artifactId>    
-       <version>0.4.0</version>    
+       <version>0.5.0</version>    
     </dependency>
 
 ## Using atam4j
