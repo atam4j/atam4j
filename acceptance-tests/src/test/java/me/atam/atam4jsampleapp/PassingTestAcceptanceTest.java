@@ -6,8 +6,6 @@ import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
-import java.util.function.Predicate;
-import java.util.function.Supplier;
 
 public class PassingTestAcceptanceTest extends AcceptanceTest{
 
