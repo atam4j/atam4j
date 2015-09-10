@@ -13,6 +13,7 @@
         <module>acceptance-tests</module>
         <module>dummy-tests</module>
         <module>atam4j-annotations</module>
+        <module>test-utils</module>
     </modules>
 
 
@@ -95,6 +96,11 @@
                 <artifactId>dummy-tests</artifactId>
                 <version>${project.version}</version>
                 <classifier>tests</classifier>
+            </dependency>
+            <dependency>
+                <groupId>me.atam</groupId>
+                <artifactId>test-utils</artifactId>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.slf4j</groupId>

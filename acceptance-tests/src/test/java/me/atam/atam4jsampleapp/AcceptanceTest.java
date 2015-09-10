@@ -29,9 +29,9 @@ public class AcceptanceTest {
 
     protected void checkResponseIsOKAndWithMessage(String expectedMessage, Response response) {
         HealthCheckResult healthCheckResult = response.readEntity(HealthCheckResult.class);
+        assertThat(healthCheckResult.getAcceptanceTestsHealthCheckResult().getMessage(), is(expectedMessage));
         assertThat(response.getStatus(), CoreMatchers.equalTo(Response.Status.OK.getStatusCode()));
         assertThat(healthCheckResult.getAcceptanceTestsHealthCheckResult().isHealthy(), is(true));
-        assertThat(healthCheckResult.getAcceptanceTestsHealthCheckResult().getMessage(), is(expectedMessage));
     }
 
     protected Response getResponseFromHealthCheck() {

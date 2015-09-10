@@ -57,5 +57,9 @@
             <artifactId>dummy-tests</artifactId>
             <classifier>tests</classifier>
         </dependency>
+        <dependency>
+            <groupId>me.atam</groupId>
+            <artifactId>test-utils</artifactId>
+        </dependency>
     </dependencies>
 </project>
