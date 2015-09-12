@@ -17,17 +17,25 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
 
     @Test
     public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledBeforeTestRun_thenTooEarlyMessageReceived(){
+
         applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(PassingTest.class, 1000);
         checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.TOO_EARLY_MESSAGE, getResponseFromHealthCheck());
     }
 
     @Test
     public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledAfterTestRUn_thenOKMessageReceived(){
+
         applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(PassingTest.class, 0);
 
-        PollingPredicate<Response> responsePollingPredicate = new PollingPredicate<Response>(MAX_ATTEMPTS, RETRY_POLL_INTERVAL,
-                response -> response.readEntity(HealthCheckResult.class).getAcceptanceTestsHealthCheckResult().getMessage().equals(AcceptanceTestsHealthCheck.OK_MESSAGE),
-                () -> getResponseFromHealthCheck());
+        PollingPredicate<Response> responsePollingPredicate = new PollingPredicate<>(
+                MAX_ATTEMPTS,
+                RETRY_POLL_INTERVAL,
+                response -> response.readEntity(HealthCheckResult.class)
+                        .getAcceptanceTestsHealthCheckResult()
+                        .getMessage()
+                        .equals(AcceptanceTestsHealthCheck.OK_MESSAGE),
+                this::getResponseFromHealthCheck);
+
         responsePollingPredicate.pollUntilPassedOrMaxAttemptsExceeded();
         checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.OK_MESSAGE, getResponseFromHealthCheck());
     }
