@@ -15,7 +15,7 @@ public class AcceptanceTest {
     protected DropwizardTestSupport<ApplicationConfiguration> applicationConfigurationDropwizardTestSupport;
 
     @After
-    public void stopApplication(){
+    public void stopApplication() {
         applicationConfigurationDropwizardTestSupport.after();
     }
 
