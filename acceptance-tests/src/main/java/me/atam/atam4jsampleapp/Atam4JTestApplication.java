@@ -9,7 +9,7 @@ import me.atam.atam4j.Atam4j;
 import java.io.File;
 import java.util.concurrent.TimeUnit;
 
-public class Atam4JTestApplication extends Application<ApplicationConfiguration> {
+public class Atam4jTestApplication extends Application<ApplicationConfiguration> {
 
     public static final int INITIAL_DELAY = 1000;
 
@@ -18,7 +18,7 @@ public class Atam4JTestApplication extends Application<ApplicationConfiguration>
             args = new String[]{"server", new File(Resources.getResource("app-config.yml").toURI()).getAbsolutePath()};
         }
 
-        new Atam4JTestApplication().run(args);
+        new Atam4jTestApplication().run(args);
     }
 
     @Override

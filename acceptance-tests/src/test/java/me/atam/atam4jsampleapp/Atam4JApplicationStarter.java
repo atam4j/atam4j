@@ -4,7 +4,7 @@ import io.dropwizard.testing.ConfigOverride;
 import io.dropwizard.testing.DropwizardTestSupport;
 import io.dropwizard.testing.ResourceHelpers;
 
-public class Atam4JApplicationStarter {
+public class Atam4jApplicationStarter {
 
     public static DropwizardTestSupport<ApplicationConfiguration> startApplicationWith(Class testClass) {
         return startApplicationWith(testClass, 1);
@@ -12,7 +12,7 @@ public class Atam4JApplicationStarter {
 
     public static DropwizardTestSupport<ApplicationConfiguration> startApplicationWith(Class testClass, int initialDelayInMillis) {
         DropwizardTestSupport<ApplicationConfiguration> applicationConfigurationDropwizardTestSupport =
-                new DropwizardTestSupport<>(Atam4JTestApplication.class, ResourceHelpers.resourceFilePath("app-config.yml"),
+                new DropwizardTestSupport<>(Atam4jTestApplication.class, ResourceHelpers.resourceFilePath("app-config.yml"),
                         ConfigOverride.config("testClasses", testClass.getName()),
                         ConfigOverride.config("initialDelayInMillis", initialDelayInMillis + ""));
         applicationConfigurationDropwizardTestSupport.before();
