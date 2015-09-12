@@ -43,9 +43,6 @@ public class Atam4j {
             this.healthCheckRegistry = Preconditions.checkNotNull(healthCheckRegistry);
         }
 
-        public Atam4jBuilder() {
-        }
-
         public Atam4jBuilder withTestClasses(Class... testClasses) {
             this.testClasses = Optional.of(testClasses);
             return this;
