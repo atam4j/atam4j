@@ -10,7 +10,6 @@ public class PollingPredicate<T> {
     private Predicate<T> predicate;
     private Supplier<T> supplier;
 
-
     public PollingPredicate(int maxAttempts, int retryPollInterval, Predicate<T> predicate, Supplier<T> supplier) {
         this.maxAttempts = maxAttempts;
         this.retryPollInterval = retryPollInterval;
