@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class HealthCheckResult {
+
     @JsonProperty(value = "Acceptance Tests HealthCheck")
     private AcceptanceTestsHealthCheckResult acceptanceTestsHealthCheckResult;
 

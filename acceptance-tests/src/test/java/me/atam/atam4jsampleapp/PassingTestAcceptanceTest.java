@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 
 public class PassingTestAcceptanceTest extends AcceptanceTest{
 
-
     public static final int MAX_ATTEMPTS = 2000;
     public static final int RETRY_POLL_INTERVAL = 1;
 
@@ -18,7 +17,6 @@ public class PassingTestAcceptanceTest extends AcceptanceTest{
         applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(PassingTest.class, 1000);
         checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.TOO_EARLY_MESSAGE, getResponseFromHealthCheck());
     }
-
 
     @Test
     public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledAfterTestRUn_thenOKMessageReceived(){
@@ -30,7 +28,5 @@ public class PassingTestAcceptanceTest extends AcceptanceTest{
         responsePollingPredicate.pollUntilPassedOrMaxAttemptsExceeded();
         checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.OK_MESSAGE, getResponseFromHealthCheck());
     }
-
-
 
 }
