@@ -14,7 +14,8 @@ public class Atam4jApplicationStarter {
 
     public static DropwizardTestSupport<ApplicationConfiguration> startApplicationWith(Class testClass, int initialDelayInMillis) {
         DropwizardTestSupport<ApplicationConfiguration> applicationConfigurationDropwizardTestSupport =
-                new DropwizardTestSupport<>(Atam4jTestApplication.class, ResourceHelpers.resourceFilePath("app-config.yml"),
+                new DropwizardTestSupport<>(Atam4jTestApplication.class,
+                        ResourceHelpers.resourceFilePath("app-config.yml"),
                         ConfigOverride.config("testClasses", testClass.getName()),
                         ConfigOverride.config("initialDelayInMillis", initialDelayInMillis + ""));
         applicationConfigurationDropwizardTestSupport.before();
