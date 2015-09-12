@@ -1,6 +1,7 @@
-package me.atam.atam4jsampleapp;
+package me.atam.atam4jsampleapp.testsupport;
 
 import io.dropwizard.testing.DropwizardTestSupport;
+import me.atam.atam4jsampleapp.ApplicationConfiguration;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.hamcrest.CoreMatchers;
 import org.junit.After;

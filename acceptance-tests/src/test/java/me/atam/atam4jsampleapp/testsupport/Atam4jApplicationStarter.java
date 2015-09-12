@@ -1,8 +1,10 @@
-package me.atam.atam4jsampleapp;
+package me.atam.atam4jsampleapp.testsupport;
 
 import io.dropwizard.testing.ConfigOverride;
 import io.dropwizard.testing.DropwizardTestSupport;
 import io.dropwizard.testing.ResourceHelpers;
+import me.atam.atam4jsampleapp.ApplicationConfiguration;
+import me.atam.atam4jsampleapp.Atam4jTestApplication;
 
 public class Atam4jApplicationStarter {
 
