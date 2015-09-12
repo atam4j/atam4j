@@ -4,7 +4,7 @@ import me.atam.atam4j.dummytests.FailingTest;
 import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
 import org.junit.Test;
 
-public class FailingTestAcceptanceTest extends AcceptanceTest{
+public class FailingTestAcceptanceTest extends AcceptanceTest {
 
     @Test
     public void givenSampleApplicationStartedWithFailingTest_whenHealthCheckCalledBeforeTestRun_thenFailureMessageReceived(){
