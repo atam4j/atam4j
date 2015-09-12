@@ -1,7 +1,6 @@
 package me.atam.atam4j;
 
 import com.codahale.metrics.health.HealthCheckRegistry;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.google.common.base.Preconditions;
 import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
 import me.atam.atam4j.health.AcceptanceTestsState;
