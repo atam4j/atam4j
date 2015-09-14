@@ -14,11 +14,12 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
 
     public static final int MAX_ATTEMPTS = 2000;
     public static final int RETRY_POLL_INTERVAL = 1;
+    public static final int TEN_SECONDS_IN_MILLIS = 10000;
 
     @Test
     public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledBeforeTestRun_thenTooEarlyMessageReceived(){
 
-        applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(PassingTest.class, 1000);
+        applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(PassingTest.class, TEN_SECONDS_IN_MILLIS);
         checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.TOO_EARLY_MESSAGE, getResponseFromHealthCheck());
     }
 
