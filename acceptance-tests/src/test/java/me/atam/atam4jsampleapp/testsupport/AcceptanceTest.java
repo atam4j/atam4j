@@ -7,7 +7,7 @@ import org.junit.After;
 
 import javax.ws.rs.core.Response;
 
-public class AcceptanceTest {
+public abstract class AcceptanceTest {
 
     protected DropwizardTestSupport<ApplicationConfiguration> applicationConfigurationDropwizardTestSupport;
 
