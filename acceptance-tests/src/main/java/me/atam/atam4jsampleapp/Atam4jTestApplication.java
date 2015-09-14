@@ -11,8 +11,6 @@ import java.util.concurrent.TimeUnit;
 
 public class Atam4jTestApplication extends Application<ApplicationConfiguration> {
 
-    public static final int INITIAL_DELAY = 1000;
-
     public static void main(String[] args) throws Exception {
         if (args == null || args.length == 0) {
             args = new String[]{"server", new File(Resources.getResource("app-config.yml").toURI()).getAbsolutePath()};
