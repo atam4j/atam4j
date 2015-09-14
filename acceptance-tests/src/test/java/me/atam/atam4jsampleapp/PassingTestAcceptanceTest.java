@@ -5,6 +5,7 @@ import me.atam.atam4j.dummytests.PassingTest;
 import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
 import me.atam.atam4jsampleapp.testsupport.AcceptanceTest;
 import me.atam.atam4jsampleapp.testsupport.Atam4jApplicationStarter;
+import me.atam.atam4jsampleapp.testsupport.HealthCheckResponseChecker;
 import me.atam.atam4jsampleapp.testsupport.HealthCheckResult;
 import org.junit.Test;
 
@@ -20,7 +21,7 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
     public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledBeforeTestRun_thenTooEarlyMessageReceived(){
 
         applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(PassingTest.class, TEN_SECONDS_IN_MILLIS);
-        checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.TOO_EARLY_MESSAGE, getResponseFromHealthCheck());
+        new HealthCheckResponseChecker(getResponseFromHealthCheck()).checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.TOO_EARLY_MESSAGE);
     }
 
     @Test
@@ -38,7 +39,7 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
                 this::getResponseFromHealthCheck);
 
         responsePollingPredicate.pollUntilPassedOrMaxAttemptsExceeded();
-        checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.OK_MESSAGE, getResponseFromHealthCheck());
+        new HealthCheckResponseChecker(getResponseFromHealthCheck()).checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.OK_MESSAGE);
     }
 
 }

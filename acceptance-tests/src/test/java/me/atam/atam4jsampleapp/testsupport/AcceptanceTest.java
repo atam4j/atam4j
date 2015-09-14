@@ -3,13 +3,9 @@ package me.atam.atam4jsampleapp.testsupport;
 import io.dropwizard.testing.DropwizardTestSupport;
 import me.atam.atam4jsampleapp.ApplicationConfiguration;
 import org.glassfish.jersey.client.JerseyClientBuilder;
-import org.hamcrest.CoreMatchers;
 import org.junit.After;
 
 import javax.ws.rs.core.Response;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
 
 public class AcceptanceTest {
 
@@ -18,20 +14,6 @@ public class AcceptanceTest {
     @After
     public void stopApplication() {
         applicationConfigurationDropwizardTestSupport.after();
-    }
-
-    protected void checkResponseIsErrorAndWithMessage(String expectedMessage, Response response) {
-        HealthCheckResult healthCheckResult = response.readEntity(HealthCheckResult.class);
-        assertThat(response.getStatus(), CoreMatchers.equalTo(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()));
-        assertThat(healthCheckResult.getAcceptanceTestsHealthCheckResult().isHealthy(), is(false));
-        assertThat(healthCheckResult.getAcceptanceTestsHealthCheckResult().getMessage(), is(expectedMessage));
-    }
-
-    protected void checkResponseIsOKAndWithMessage(String expectedMessage, Response response) {
-        HealthCheckResult healthCheckResult = response.readEntity(HealthCheckResult.class);
-        assertThat(healthCheckResult.getAcceptanceTestsHealthCheckResult().getMessage(), is(expectedMessage));
-        assertThat(response.getStatus(), CoreMatchers.equalTo(Response.Status.OK.getStatusCode()));
-        assertThat(healthCheckResult.getAcceptanceTestsHealthCheckResult().isHealthy(), is(true));
     }
 
     protected Response getResponseFromHealthCheck() {
