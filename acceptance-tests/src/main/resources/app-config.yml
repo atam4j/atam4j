@@ -1,0 +1,27 @@
+# Dropwizard server configuration
+initialDelayInMillis: 1
+
+testClasses:
+  - me.atam.atam4j.dummytests.PassingTest
+
+server:
+
+  applicationConnectors:
+    - type: http
+      port: 8080
+
+  adminConnectors:
+      - type: http
+        port: 8081
+
+  requestLog:
+    appenders:
+      - type: console
+        timeZone: UTC
+
+logging:
+  level: INFO
+  loggers:
+    io.dropwizard: DEBUG
+  appenders:
+    - type: console

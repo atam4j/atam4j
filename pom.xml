@@ -5,8 +5,17 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.atam</groupId>
-    <artifactId>atam4j</artifactId>
+    <artifactId>atam4j-parent</artifactId>
+    <packaging>pom</packaging>
     <version>0.5.0</version>
+    <modules>
+        <module>atam4j</module>
+        <module>acceptance-tests</module>
+        <module>dummy-tests</module>
+        <module>atam4j-annotations</module>
+        <module>test-utils</module>
+    </modules>
+
 
     <name>${project.artifactId}</name>
     <description>Library that enables using acceptance tests as monitors</description>
@@ -28,6 +37,8 @@
         </developer>
         <developer>
             <name>Phillip Barber</name>
+            <email>philliprbarber@googlemail.com</email>
+            <organization>Pergola Software Ltd</organization>
         </developer>
     </developers>
 
@@ -71,6 +82,27 @@
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>me.atam</groupId>
+                <artifactId>atam4j</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>me.atam</groupId>
+                <artifactId>atam4j-annotations</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>me.atam</groupId>
+                <artifactId>dummy-tests</artifactId>
+                <version>${project.version}</version>
+                <classifier>tests</classifier>
+            </dependency>
+            <dependency>
+                <groupId>me.atam</groupId>
+                <artifactId>test-utils</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
@@ -80,51 +112,49 @@
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
             </dependency>
+            <dependency>
+                <groupId>io.dropwizard</groupId>
+                <artifactId>dropwizard-testing</artifactId>
+                <version>${dw.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.dropwizard</groupId>
+                <artifactId>dropwizard-core</artifactId>
+                <version>${dw.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>${reflections.version}</version>
+            </dependency>
+
+            <!-- Test Dependencies -->
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito-core.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>uk.org.lidalia</groupId>
+                <artifactId>slf4j-test</artifactId>
+                <version>${slf4j-test.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.hamcrest</groupId>
+                <artifactId>hamcrest-all</artifactId>
+                <version>${hamcrest-all.version}</version>
+            </dependency>
         </dependencies>
+
     </dependencyManagement>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.dropwizard</groupId>
-            <artifactId>dropwizard-core</artifactId>
-            <version>${dw.version}</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>ch.qos.logback</groupId>
-                    <artifactId>logback-classic</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-            <version>${reflections.version}</version>
-        </dependency>
-
-        <!-- Test Dependencies -->
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-core</artifactId>
-            <version>${mockito-core.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>uk.org.lidalia</groupId>
-            <artifactId>slf4j-test</artifactId>
-            <version>${slf4j-test.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-all</artifactId>
-            <version>${hamcrest-all.version}</version>
-        </dependency>
-    </dependencies>
 
     <build>
         <plugins>
@@ -138,19 +168,7 @@
                     <encoding>UTF-8</encoding>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
-                <configuration>
-                    <excludes>
-                        <exclude>**/ignore/**</exclude>
-                    </excludes>
-                    <classpathDependencyExcludes>
-                        <classpathDependencyExcludes>ch.qos.logback:logback-classic</classpathDependencyExcludes>
-                    </classpathDependencyExcludes>
-                </configuration>
-            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
