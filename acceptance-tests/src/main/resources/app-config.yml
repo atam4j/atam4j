@@ -1,4 +1,5 @@
 # Dropwizard server configuration
+initialDelayInMillis: 1
 
 testClasses:
   - me.atam.atam4j.dummytests.PassingTest
