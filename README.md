@@ -6,7 +6,7 @@ atam4j
 Acceptance Tests As Monitors
 
 * A simple library that allows you to run junit tests as monitoring checks.
-* Runs tests on a schedule and exposes results via a restful api that can called from your monitoring (e.g. nagios, 
+* Runs tests on a schedule and exposes results via a restful api that can be called from your monitoring setup (e.g. nagios, 
 zabbix, icinga, pingdom etc etc)
 
 ## Latest Build Status
@@ -88,6 +88,24 @@ git push origin v${versionNumber}
 
 5. Deploy to maven central    
 > mvn clean deploy
+
+### Overview of modules
+
+#### acceptance-tests
+A module which tests atam4j from end to end by starting an application that imports the core-library and runs dummy-tests.
+
+#### atam4j
+The core library that runs tests and exposes the results via an api.
+
+#### atam4j-annotations
+Module containing the atam4j annotations only.  If you wish to annotate your tests, this is the only dependency required.
+
+#### dummy-tests
+Contains dummy tests to verify that atam4j reports correctly on the status of tests that we know in advance will pass or fail.  These are not run during the build.
+
+#### test-utils
+Contains some common code shared by tests.
+
 
 
 

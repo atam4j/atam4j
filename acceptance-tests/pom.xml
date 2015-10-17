@@ -12,6 +12,7 @@
     <artifactId>acceptance-tests</artifactId>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
+    <description>A module which tests atam4j from end to end by starting an application that imports the core-library and runs dummy-tests.</description>
 
     <dependencies>
         <dependency>
