@@ -12,6 +12,7 @@
     <artifactId>dummy-tests</artifactId>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
+    <description>Contains dummy tests to verify that atam4j reports correctly on the status of tests that we know in advance will pass or fail.  These are not run during the build.</description>
 
     <dependencies>
         <dependency>

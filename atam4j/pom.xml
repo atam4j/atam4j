@@ -11,6 +11,7 @@
     <artifactId>atam4j</artifactId>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
+    <description>The core library that runs tests and exposes the results via an api.</description>
 
 
     <dependencies>

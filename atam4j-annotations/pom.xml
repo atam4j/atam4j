@@ -12,5 +12,6 @@
     <artifactId>atam4j-annotations</artifactId>
     <name>${project.artifactId}</name>
     <packaging>jar</packaging>
+    <description>Module containing the atam4j annotations only.  If you wish to annotate your tests, this is the only dependency required.</description>
 
 </project>
