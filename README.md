@@ -17,8 +17,10 @@ zabbix, icinga, pingdom etc etc)
     <dependency>    
        <groupId>me.atam</groupId>    
        <artifactId>atam4j</artifactId>    
-       <version>0.5.0</version>    
+       <version>0.6.0</version>    
     </dependency>
+    
+[http://mvnrepository.com/artifact/me.atam/atam4j](http://mvnrepository.com/artifact/me.atam/atam4j)
 
 ## Using atam4j
 
