@@ -20,6 +20,11 @@
             <artifactId>atam4j</artifactId>
         </dependency>
         <dependency>
+            <groupId>me.atam</groupId>
+            <artifactId>dummy-tests</artifactId>
+            <classifier>tests</classifier>
+        </dependency>
+        <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-testing</artifactId>
         </dependency>

@@ -57,6 +57,7 @@
             <groupId>me.atam</groupId>
             <artifactId>dummy-tests</artifactId>
             <classifier>tests</classifier>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>me.atam</groupId>
