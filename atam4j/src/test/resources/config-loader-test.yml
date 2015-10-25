@@ -1,1 +1,2 @@
 someDummyAttribute: someValue
+someDummyEnvAttribute: ${envVar:-defaultValue}
