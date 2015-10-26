@@ -18,9 +18,11 @@ after_success:
 
 - echo "https://${Travis-atam4j}:@github.com" > .git/credentials
 
-- cat .git/credentials
+- git config --global user.email "travis@atam.me"
 
-- mvn release:prepare release:perform -B
+- git config --global user.name "Travis Release"
+
+- mvn release:prepare release:perform -DskipTests=true -B
 
 - mvn deploy -Prelease -Dgpg.defaultKeyring=false -Dgpg-keyname=BF230DCD -Dgpg.passphrase=$GPGKEY_PASSPHRASE
   -Dgpg.publicKeyring=~/pubring.gpg -Dgpg.secretKeyring=~/secring.gpg -DskipTests=true
