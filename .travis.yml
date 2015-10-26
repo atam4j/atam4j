@@ -3,17 +3,21 @@ jdk:
 - oraclejdk8
 sudo: false
 
-before_install:
-- openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD
-  -in gnupg-keys/pubring.gpg.enc -out pubring.gpg -d
-- openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD
-  -in gnupg-keys/secring.gpg.enc -out secring.gpg -d
-
 after_success:
+
 - echo "<settings><servers><server><id>ossrh</id><username>\${env.OSSRH_USER}</username><password>\${env.OSSRH_PASS}</password></server></servers></settings>"
   > ~/settings.xml
+
+- ls -ltr
+
+- openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD
+  -in gnupg-keys/secring.gpg.enc -out ~/secring.gpg -d
+
+- openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD
+  -in gnupg-keys/pubring.gpg.enc -out ~/pubring.gpg -d
+
 - mvn deploy -Prelease -Dgpg.defaultKeyring=false -Dgpg-keyname=BF230DCD -Dgpg.passphrase=$GPGKEY_PASSPHRASE
-  -Dgpg.publicKeyring=pubring.gpg -Dgpg.secretKeyring=secring.gpg -DskipTests=true
+  -Dgpg.publicKeyring=~/pubring.gpg -Dgpg.secretKeyring=~/secring.gpg -DskipTests=true
   --settings ~/settings.xml
 
 env:
