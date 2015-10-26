@@ -5,8 +5,8 @@ jdk:
 sudo: false
 
 before_install:
-  openssl aes-256-cbc -K $encrypted_a6e8190306f0_key -iv $encrypted_a6e8190306f0_iv -in gnupg-keys/secring.gpg.enc -out secring.gpg -d
-  openssl aes-256-cbc -K $encrypted_a6e8190306f0_key -iv $encrypted_a6e8190306f0_iv -in gnupg-keys/pubring.gpg.enc -out pubring.gpg -d
+  - openssl aes-256-cbc -K $encrypted_a6e8190306f0_key -iv $encrypted_a6e8190306f0_iv -in gnupg-keys/secring.gpg.enc -out secring.gpg -d
+  - openssl aes-256-cbc -K $encrypted_a6e8190306f0_key -iv $encrypted_a6e8190306f0_iv -in gnupg-keys/pubring.gpg.enc -out pubring.gpg -d
 
 after_success:
   - echo "<settings><servers><server><id>ossrh</id><username>\${env.OSSRH_USER}</username><password>\${env.OSSRH_PASS}</password></server></servers></settings>" > ~/settings.xml
