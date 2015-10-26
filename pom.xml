@@ -7,7 +7,7 @@
     <groupId>me.atam</groupId>
     <artifactId>atam4j-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.0.1</version>
+    <version>0.7-SNAPSHOT</version>
     <modules>
         <module>atam4j</module>
         <module>acceptance-tests</module>
