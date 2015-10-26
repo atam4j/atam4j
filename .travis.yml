@@ -12,7 +12,7 @@ before_install:
 after_success:
 - echo "<settings><servers><server><id>ossrh</id><username>\${env.OSSRH_USER}</username><password>\${env.OSSRH_PASS}</password></server></servers></settings>"
   > ~/settings.xml
-- mvn deploy -Dgpg.defaultKeyring=false -Dgpg-keyname=BF230DCD -Dgpg.passphrase=${env.OSSRH_PASS}
+- mvn deploy -Prelease -Dgpg.defaultKeyring=false -Dgpg-keyname=BF230DCD -Dgpg.passphrase=${env.OSSRH_PASS}
   -Dgpg.publicKeyring=pubring.gpg -Dgpg.secretKeyring=secring.gpg --settings
   ~/settings.xml
 
