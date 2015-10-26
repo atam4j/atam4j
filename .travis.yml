@@ -22,6 +22,8 @@ after_success:
 
 - git config --global user.name "Travis Release"
 
+- git checkout master
+
 - mvn release:prepare release:perform -DskipTests=true -B
 
 - mvn deploy -Prelease -Dgpg.defaultKeyring=false -Dgpg-keyname=BF230DCD -Dgpg.passphrase=$GPGKEY_PASSPHRASE
