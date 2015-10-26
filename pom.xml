@@ -7,7 +7,7 @@
     <groupId>me.atam</groupId>
     <artifactId>atam4j-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.6.2</version>
+    <version>0.0.1</version>
     <modules>
         <module>atam4j</module>
         <module>acceptance-tests</module>
@@ -213,7 +213,7 @@
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
-                        <phase>deploy</phase>
+                        <phase>verify</phase>
                         <goals>
                             <goal>sign</goal>
                         </goals>
