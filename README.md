@@ -68,12 +68,16 @@ Look for non-snapshot version
 #### Running Tests using Maven CLI
 > mvn clean test
 
-#### Release - Manual
-##### Prerequisite
+#### Release
+##### Automated
+All commits to master are automatically released to maven central via a travis-ci job
+
+##### Manual
+###### Prerequisite
 Only [core committers](Core-Committers.md) can release atam4j to maven central. You need Sonatype Nexus OSS account info
 for atam.me.
 
-##### Steps
+####### Steps
 
 1. Set version of the release    
 > mvn versions:set -DnewVersion=${versionNumber}
