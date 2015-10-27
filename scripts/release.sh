@@ -1,5 +1,15 @@
 #!/bin/bash
 
+echo $TRAVIS_PULL_REQUEST
+
+if $TRAVIS_PULL_REQUEST; then
+    echo 'bool'
+fi
+
+if [[ $TRAVIS_PULL_REQUEST == 'true' ]]; then
+    echo 'string'
+fi
+
 if [[ $TRAVIS_PULL_REQUEST == 'false' && $TRAVIS_BRANCH == 'master' ]]; then
     git remote add origin git@github.com:atam4j/atam4j.git
     mvn release:prepare release:perform -DskipTests=true -B
