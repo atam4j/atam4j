@@ -45,6 +45,7 @@
     <scm>
         <connection>scm:git:git@github.com:atam4j/atam4j.git</connection>
         <developerConnection>scm:git:git@github.com:atam4j/atam4j.git</developerConnection>
+        <tag>HEAD</tag>
         <url>git@github.com:atam4j/atam4j.git</url>
     </scm>
 
