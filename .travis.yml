@@ -5,9 +5,6 @@ jdk:
 
 sudo: false
 
-skip_commits:
-  message: /.*\[maven-release-plugin\].*/
-
 after_success:
 
 - echo "<settings><servers><server><id>ossrh</id><username>\${env.OSSRH_USER}</username><password>\${env.OSSRH_PASS}</password></server></servers></settings>"
