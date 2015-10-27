@@ -23,6 +23,8 @@ after_success:
 
 - git config --global user.name "Travis Release"
 
+- git checkout master
+
 - eval "$(ssh-agent -s)" #start the ssh agent
 
 - chmod 600 ~/atam4j_id_rsa.pem # this key should have push access
