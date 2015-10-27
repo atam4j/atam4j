@@ -1,5 +1,7 @@
 #!/bin/bash
 
+echo $TRAVIS_PULL_REQUEST
+
 if  [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]
 then
     git remote add origin git@github.com:atam4j/atam4j.git
