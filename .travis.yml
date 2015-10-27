@@ -1,6 +1,8 @@
 language: java
+
 jdk:
 - oraclejdk8
+
 sudo: false
 
 after_success:
@@ -8,21 +10,26 @@ after_success:
 - echo "<settings><servers><server><id>ossrh</id><username>\${env.OSSRH_USER}</username><password>\${env.OSSRH_PASS}</password></server></servers></settings>"
   > ~/settings.xml
 
-- openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD
-  -in gnupg-keys/secring.gpg.enc -out ~/secring.gpg -d
+- openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in keys/secring.gpg.enc -out
+  ~/secring.gpg -d
 
-- openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD
-  -in gnupg-keys/pubring.gpg.enc -out ~/pubring.gpg -d
+- openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in keys/pubring.gpg.enc -out
+  ~/pubring.gpg -d
 
-- git config credential.helper "store --file=.git/credentials"
-
-- echo "https://${Travis-atam4j}:@github.com" > .git/credentials
+- openssl aes-256-cbc -pass pass:$PEM_ENCRYPTION_PASSWORD -in keys/atam4j_id_rsa.pem.enc -out
+  ~/atam4j_id_rsa.pem -d
 
 - git config --global user.email "travis@atam.me"
 
 - git config --global user.name "Travis Release"
 
-- git checkout master
+- eval "$(ssh-agent -s)" #start the ssh agent
+
+- chmod 600 ~/atam4j_id_rsa.pem # this key should have push access
+
+- ssh-add ~/atam4j_id_rsa.pem
+
+- git remote add origin git@github.com:atam4j/atam4j.git
 
 - mvn release:prepare release:perform -DskipTests=true -B
 
@@ -34,3 +41,4 @@ env:
   global:
   - secure: LpJ0mAFRNPRea5CRZPYiDbcG8ah3PPDC6uG4671MkY5I+5sOXK87Nj/eyhxLWuJSW+HddYYkive9uGi+yGgTOgdEi4IrGtR0vphIPykwhcvG68VwUsXgxZFWNb6wMjxn9UwiP1HxvVFPoTr+qEj/pPpFYIVRMchdoGrLpdnnpZ8=
   - secure: oQndLtmmoT7DmbxYb2OnlutlyICXQMYiSc9wZxkcg2M5d4mzLe2wPEaCcZEwykGLiXJpts6guuTvKa9frINj1ohM7H2w+eOqfUHsZFech3cYydtYYqbNtVhKTy0aQqgl1S0xtufc7a95US7XNaT9taghEozWhRa0WBNcdFnUDBs=
+  - secure: LJ0EPJOkuGzl8AwVxvRhbn8vST89+kHx8Ovpf7ardUhvqtNAihnYWtuMY7Zkrd/pSsuV8ttdp4zWIKCyyRrEjIjChprn2/Jx+FhmMHC0fWxZxpmii5mC8N59jRdsy1jtC45ZVqvTtHWjCIREEhoBmyqh/4hf12S7KIwLKbAegkE=
