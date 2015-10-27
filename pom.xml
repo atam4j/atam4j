@@ -5,7 +5,7 @@
     <groupId>me.atam</groupId>
     <artifactId>atam4j-parent</artifactId>
     <packaging>pom</packaging>
-    <version>0.14-SNAPSHOT</version>
+    <version>0.14</version>
     <modules>
         <module>atam4j</module>
         <module>acceptance-tests</module>
@@ -44,7 +44,7 @@
         <connection>scm:git:git@github.com:atam4j/atam4j.git</connection>
         <developerConnection>scm:git:git@github.com:atam4j/atam4j.git</developerConnection>
         <url>git@github.com:atam4j/atam4j.git</url>
-      <tag>HEAD</tag>
+      <tag>atam4j-parent-0.14</tag>
   </scm>
 
     <distributionManagement>
