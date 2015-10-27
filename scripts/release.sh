@@ -1,12 +1,6 @@
 #!/bin/bash
 
-echo $TRAVIS_PULL_REQUEST
-
-if $TRAVIS_PULL_REQUEST == 'false'; then
-    echo "boohaa"
-fi
-
-if  [[ $TRAVIS_BRANCH == 'master' && $TRAVIS_PULL_REQUEST == 'false' ]]
+if  [[ $TRAVIS_BRANCH == 'master' && !$TRAVIS_PULL_REQUEST ]]
 then
     git remote add origin git@github.com:atam4j/atam4j.git
     mvn release:prepare release:perform -DskipTests=true -B
