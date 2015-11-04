@@ -29,9 +29,5 @@ public class AcceptanceTestsRunnerTask implements Runnable {
 
         final Result result = jUnitCore.run(testClasses);
         testsState.setResult(result);
-
-        for (Failure failure: result.getFailures()) {
-            LOGGER.error(failure.getDescription().toString(), failure.getException());
-        }
     }
 }
