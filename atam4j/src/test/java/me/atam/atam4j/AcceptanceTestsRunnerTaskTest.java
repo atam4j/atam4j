@@ -4,6 +4,7 @@ import me.atam.atam4j.dummytests.FailingTest;
 import me.atam.atam4j.dummytests.PassingTest;
 import me.atam.atam4j.dummytests.TestThatFailsOnInitialisation;
 import me.atam.atam4j.health.AcceptanceTestsState;
+import me.atam.atam4j.logging.LoggingListener;
 import org.junit.Test;
 import org.junit.runner.Result;
 import uk.org.lidalia.slf4jtest.TestLogger;
@@ -17,7 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class AcceptanceTestsRunnerTaskTest {
 
     AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
-    TestLogger logger = TestLoggerFactory.getTestLogger(AcceptanceTestsRunnerTask.class);
+    TestLogger logger = TestLoggerFactory.getTestLogger(LoggingListener.class);
 
     @Test
     public void testPassingTestsRun(){
