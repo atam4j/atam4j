@@ -15,6 +15,7 @@ import static org.mockito.Mockito.when;
 public class AcceptanceTestsHealthCheckTest {
 
 
+    private static final String DUMMY_TEST_NAME = "dummyTestMethod(dummy.test.Class)";
     private static final String DUMMY_TEST_FAILURE_MESSAGE = "Expected this but got that!";
     Result result = mock(Result.class);
 
@@ -36,16 +37,23 @@ public class AcceptanceTestsHealthCheckTest {
     @Test
     public void givenTestsFailed_whenHealthCheckCalled_thenFailureMessageReceived()throws Exception{
         when(result.wasSuccessful()).thenReturn(false);
-        prepareResultWithFailure(DUMMY_TEST_FAILURE_MESSAGE);
+        prepareResultWithFailure(DUMMY_TEST_NAME, DUMMY_TEST_FAILURE_MESSAGE);
         HealthCheck.Result healthCheckResult = new AcceptanceTestsHealthCheck(getAcceptanceTestsStateWithMockedResult()).check();
-        assertThat(healthCheckResult.getMessage(), CoreMatchers.equalTo(AcceptanceTestsHealthCheck.FAILURE_MESSAGE + " 1. " + DUMMY_TEST_FAILURE_MESSAGE));
+        assertThat(
+                healthCheckResult.getMessage(),
+                CoreMatchers.equalTo(
+                        AcceptanceTestsHealthCheck.FAILURE_MESSAGE + " 1. ["
+                        + DUMMY_TEST_NAME + " failed:\"" + DUMMY_TEST_FAILURE_MESSAGE + "\"]"
+                )
+        );
         assertThat(healthCheckResult.isHealthy(), CoreMatchers.equalTo(false));
     }
 
-    private void prepareResultWithFailure(String testFailureMessage) {
+    private void prepareResultWithFailure(String testName, String testFailureMessage) {
         ArrayList<Failure> value = new ArrayList<>();
         Failure failure = mock(Failure.class);
         when(failure.getMessage()).thenReturn(testFailureMessage);
+        when(failure.getTestHeader()).thenReturn(testName);
         value.add(failure);
         when(result.getFailureCount()).thenReturn(1);
         when(result.getFailures()).thenReturn(value);

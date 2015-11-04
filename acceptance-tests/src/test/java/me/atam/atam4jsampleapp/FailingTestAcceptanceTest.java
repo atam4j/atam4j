@@ -11,7 +11,8 @@ public class FailingTestAcceptanceTest extends AcceptanceTest {
 
     @Test
     public void givenSampleApplicationStartedWithFailingTest_whenHealthCheckCalledBeforeTestRun_thenFailureMessageReceived() {
-        String expectedMessage = String.format("%s 1. Was expecting false to be true", AcceptanceTestsHealthCheck.FAILURE_MESSAGE);
+        String expectedMessage = String.format("%s 1. [testThatFails(me.atam.atam4j.dummytests.FailingTest) " +
+                "failed:\"Was expecting false to be true\"]", AcceptanceTestsHealthCheck.FAILURE_MESSAGE);
         applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(FailingTest.class);
         new HealthCheckResponseChecker(getResponseFromHealthCheck()).checkResponseIsErrorAndWithMessage(expectedMessage);
     }
