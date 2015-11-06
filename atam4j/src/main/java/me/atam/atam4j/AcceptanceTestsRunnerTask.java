@@ -1,13 +1,12 @@
 package me.atam.atam4j;
 
 import me.atam.atam4j.health.AcceptanceTestsState;
+import me.atam.atam4j.logging.LoggingListener;
 import org.junit.runner.JUnitCore;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Date;
 
 public class AcceptanceTestsRunnerTask implements Runnable {
 
@@ -24,20 +23,11 @@ public class AcceptanceTestsRunnerTask implements Runnable {
 
     @Override
     public void run() {
-        LOGGER.info("Starting tests at {}", new Date());
+        JUnitCore jUnitCore = new JUnitCore();
 
-        Result result = JUnitCore.runClasses(testClasses);
+        jUnitCore.addListener(new LoggingListener());
+
+        final Result result = jUnitCore.run(testClasses);
         testsState.setResult(result);
-
-        LOGGER.info("Tests finishes at {}", new Date());
-        LOGGER.info("Report :: total run = {}, failures = {}, in time = {} milliseconds",
-                result.getRunCount(),
-                result.getFailureCount(),
-                result.getRunTime()
-        );
-
-        for (Failure failure: result.getFailures()) {
-            LOGGER.error(failure.getDescription().toString(), failure.getException());
-        }
     }
 }

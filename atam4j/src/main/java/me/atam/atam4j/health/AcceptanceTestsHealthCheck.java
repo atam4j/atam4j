@@ -24,11 +24,17 @@ public class AcceptanceTestsHealthCheck extends HealthCheck {
                 return AcceptanceTestsHealthCheck.Result.healthy(OK_MESSAGE);
             } else {
                 StringBuilder messageBuilder = new StringBuilder();
-                messageBuilder.append(String.format(FAILURE_MESSAGE + " %d.", testsState.getResult().get().getFailureCount()));
+                messageBuilder.append(String.format(FAILURE_MESSAGE + " %d. [", testsState.getResult().get().getFailureCount()));
+                String delimiter = "";
                 for (Failure failure : testsState.getResult().get().getFailures()) {
-                    messageBuilder.append(" ");
-                    messageBuilder.append(failure.getMessage());
+                    messageBuilder.append(
+                        String.format(
+                            "%s%s failed:\"%s\"", delimiter, failure.getTestHeader(), failure.getMessage()
+                        )
+                    );
+                    delimiter = ",";
                 }
+                messageBuilder.append("]");
                 return AcceptanceTestsHealthCheck.Result.unhealthy(messageBuilder.toString());
             }
         } else {
