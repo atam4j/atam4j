@@ -1,5 +1,7 @@
 package me.atam.atam4jsampleapp;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import me.atam.atam4j.PollingPredicate;
 import me.atam.atam4j.dummytests.PassingTest;
 import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
@@ -17,14 +19,25 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
     public static final int RETRY_POLL_INTERVAL = 1;
     public static final int TEN_SECONDS_IN_MILLIS = 10000;
 
-    @Test
-    public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledBeforeTestRun_thenTooEarlyMessageReceived(){
 
-        applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(PassingTest.class, TEN_SECONDS_IN_MILLIS);
-        new HealthCheckResponseChecker(getResponseFromHealthCheck()).checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.TOO_EARLY_MESSAGE);
+    @Test
+    public void s()throws Exception{
+        IndividualTestReport tr= new IndividualTestReport("me.atam.atam4j.dummytests.PassingTest", "testThatPasses", true);
+        System.out.println(new ObjectMapper().writeValueAsString(tr));
+
     }
 
     @Test
+    @Ignore
+    public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledBeforeTestRun_thenTooEarlyMessageReceived(){
+        applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(PassingTest.class, TEN_SECONDS_IN_MILLIS);
+        Response responseFromTestsEndpoint = getResponseFromTestsEndpoint();
+
+        new HealthCheckResponseChecker(responseFromTestsEndpoint).checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.TOO_EARLY_MESSAGE);
+    }
+
+    @Test
+    @Ignore
     public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledAfterTestRUn_thenOKMessageReceived(){
 
         applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(PassingTest.class, 0);
@@ -36,10 +49,10 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
                         .getAcceptanceTestsHealthCheckResult()
                         .getMessage()
                         .equals(AcceptanceTestsHealthCheck.OK_MESSAGE),
-                this::getResponseFromHealthCheck);
+                this::getResponseFromTestsEndpoint);
 
         responsePollingPredicate.pollUntilPassedOrMaxAttemptsExceeded();
-        new HealthCheckResponseChecker(getResponseFromHealthCheck()).checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.OK_MESSAGE);
+        new HealthCheckResponseChecker(getResponseFromTestsEndpoint()).checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.OK_MESSAGE);
     }
 
 }

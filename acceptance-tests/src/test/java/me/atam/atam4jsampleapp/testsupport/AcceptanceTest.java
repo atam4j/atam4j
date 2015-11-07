@@ -16,9 +16,9 @@ public abstract class AcceptanceTest {
         applicationConfigurationDropwizardTestSupport.after();
     }
 
-    protected Response getResponseFromHealthCheck() {
+    protected Response getResponseFromTestsEndpoint() {
         return new JerseyClientBuilder().build().target(
-                String.format("http://localhost:%d/healthcheck", applicationConfigurationDropwizardTestSupport.getAdminPort()))
+                String.format("http://localhost:%d/tests", applicationConfigurationDropwizardTestSupport.getLocalPort()))
                 .request()
                 .get();
     }
