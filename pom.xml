@@ -63,6 +63,8 @@
     <properties>
         <target-jdk>1.8</target-jdk>
         <dw.version>0.8.1</dw.version>
+        <jackson.version>2.5.1</jackson.version>
+        <javax-ws-rs-api-version>2.0.1</javax-ws-rs-api-version>
         <slf4j.version>1.7.10</slf4j.version>
         <guava.version>18.0</guava.version>
         <slf4j-test.version>1.1.0</slf4j-test.version>
@@ -72,6 +74,7 @@
         <mockito-core.version>1.10.19</mockito-core.version>
         <cucumber.version>1.1.5</cucumber.version>
         <commons-lang3.version>3.4</commons-lang3.version>
+        <jackson.atam.version>2.5.1</jackson.atam.version>
 
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
@@ -122,9 +125,39 @@
             </dependency>
             <dependency>
                 <groupId>io.dropwizard</groupId>
+                <artifactId>dropwizard-jersey</artifactId>
+                <version>${dw.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.dropwizard</groupId>
                 <artifactId>dropwizard-core</artifactId>
                 <version>${dw.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-annotations</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.ws.rs</groupId>
+                <artifactId>javax.ws.rs-api</artifactId>
+                <version>${javax-ws-rs-api-version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>

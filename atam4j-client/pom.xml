@@ -17,21 +17,19 @@
             <artifactId>atam4j-domain</artifactId>
             <version>${project.version}</version>
         </dependency>
-
-
-
         <dependency>
             <groupId>io.dropwizard</groupId>
-            <artifactId>dropwizard-core</artifactId>
-
+            <artifactId>dropwizard-jersey</artifactId>
         </dependency>
-
-
-
-
-
-
-        <!-- Test deps -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <!-- Test dependencies -->
         <dependency>
             <groupId>com.github.tomakehurst</groupId>
             <artifactId>wiremock</artifactId>

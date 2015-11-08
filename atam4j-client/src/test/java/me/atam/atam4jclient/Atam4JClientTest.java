@@ -1,20 +1,15 @@
 package me.atam.atam4jclient;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import me.atam.atam4jdomain.IndividualTestReport;
 import me.atam.atam4jdomain.TestsRunResult;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.junit.Rule;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
-
 import java.io.IOException;
-import java.util.ArrayList;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.junit.Assert.assertNotNull;
