@@ -2,8 +2,10 @@ package me.atam.atam4j;
 
 import com.codahale.metrics.health.HealthCheckRegistry;
 import com.google.common.base.Preconditions;
+import io.dropwizard.jersey.setup.JerseyEnvironment;
 import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
 import me.atam.atam4j.health.AcceptanceTestsState;
+import me.atam.atam4j.resources.TestStatusResource;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -38,9 +40,11 @@ public class Atam4j {
         private long initialDelay = 60;
         private long period = 300;
         private TimeUnit unit = TimeUnit.SECONDS;
+        private JerseyEnvironment jerseyEnvironment;
 
-        public Atam4jBuilder(HealthCheckRegistry healthCheckRegistry) {
+        public Atam4jBuilder(HealthCheckRegistry healthCheckRegistry, JerseyEnvironment jerseyEnvironment) {
             this.healthCheckRegistry = Preconditions.checkNotNull(healthCheckRegistry);
+            this.jerseyEnvironment = jerseyEnvironment;
         }
 
         public Atam4jBuilder withTestClasses(Class... testClasses) {
@@ -64,6 +68,7 @@ public class Atam4j {
         }
 
         public Atam4j build() {
+            jerseyEnvironment.register(new TestStatusResource());
             return new Atam4j(
                     new AcceptanceTestsRunnerTaskScheduler(
                         findTestClasses(),

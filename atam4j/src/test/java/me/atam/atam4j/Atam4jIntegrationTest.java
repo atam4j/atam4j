@@ -18,7 +18,7 @@ public class Atam4jIntegrationTest {
     @Test
     public void givenHealthCheckManagerWithPassingTest_whenInitialized_thenTestsAreHealthy() throws Exception{
 
-        new Atam4j.Atam4jBuilder(healthCheckRegistry)
+        new Atam4j.Atam4jBuilder(healthCheckRegistry, null)
                 .withTestClasses(PassingTest.class)
                 .withInitialDelay(0)
                 .build()
@@ -30,7 +30,7 @@ public class Atam4jIntegrationTest {
     @Test
     public void givenHealthCheckManagerUsingAnnotationScanning_whenInitialized_thenTestsAreHealthy() throws Exception{
 
-        new Atam4j.Atam4jBuilder(healthCheckRegistry)
+        new Atam4j.Atam4jBuilder(healthCheckRegistry, null)
                 .withInitialDelay(0)
                 .build()
                 .initialise();

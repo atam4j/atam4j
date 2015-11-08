@@ -9,13 +9,13 @@ public class Atam4jBuilderTest {
 
     @Test
     public void givenBuilderConstructedWithHealthCheckRegistry_whenBuildCalled_thenManagerReturned() {
-        Atam4j.Atam4jBuilder builder = new Atam4j.Atam4jBuilder(new HealthCheckRegistry()).withTestClasses(PassingTest.class);
+        Atam4j.Atam4jBuilder builder = new Atam4j.Atam4jBuilder(new HealthCheckRegistry(), null).withTestClasses(PassingTest.class);
         Assert.assertNotNull(builder.build());
     }
 
     @Test(expected = NullPointerException.class)
     public void givenBuilderConstructedWithNullArg_whenBuildCalled_thenNullPointerIsThrown() {
-        Atam4j.Atam4jBuilder builder = new Atam4j.Atam4jBuilder(null);
+        Atam4j.Atam4jBuilder builder = new Atam4j.Atam4jBuilder(null, null);
         builder.build();
     }
 }

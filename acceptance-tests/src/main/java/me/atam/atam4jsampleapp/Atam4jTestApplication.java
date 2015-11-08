@@ -26,9 +26,7 @@ public class Atam4jTestApplication extends Application<ApplicationConfiguration>
 
     @Override
     public void run(final ApplicationConfiguration configuration, final Environment environment) throws Exception {
-        // enable starting dw app without any resources defined
-        environment.jersey().disable();
-        new Atam4j.Atam4jBuilder(environment.healthChecks())
+        new Atam4j.Atam4jBuilder(environment.healthChecks(), environment.jersey())
                 .withUnit(TimeUnit.MILLISECONDS)
                 .withInitialDelay(configuration.getInitialDelayInMillis())
                 .withPeriod(5000)

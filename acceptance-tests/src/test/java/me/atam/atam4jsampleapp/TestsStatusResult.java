@@ -1,13 +1,17 @@
 package me.atam.atam4jsampleapp;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 
-public class TestReport {
+public class TestsStatusResult {
 
+    @JsonProperty
     private List<IndividualTestReport> testReports;
+    @JsonProperty
     private Status status;
 
-    public TestReport(List<IndividualTestReport> testReports, Status status) {
+    public TestsStatusResult(List<IndividualTestReport> testReports, Status status) {
         this.testReports = testReports;
         this.status = status;
     }
