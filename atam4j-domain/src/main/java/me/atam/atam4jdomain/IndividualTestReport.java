@@ -1,10 +1,13 @@
-package me.atam.atam4jsampleapp;
+package me.atam.atam4jdomain;
 
 
 public class IndividualTestReport {
     private String testClass;
     private String testName;
     private boolean passed;
+
+    public IndividualTestReport() {
+    }
 
     public IndividualTestReport(String testClass, String testName, boolean passed) {
         this.testClass = testClass;

@@ -1,23 +1,28 @@
-package me.atam.atam4jsampleapp;
+package me.atam.atam4jdomain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
 
-public class TestsStatusResult {
+public class TestsRunResult {
 
     @JsonProperty
-    private List<IndividualTestReport> testReports;
+    private List<IndividualTestReport> tests;
     @JsonProperty
     private Status status;
 
-    public TestsStatusResult(List<IndividualTestReport> testReports, Status status) {
-        this.testReports = testReports;
+
+    public TestsRunResult() {
+    }
+
+    public TestsRunResult(List<IndividualTestReport> tests, Status status) {
+        this.tests = tests;
         this.status = status;
     }
 
-    public List<IndividualTestReport> getTestReports() {
-        return testReports;
+    public List<IndividualTestReport> getTests() {
+        return tests;
     }
 
     public Status getStatus() {

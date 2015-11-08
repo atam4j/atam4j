@@ -1,6 +1,5 @@
 package me.atam.atam4jsampleapp;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jdk.nashorn.internal.ir.annotations.Ignore;
 import me.atam.atam4j.PollingPredicate;
 import me.atam.atam4j.dummytests.PassingTest;
@@ -23,12 +22,6 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
     public static final int TEN_SECONDS_IN_MILLIS = 10000;
 
 
-    @Test
-    public void s()throws Exception{
-        IndividualTestReport tr= new IndividualTestReport("me.atam.atam4j.dummytests.PassingTest", "testThatPasses", true);
-        System.out.println(new ObjectMapper().writeValueAsString(tr));
-
-    }
 
     @Test
     public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledBeforeTestRun_thenTooEarlyMessageReceived(){
@@ -36,7 +29,7 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
         Response responseFromTestsEndpoint = getResponseFromTestsEndpoint();
 
         assertThat(responseFromTestsEndpoint.getStatus(), is(200));
-        //new HealthCheckResponseChecker(responseFromTestsEndpoint).checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.TOO_EARLY_MESSAGE);
+        new HealthCheckResponseChecker(responseFromTestsEndpoint).checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.TOO_EARLY_MESSAGE);
     }
 
     @Test
