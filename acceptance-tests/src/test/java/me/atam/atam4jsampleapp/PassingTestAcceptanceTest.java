@@ -13,8 +13,11 @@ import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
+import java.util.function.Predicate;
+
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 public class PassingTestAcceptanceTest extends AcceptanceTest {
 
@@ -32,22 +35,16 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    @Ignore
     public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledAfterTestRUn_thenOKMessageReceived(){
 
         applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(PassingTest.class, 0);
 
-        PollingPredicate<Response> responsePollingPredicate = new PollingPredicate<>(
+        PollingPredicate<TestsRunResult> responsePollingPredicate = new PollingPredicate<>(
                 MAX_ATTEMPTS,
                 RETRY_POLL_INTERVAL,
-                response -> response.readEntity(HealthCheckResult.class)
-                        .getAcceptanceTestsHealthCheckResult()
-                        .getMessage()
-                        .equals(AcceptanceTestsHealthCheck.OK_MESSAGE),
-                this::getResponseFromTestsEndpoint);
+                response -> response.getStatus().equals(TestsRunResult.Status.ALL_OK),
+                this::getTestRunResultFromServer);
 
-        responsePollingPredicate.pollUntilPassedOrMaxAttemptsExceeded();
-        new HealthCheckResponseChecker(getResponseFromTestsEndpoint()).checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.OK_MESSAGE);
+        assertTrue(responsePollingPredicate.pollUntilPassedOrMaxAttemptsExceeded());
     }
-
 }
