@@ -18,6 +18,10 @@
             <artifactId>atam4j-annotations</artifactId>
         </dependency>
         <dependency>
+            <groupId>me.atam</groupId>
+            <artifactId>atam4j-domain</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.dropwizard</groupId>
             <artifactId>dropwizard-core</artifactId>
             <exclusions>

@@ -17,6 +17,11 @@
             <groupId>me.atam</groupId>
             <artifactId>atam4j</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>me.atam</groupId>
+            <artifactId>atam4j-client</artifactId>
+        </dependency>
         <dependency>
             <groupId>me.atam</groupId>
             <artifactId>dummy-tests</artifactId>

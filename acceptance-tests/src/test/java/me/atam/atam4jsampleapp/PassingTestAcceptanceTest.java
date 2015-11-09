@@ -4,6 +4,7 @@ import jdk.nashorn.internal.ir.annotations.Ignore;
 import me.atam.atam4j.PollingPredicate;
 import me.atam.atam4j.dummytests.PassingTest;
 import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
+import me.atam.atam4jdomain.TestsRunResult;
 import me.atam.atam4jsampleapp.testsupport.AcceptanceTest;
 import me.atam.atam4jsampleapp.testsupport.Atam4jApplicationStarter;
 import me.atam.atam4jsampleapp.testsupport.HealthCheckResponseChecker;
@@ -26,10 +27,8 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
     @Test
     public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledBeforeTestRun_thenTooEarlyMessageReceived(){
         applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(PassingTest.class, TEN_SECONDS_IN_MILLIS);
-        Response responseFromTestsEndpoint = getResponseFromTestsEndpoint();
-
-        assertThat(responseFromTestsEndpoint.getStatus(), is(200));
-        new HealthCheckResponseChecker(responseFromTestsEndpoint).checkResponseIsOKAndWithMessage(AcceptanceTestsHealthCheck.TOO_EARLY_MESSAGE);
+        TestsRunResult testRunResultFromServer = getTestRunResultFromServer();
+        assertThat(testRunResultFromServer.getStatus(), is(TestsRunResult.Status.TOO_EARLY));
     }
 
     @Test
