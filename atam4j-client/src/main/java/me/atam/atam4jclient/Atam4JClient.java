@@ -16,8 +16,8 @@ public class Atam4JClient {
         this.baseURI = baseURI;
     }
 
-    public Response getTestRunResult(){
-        return client.target(baseURI + "/tests").request().get();
+    public TestsRunResult getTestRunResult(){
+        return client.target(baseURI + "/tests").request().get(TestsRunResult.class);
     }
 
 
