@@ -68,13 +68,16 @@ public class Atam4j {
         }
 
         public Atam4j build() {
-            jerseyEnvironment.register(new TestStatusResource());
+            TestRunListener testRunListener = new TestRunListener();
+
+            jerseyEnvironment.register(new TestStatusResource(testRunListener));
             return new Atam4j(
                     new AcceptanceTestsRunnerTaskScheduler(
                         findTestClasses(),
                         initialDelay,
                         period,
-                        unit),
+                        unit,
+                        testRunListener),
                     healthCheckRegistry);
         }
 

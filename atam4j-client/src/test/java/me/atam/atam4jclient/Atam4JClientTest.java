@@ -1,7 +1,7 @@
 package me.atam.atam4jclient;
 
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
-import me.atam.atam4jdomain.IndividualTestReport;
+import me.atam.atam4jdomain.IndividualTestResult;
 import me.atam.atam4jdomain.TestsRunResult;
 import org.glassfish.jersey.client.JerseyClientBuilder;
 import org.junit.Before;
@@ -36,7 +36,7 @@ public class Atam4JClientTest {
         //then
         assertThat(testRunResult.getStatus(), is(TestsRunResult.Status.ALL_OK));
         assertThat(testRunResult.getTests().size(), is(1));
-        IndividualTestReport testReport = testRunResult.getTests().get(0);
+        IndividualTestResult testReport = testRunResult.getTests().iterator().next();
         assertThat(testReport.getTestClass(), is("me.atam.atam4j.dummytests.PassingTest"));
         assertThat(testReport.getTestName(), is("testThatPasses"));
         assertTrue(testReport.isPassed());
@@ -51,7 +51,7 @@ public class Atam4JClientTest {
         //then
         assertThat(testRunResult.getStatus(), is(TestsRunResult.Status.FAILURES));
         assertThat(testRunResult.getTests().size(), is(1));
-        IndividualTestReport testReport = testRunResult.getTests().get(0);
+        IndividualTestResult testReport = testRunResult.getTests().iterator().next();
         assertThat(testReport.getTestClass(), is("me.atam.atam4j.dummytests.FailingTest"));
         assertThat(testReport.getTestName(), is("testThatFails"));
         assertFalse(testReport.isPassed());

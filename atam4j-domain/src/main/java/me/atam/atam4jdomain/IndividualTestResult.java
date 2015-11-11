@@ -1,15 +1,15 @@
 package me.atam.atam4jdomain;
 
 
-public class IndividualTestReport {
+public class IndividualTestResult {
     private String testClass;
     private String testName;
     private boolean passed;
 
-    public IndividualTestReport() {
+    public IndividualTestResult() {
     }
 
-    public IndividualTestReport(String testClass, String testName, boolean passed) {
+    public IndividualTestResult(String testClass, String testName, boolean passed) {
         this.testClass = testClass;
         this.testName = testName;
         this.passed = passed;

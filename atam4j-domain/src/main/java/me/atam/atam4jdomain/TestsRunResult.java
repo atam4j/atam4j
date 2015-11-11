@@ -1,27 +1,37 @@
 package me.atam.atam4jdomain;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Collection;
 import java.util.List;
 
 public class TestsRunResult {
 
     @JsonProperty
-    private List<IndividualTestReport> tests;
+    private Collection<IndividualTestResult> tests;
     @JsonProperty
-    private Status status;
+    private Status status = Status.TOO_EARLY;
 
 
+    //for jackson
     public TestsRunResult() {
     }
 
-    public TestsRunResult(List<IndividualTestReport> tests, Status status) {
-        this.tests = tests;
+    public TestsRunResult(Status status) {
         this.status = status;
     }
 
-    public List<IndividualTestReport> getTests() {
+    public TestsRunResult(Collection<IndividualTestResult> tests) {
+        this.tests = tests;
+        if (tests.parallelStream().filter(testReport -> !testReport.isPassed()).findAny().isPresent()){
+            this.status = Status.FAILURES;
+        }
+        else{
+            this.status = Status.ALL_OK;
+        }
+    }
+
+    public Collection<IndividualTestResult> getTests() {
         return tests;
     }
 

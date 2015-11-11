@@ -43,7 +43,7 @@ public class AcceptanceTestsRunnerTaskTest {
     }
 
     private Result runTestsAndGetResult(Class... passingTests) {
-        new AcceptanceTestsRunnerTask(acceptanceTestsState, passingTests).run();
+        new AcceptanceTestsRunnerTask(acceptanceTestsState, new TestRunListener(), passingTests).run();
         return acceptanceTestsState.getResult().get();
     }
 }
