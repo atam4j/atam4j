@@ -32,7 +32,7 @@ public class Atam4JClientTest {
         //given
         responseFromServerIs("{\"tests\":[{\"testClass\":\"me.atam.atam4j.dummytests.PassingTest\",\"testName\":\"testThatPasses\",\"passed\":true}],\"status\":\"ALL_OK\"}");
         //when
-        TestsRunResult testRunResult = atam4JClient.getTestRunResult();
+        TestsRunResult testRunResult = atam4JClient.getTestRunResult().readEntity(TestsRunResult.class);
         //then
         assertThat(testRunResult.getStatus(), is(TestsRunResult.Status.ALL_OK));
         assertThat(testRunResult.getTests().size(), is(1));
@@ -47,7 +47,7 @@ public class Atam4JClientTest {
         //given
         responseFromServerIs("{\"tests\":[{\"testClass\":\"me.atam.atam4j.dummytests.FailingTest\",\"testName\":\"testThatFails\",\"passed\":false}],\"status\":\"FAILURES\"}");
         //when
-        TestsRunResult testRunResult = atam4JClient.getTestRunResult();
+        TestsRunResult testRunResult = atam4JClient.getTestRunResult().readEntity(TestsRunResult.class);
         //then
         assertThat(testRunResult.getStatus(), is(TestsRunResult.Status.FAILURES));
         assertThat(testRunResult.getTests().size(), is(1));
@@ -62,7 +62,7 @@ public class Atam4JClientTest {
         //given
         responseFromServerIs("{\"status\":\"TOO_EARLY\"}");
         //when
-        TestsRunResult testRunResult = atam4JClient.getTestRunResult();
+        TestsRunResult testRunResult = atam4JClient.getTestRunResult().readEntity(TestsRunResult.class);
         //then
         assertThat(testRunResult.getStatus(), is(TestsRunResult.Status.TOO_EARLY));
         assertNull(testRunResult.getTests());

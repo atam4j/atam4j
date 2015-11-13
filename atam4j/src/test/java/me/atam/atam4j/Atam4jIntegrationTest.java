@@ -56,8 +56,8 @@ public class Atam4jIntegrationTest {
 
     private void checkThatWeEventuallyGetSuccess(TestStatusResource resource) {
         PollingPredicate<TestsRunResult> resultPollingPredicate = new PollingPredicate<>(UnitTestTimeouts.MAX_ATTEMPTS, UnitTestTimeouts.RETRY_POLL_INTERVAL_IN_MILLIS,
-                o -> o.getStatus().equals(TestsRunResult.Status.ALL_OK),
-                resource::getTestStatus);
+                testsRunResult -> testsRunResult.getStatus().equals(TestsRunResult.Status.ALL_OK),
+                () -> (TestsRunResult) resource.getTestStatus().getEntity());
 
         assertThat(resultPollingPredicate.pollUntilPassedOrMaxAttemptsExceeded(), CoreMatchers.is(true));
     }
