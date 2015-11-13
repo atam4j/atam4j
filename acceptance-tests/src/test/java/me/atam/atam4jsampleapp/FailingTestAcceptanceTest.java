@@ -1,23 +1,15 @@
 package me.atam.atam4jsampleapp;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import me.atam.atam4j.PollingPredicate;
 import me.atam.atam4j.dummytests.FailingTest;
-import me.atam.atam4j.dummytests.PassingTest;
-import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
 import me.atam.atam4jdomain.TestsRunResult;
 import me.atam.atam4jsampleapp.testsupport.AcceptanceTest;
 import me.atam.atam4jsampleapp.testsupport.Atam4jApplicationStarter;
-import me.atam.atam4jsampleapp.testsupport.HealthCheckResponseChecker;
 import org.junit.Test;
-
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.MAX_ATTEMPTS;
 import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.RETRY_POLL_INTERVAL;
-import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.TEN_SECONDS_IN_MILLIS;
+import static org.junit.Assert.assertTrue;
 
 public class FailingTestAcceptanceTest extends AcceptanceTest {
 

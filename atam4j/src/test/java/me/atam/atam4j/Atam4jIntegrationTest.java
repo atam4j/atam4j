@@ -1,12 +1,9 @@
 package me.atam.atam4j;
 
-import com.codahale.metrics.health.HealthCheck.Result;
-import com.codahale.metrics.health.HealthCheckRegistry;
 import io.dropwizard.jersey.setup.JerseyEnvironment;
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import me.atam.atam4j.dummytests.PassingTest;
-import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
 import me.atam.atam4j.resources.TestStatusResource;
+import me.atam.atam4jdomain.TestsRunResult;
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -22,49 +19,50 @@ public class Atam4jIntegrationTest {
     public static final int MAX_ATTEMPTS = 1000; //bit excessive but who knows!
 
     @Test
-    @Ignore
     public void givenHealthCheckManagerWithPassingTest_whenInitialized_thenTestsAreHealthy() throws Exception{
 
         JerseyEnvironment jerseyEnvironment = mock(JerseyEnvironment.class);
-        //jerseyEnvironment.
 
         ArgumentCaptor<TestStatusResource> argumentCaptor = ArgumentCaptor.forClass(TestStatusResource.class);
-        verify(jerseyEnvironment).register(argumentCaptor.capture());
 
         new Atam4j.Atam4jBuilder(jerseyEnvironment)
                 .withTestClasses(PassingTest.class)
                 .withInitialDelay(0)
                 .build()
                 .initialise();
+        verify(jerseyEnvironment).register(argumentCaptor.capture());
 
         TestStatusResource value = argumentCaptor.getValue();
         assertNotNull(value);
 
-        //checkThatWeEventuallyGetSuccess();
+        checkThatWeEventuallyGetSuccess(value);
     }
 
     @Test
-    @Ignore
     public void givenHealthCheckManagerUsingAnnotationScanning_whenInitialized_thenTestsAreHealthy() throws Exception{
+        JerseyEnvironment jerseyEnvironment = mock(JerseyEnvironment.class);
 
-        new Atam4j.Atam4jBuilder(null)
+        ArgumentCaptor<TestStatusResource> argumentCaptor = ArgumentCaptor.forClass(TestStatusResource.class);
+
+        new Atam4j.Atam4jBuilder(jerseyEnvironment)
                 .withInitialDelay(0)
                 .build()
                 .initialise();
+        verify(jerseyEnvironment).register(argumentCaptor.capture());
 
-        checkThatWeEventuallyGetSuccess();
+        TestStatusResource value = argumentCaptor.getValue();
+        assertNotNull(value);
+
+        checkThatWeEventuallyGetSuccess(value);
     }
 
 
-    private void checkThatWeEventuallyGetSuccess() {
-        PollingPredicate<Result> resultPollingPredicate = new PollingPredicate<>(MAX_ATTEMPTS, RETRY_POLL_INTERVAL_IN_MILLIS,
-                (r) -> r.getMessage().equals(AcceptanceTestsHealthCheck.OK_MESSAGE),
-                this::getHealthCheckResult);
+    private void checkThatWeEventuallyGetSuccess(TestStatusResource resource) {
+        PollingPredicate<TestsRunResult> resultPollingPredicate = new PollingPredicate<>(MAX_ATTEMPTS, RETRY_POLL_INTERVAL_IN_MILLIS,
+                o -> o.getStatus().equals(TestsRunResult.Status.ALL_OK),
+                resource::getTestStatus);
 
         assertThat(resultPollingPredicate.pollUntilPassedOrMaxAttemptsExceeded(), CoreMatchers.is(true));
     }
 
-    private Result getHealthCheckResult() {
-        return null;//healthCheckRegistry.runHealthCheck(AcceptanceTestsHealthCheck.NAME);
-    }
 }
