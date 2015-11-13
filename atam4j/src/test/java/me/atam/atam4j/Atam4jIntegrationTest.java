@@ -15,9 +15,6 @@ import static org.mockito.Mockito.verify;
 
 public class Atam4jIntegrationTest {
 
-    public static final int RETRY_POLL_INTERVAL_IN_MILLIS = 2;
-    public static final int MAX_ATTEMPTS = 1000; //bit excessive but who knows!
-
     @Test
     public void givenHealthCheckManagerWithPassingTest_whenInitialized_thenTestsAreHealthy() throws Exception{
 
@@ -58,7 +55,7 @@ public class Atam4jIntegrationTest {
 
 
     private void checkThatWeEventuallyGetSuccess(TestStatusResource resource) {
-        PollingPredicate<TestsRunResult> resultPollingPredicate = new PollingPredicate<>(MAX_ATTEMPTS, RETRY_POLL_INTERVAL_IN_MILLIS,
+        PollingPredicate<TestsRunResult> resultPollingPredicate = new PollingPredicate<>(UnitTestTimeouts.MAX_ATTEMPTS, UnitTestTimeouts.RETRY_POLL_INTERVAL_IN_MILLIS,
                 o -> o.getStatus().equals(TestsRunResult.Status.ALL_OK),
                 resource::getTestStatus);
 
