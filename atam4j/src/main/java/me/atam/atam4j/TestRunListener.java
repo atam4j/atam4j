@@ -11,9 +11,14 @@ import java.util.*;
 
 public class TestRunListener extends RunListener{
 
-    private Map<TestIdentifier, IndividualTestResult> individualTestReportMap = new HashMap<>();
+    private Map<TestIdentifier, IndividualTestResult> individualTestReportMap;
     private boolean testsFinished = false;
 
+
+    @Override
+    public void testRunStarted(Description description) throws Exception {
+        individualTestReportMap =  new HashMap<>();
+    }
 
     @Override
     public void testStarted(Description description) throws Exception {
@@ -41,7 +46,7 @@ public class TestRunListener extends RunListener{
 
     @Override
     public void testRunFinished(Result result) throws Exception {
-        this.testsFinished = true;            ;
+        this.testsFinished = true;
     }
 
     private static class TestIdentifier{
