@@ -19,7 +19,10 @@ public abstract class AcceptanceTest {
     }
 
     public Response getTestRunResultFromServer(){
-        return new Atam4JClient(new JerseyClientBuilder().build(), String.format("http://localhost:%d", applicationConfigurationDropwizardTestSupport.getLocalPort())).getTestRunResult();
+        return new JerseyClientBuilder().build().target(
+                String.format("http://localhost:%d/tests", applicationConfigurationDropwizardTestSupport.getLocalPort()))
+                .request()
+                .get();
     }
 
 }

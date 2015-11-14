@@ -13,7 +13,6 @@
         <module>atam4j-annotations</module>
         <module>test-utils</module>
         <module>atam4j-domain</module>
-        <module>atam4j-client</module>
     </modules>
 
 

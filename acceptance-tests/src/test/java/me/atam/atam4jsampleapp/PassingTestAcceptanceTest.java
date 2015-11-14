@@ -11,6 +11,7 @@ import org.junit.Test;
 import javax.ws.rs.core.Response;
 
 import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.*;
+import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
@@ -41,8 +42,6 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
         TestsRunResult testRunResult = response.readEntity(TestsRunResult.class);
         assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
         assertThat(testRunResult.getTests().size(), is(1));
-        IndividualTestResult passingTest= testRunResult.getTests().iterator().next();
-        assertThat(passingTest.getTestClass(), is(PassingTest.class.getName()));
-        assertThat(passingTest.getTestName(), is("testThatPasses"));
+        assertThat(testRunResult.getTests(), hasItem(new IndividualTestResult(PassingTest.class.getName(), "testThatPasses", true)));
     }
 }
