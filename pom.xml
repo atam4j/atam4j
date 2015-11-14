@@ -99,12 +99,6 @@
 
             <dependency>
                 <groupId>me.atam</groupId>
-                <artifactId>atam4j-client</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>me.atam</groupId>
                 <artifactId>atam4j-domain</artifactId>
                 <version>${project.version}</version>
             </dependency>
