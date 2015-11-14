@@ -2,6 +2,7 @@ package me.atam.atam4jsampleapp;
 
 import me.atam.atam4j.PollingPredicate;
 import me.atam.atam4j.dummytests.PassingTest;
+import me.atam.atam4jdomain.IndividualTestResult;
 import me.atam.atam4jdomain.TestsRunResult;
 import me.atam.atam4jsampleapp.testsupport.AcceptanceTest;
 import me.atam.atam4jsampleapp.testsupport.Atam4jApplicationStarter;
@@ -18,7 +19,7 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
 
     @Test
     public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledBeforeTestRun_thenTooEarlyMessageReceived(){
-        applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(PassingTest.class, TEN_SECONDS_IN_MILLIS);
+        applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(TEN_SECONDS_IN_MILLIS, PassingTest.class);
         Response testRunResultFromServer = getTestRunResultFromServer();
         assertThat(testRunResultFromServer.getStatus(), is(Response.Status.OK.getStatusCode()));
         assertThat(testRunResultFromServer.readEntity(TestsRunResult.class).getStatus(), is(TestsRunResult.Status.TOO_EARLY));
@@ -27,7 +28,7 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
     @Test
     public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledAfterTestRUn_thenOKMessageReceived(){
 
-        applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(PassingTest.class, 0);
+        applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(0, PassingTest.class);
 
         PollingPredicate<Response> responsePollingPredicate = new PollingPredicate<>(
                 MAX_ATTEMPTS,
@@ -36,6 +37,12 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
                 this::getTestRunResultFromServer);
 
         assertTrue(responsePollingPredicate.pollUntilPassedOrMaxAttemptsExceeded());
-        assertThat(getTestRunResultFromServer().getStatus(), is(Response.Status.OK.getStatusCode()));
+        Response response = getTestRunResultFromServer();
+        TestsRunResult testRunResult = response.readEntity(TestsRunResult.class);
+        assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
+        assertThat(testRunResult.getTests().size(), is(1));
+        IndividualTestResult passingTest= testRunResult.getTests().iterator().next();
+        assertThat(passingTest.getTestClass(), is(PassingTest.class.getName()));
+        assertThat(passingTest.getTestName(), is("testThatPasses"));
     }
 }
