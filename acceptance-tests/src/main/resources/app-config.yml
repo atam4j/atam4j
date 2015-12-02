@@ -1,4 +1,3 @@
-# Dropwizard server configuration
 initialDelayInMillis: 1
 
 testClasses:

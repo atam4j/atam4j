@@ -9,17 +9,17 @@ import javax.ws.rs.core.Response;
 
 public abstract class AcceptanceTest {
 
-    protected DropwizardTestSupport<ApplicationConfiguration> applicationConfigurationDropwizardTestSupport;
+    protected DropwizardTestSupport<ApplicationConfiguration> dropwizardTestSupportAppConfig;
 
 
     @After
     public void stopApplication() {
-        applicationConfigurationDropwizardTestSupport.after();
+        dropwizardTestSupportAppConfig.after();
     }
 
     public Response getTestRunResultFromServer(){
         return new JerseyClientBuilder().build().target(
-                String.format("http://localhost:%d/tests", applicationConfigurationDropwizardTestSupport.getLocalPort()))
+                String.format("http://localhost:%d/tests", dropwizardTestSupportAppConfig.getLocalPort()))
                 .request()
                 .get();
     }

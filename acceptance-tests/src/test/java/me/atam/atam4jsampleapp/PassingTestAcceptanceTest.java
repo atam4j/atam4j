@@ -20,16 +20,22 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
 
     @Test
     public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledBeforeTestRun_thenTooEarlyMessageReceived(){
-        applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(TEN_SECONDS_IN_MILLIS, PassingTest.class);
+
+        dropwizardTestSupportAppConfig = Atam4jApplicationStarter
+                                            .startApplicationWith(TEN_SECONDS_IN_MILLIS, PassingTest.class);
+
         Response testRunResultFromServer = getTestRunResultFromServer();
         assertThat(testRunResultFromServer.getStatus(), is(Response.Status.OK.getStatusCode()));
-        assertThat(testRunResultFromServer.readEntity(TestsRunResult.class).getStatus(), is(TestsRunResult.Status.TOO_EARLY));
+        assertThat(
+                testRunResultFromServer.readEntity(TestsRunResult.class).getStatus(),
+                is(TestsRunResult.Status.TOO_EARLY)
+        );
     }
 
     @Test
     public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledAfterTestRUn_thenOKMessageReceived(){
 
-        applicationConfigurationDropwizardTestSupport = Atam4jApplicationStarter.startApplicationWith(0, PassingTest.class);
+        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTest.class);
 
         PollingPredicate<Response> responsePollingPredicate = new PollingPredicate<>(
                 MAX_ATTEMPTS,
@@ -42,6 +48,9 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
         TestsRunResult testRunResult = response.readEntity(TestsRunResult.class);
         assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
         assertThat(testRunResult.getTests().size(), is(1));
-        assertThat(testRunResult.getTests(), hasItem(new IndividualTestResult(PassingTest.class.getName(), "testThatPasses", true)));
+        assertThat(
+                testRunResult.getTests(),
+                hasItem(new IndividualTestResult(PassingTest.class.getName(), "testThatPasses", true))
+        );
     }
 }

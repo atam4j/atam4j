@@ -8,21 +8,19 @@ import me.atam.atam4jsampleapp.Atam4jTestApplication;
 
 public class Atam4jApplicationStarter {
 
-    public static DropwizardTestSupport<ApplicationConfiguration> startApplicationWith(int initialDelayInMillis, Class testClass) {
-        DropwizardTestSupport<ApplicationConfiguration> applicationConfigurationDropwizardTestSupport =
-                new DropwizardTestSupport<>(Atam4jTestApplication.class,
-                        ResourceHelpers.resourceFilePath("app-config-with-one-test.yml"),
-                        ConfigOverride.config("testClasses", testClass.getName()),
-                        ConfigOverride.config("initialDelayInMillis", String.valueOf(initialDelayInMillis)));
-        applicationConfigurationDropwizardTestSupport.before();
-        return applicationConfigurationDropwizardTestSupport;
-    }
+    public static DropwizardTestSupport<ApplicationConfiguration> startApplicationWith(int initialDelayInMillis,
+                                                                                       Class testClass) {
 
-    public static DropwizardTestSupport<ApplicationConfiguration> startApplicationWithPassingAndFailingTest(int initialDelayInMillis) {
+        ConfigOverride[] configOverrides = {
+            ConfigOverride.config("testClasses", testClass.getName()),
+            ConfigOverride.config("initialDelayInMillis", String.valueOf(initialDelayInMillis))
+        };
+
         DropwizardTestSupport<ApplicationConfiguration> applicationConfigurationDropwizardTestSupport =
                 new DropwizardTestSupport<>(Atam4jTestApplication.class,
-                        ResourceHelpers.resourceFilePath("app-config-with-passing-and-failing-test.yml"),
-                        ConfigOverride.config("initialDelayInMillis", String.valueOf(initialDelayInMillis)));
+                        ResourceHelpers.resourceFilePath("app-config.yml"),
+                        configOverrides);
+
         applicationConfigurationDropwizardTestSupport.before();
         return applicationConfigurationDropwizardTestSupport;
     }
