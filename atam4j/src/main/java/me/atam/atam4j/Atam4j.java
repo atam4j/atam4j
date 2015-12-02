@@ -19,7 +19,10 @@ public class Atam4j {
     private final TestRunListener testRunListener;
     private final JerseyEnvironment jerseyEnvironment;
 
-    public Atam4j(JerseyEnvironment jerseyEnvironment, TestRunListener testRunListener, AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler) {
+    public Atam4j(JerseyEnvironment jerseyEnvironment,
+                  TestRunListener testRunListener,
+                  AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler) {
+
         this.jerseyEnvironment = jerseyEnvironment;
         this.testRunListener = testRunListener;
         this.acceptanceTestsRunnerTaskScheduler = acceptanceTestsRunnerTaskScheduler;
