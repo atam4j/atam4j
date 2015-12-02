@@ -7,7 +7,9 @@ import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class TestRunListener extends RunListener{
 
@@ -22,7 +24,10 @@ public class TestRunListener extends RunListener{
 
     @Override
     public void testStarted(Description description) throws Exception {
-        individualTestReportMap.put(new TestIdentifier(description), new IndividualTestResult(description.getClassName(), description.getMethodName(), true));
+        individualTestReportMap.put(
+                new TestIdentifier(description),
+                new IndividualTestResult(description.getClassName(), description.getMethodName(), true)
+        );
     }
 
     @Override
@@ -32,13 +37,17 @@ public class TestRunListener extends RunListener{
 
     @Override
     public void testFailure(Failure failure) throws Exception {
-        IndividualTestResult individualTestResult = new IndividualTestResult(failure.getDescription().getClassName(), failure.getDescription().getMethodName(), false);
+        IndividualTestResult individualTestResult = new IndividualTestResult(
+                failure.getDescription().getClassName(),
+                failure.getDescription().getMethodName(),
+                false
+        );
         TestIdentifier k = new TestIdentifier(failure.getDescription());
-        IndividualTestResult put = individualTestReportMap.put(k, individualTestResult);
+        individualTestReportMap.put(k, individualTestResult);
     }
 
-    public TestsRunResult getTestRunResult(){
-        if (!testsFinished){
+    public TestsRunResult getTestRunResult() {
+        if (!testsFinished) {
             return new TestsRunResult(TestsRunResult.Status.TOO_EARLY);
         }
         return new TestsRunResult(individualTestReportMap.values());
