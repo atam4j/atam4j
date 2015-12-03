@@ -42,8 +42,7 @@ public class TestRunListener extends RunListener{
                 failure.getDescription().getMethodName(),
                 false
         );
-        TestIdentifier k = new TestIdentifier(failure.getDescription());
-        individualTestReportMap.put(k, individualTestResult);
+        individualTestReportMap.put(new TestIdentifier(failure.getDescription()), individualTestResult);
     }
 
     public TestsRunResult getTestRunResult() {
