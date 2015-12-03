@@ -31,11 +31,6 @@ public class TestRunListener extends RunListener{
     }
 
     @Override
-    public void testAssumptionFailure(Failure failure) {
-        //TODO what does this mean?
-    }
-
-    @Override
     public void testFailure(Failure failure) throws Exception {
         IndividualTestResult individualTestResult = new IndividualTestResult(
                 failure.getDescription().getClassName(),
