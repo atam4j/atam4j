@@ -46,9 +46,9 @@ detect them or simply supply an array of classes to the builder.
             .build()      
             .initialise();            
 
-4. Run your app and observe the status of the acceptance tests reported by the metrics health-check.
+4. Run your app and observe the status of the acceptance tests reported by the `/tests` endpoint.
 
-Refer to [atam4j-sample-app](https://github.com/atam4j/atam4j-sample-app) for a complete working example.
+Refer to [atam4j-sample-app](acceptance-tests/src/main/java) for a complete working example.
 
 ### Available Versions
 #### Snapshots

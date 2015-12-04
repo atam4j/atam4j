@@ -1,9 +1,8 @@
 package me.atam.atam4j;
 
-import com.codahale.metrics.health.HealthCheckRegistry;
-import com.google.common.base.Preconditions;
-import me.atam.atam4j.health.AcceptanceTestsHealthCheck;
+import io.dropwizard.jersey.setup.JerseyEnvironment;
 import me.atam.atam4j.health.AcceptanceTestsState;
+import me.atam.atam4j.resources.TestStatusResource;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
@@ -15,32 +14,35 @@ import java.util.concurrent.TimeUnit;
 
 public class Atam4j {
 
-    private final HealthCheckRegistry healthCheckRegistry;
     private final AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
     private final AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler;
+    private final TestRunListener testRunListener;
+    private final JerseyEnvironment jerseyEnvironment;
 
-    public Atam4j(final AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler,
-                  final HealthCheckRegistry healthCheckRegistry) {
+    public Atam4j(JerseyEnvironment jerseyEnvironment,
+                  TestRunListener testRunListener,
+                  AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler) {
+
+        this.jerseyEnvironment = jerseyEnvironment;
+        this.testRunListener = testRunListener;
         this.acceptanceTestsRunnerTaskScheduler = acceptanceTestsRunnerTaskScheduler;
-        this.healthCheckRegistry = healthCheckRegistry;
     }
 
     public void initialise() {
         acceptanceTestsRunnerTaskScheduler.scheduleAcceptanceTestsRunnerTask(acceptanceTestsState);
-        AcceptanceTestsHealthCheck healthCheck = new AcceptanceTestsHealthCheck(acceptanceTestsState);
-        healthCheckRegistry.register(AcceptanceTestsHealthCheck.NAME, healthCheck);
+        jerseyEnvironment.register(new TestStatusResource(testRunListener));
     }
 
     public static class Atam4jBuilder {
 
-        private HealthCheckRegistry healthCheckRegistry;
         private Optional<Class[]> testClasses = Optional.empty();
         private long initialDelay = 60;
         private long period = 300;
         private TimeUnit unit = TimeUnit.SECONDS;
+        private JerseyEnvironment jerseyEnvironment;
 
-        public Atam4jBuilder(HealthCheckRegistry healthCheckRegistry) {
-            this.healthCheckRegistry = Preconditions.checkNotNull(healthCheckRegistry);
+        public Atam4jBuilder(JerseyEnvironment jerseyEnvironment) {
+            this.jerseyEnvironment = jerseyEnvironment;
         }
 
         public Atam4jBuilder withTestClasses(Class... testClasses) {
@@ -64,13 +66,14 @@ public class Atam4j {
         }
 
         public Atam4j build() {
-            return new Atam4j(
+            TestRunListener testRunListener = new TestRunListener();
+            return new Atam4j(jerseyEnvironment, testRunListener,
                     new AcceptanceTestsRunnerTaskScheduler(
                         findTestClasses(),
                         initialDelay,
                         period,
-                        unit),
-                    healthCheckRegistry);
+                        unit,
+                        testRunListener));
         }
 
         private Class[] findTestClasses() {

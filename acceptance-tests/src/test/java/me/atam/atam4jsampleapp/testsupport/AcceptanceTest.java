@@ -11,14 +11,15 @@ public abstract class AcceptanceTest {
 
     protected DropwizardTestSupport<ApplicationConfiguration> applicationConfigurationDropwizardTestSupport;
 
+
     @After
     public void stopApplication() {
         applicationConfigurationDropwizardTestSupport.after();
     }
 
-    protected Response getResponseFromHealthCheck() {
+    public Response getTestRunResultFromServer(){
         return new JerseyClientBuilder().build().target(
-                String.format("http://localhost:%d/healthcheck", applicationConfigurationDropwizardTestSupport.getAdminPort()))
+                String.format("http://localhost:%d/tests", applicationConfigurationDropwizardTestSupport.getLocalPort()))
                 .request()
                 .get();
     }

@@ -8,18 +8,22 @@ import me.atam.atam4jsampleapp.Atam4jTestApplication;
 
 public class Atam4jApplicationStarter {
 
-    public static DropwizardTestSupport<ApplicationConfiguration> startApplicationWith(Class testClass) {
-        return startApplicationWith(testClass, 1);
-    }
-
-    public static DropwizardTestSupport<ApplicationConfiguration> startApplicationWith(Class testClass, int initialDelayInMillis) {
+    public static DropwizardTestSupport<ApplicationConfiguration> startApplicationWith(int initialDelayInMillis, Class testClass) {
         DropwizardTestSupport<ApplicationConfiguration> applicationConfigurationDropwizardTestSupport =
                 new DropwizardTestSupport<>(Atam4jTestApplication.class,
-                        ResourceHelpers.resourceFilePath("app-config.yml"),
+                        ResourceHelpers.resourceFilePath("app-config-with-one-test.yml"),
                         ConfigOverride.config("testClasses", testClass.getName()),
                         ConfigOverride.config("initialDelayInMillis", String.valueOf(initialDelayInMillis)));
         applicationConfigurationDropwizardTestSupport.before();
         return applicationConfigurationDropwizardTestSupport;
     }
 
+    public static DropwizardTestSupport<ApplicationConfiguration> startApplicationWithPassingAndFailingTest(int initialDelayInMillis) {
+        DropwizardTestSupport<ApplicationConfiguration> applicationConfigurationDropwizardTestSupport =
+                new DropwizardTestSupport<>(Atam4jTestApplication.class,
+                        ResourceHelpers.resourceFilePath("app-config-with-passing-and-failing-test.yml"),
+                        ConfigOverride.config("initialDelayInMillis", String.valueOf(initialDelayInMillis)));
+        applicationConfigurationDropwizardTestSupport.before();
+        return applicationConfigurationDropwizardTestSupport;
+    }
 }
