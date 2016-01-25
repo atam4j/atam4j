@@ -38,7 +38,7 @@ public class FailingTestAcceptanceTest extends AcceptanceTest {
         assertThat(testRunResult.getTests().size(), is(1));
         assertThat(
                 testRunResult.getTests(),
-                hasItem(new IndividualTestResult(FailingTest.class.getName(), "testThatFails", false))
+                hasItem(new IndividualTestResult(FailingTest.class.getName(), "testThatFails", "default", false))
         );
     }
 
@@ -60,11 +60,11 @@ public class FailingTestAcceptanceTest extends AcceptanceTest {
         assertThat(testRunResult.getTests().size(), is(2));
         assertThat(
                 testRunResult.getTests(),
-                hasItem(new IndividualTestResult(PassingAndFailingTests.class.getName(), "testThatFails", false))
+                hasItem(new IndividualTestResult(PassingAndFailingTests.class.getName(), "testThatFails", "default", false))
         );
         assertThat(
                 testRunResult.getTests(),
-                hasItem(new IndividualTestResult(PassingAndFailingTests.class.getName(), "testThatPasses", true))
+                hasItem(new IndividualTestResult(PassingAndFailingTests.class.getName(), "testThatPasses", "default", true))
         );
 
     }

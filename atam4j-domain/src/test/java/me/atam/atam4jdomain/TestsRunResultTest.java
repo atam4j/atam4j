@@ -14,7 +14,7 @@ public class TestsRunResultTest {
     @Test
     public void givenTestRunResultCreatedWithOnlyPassingTests_whenGetStatusCalled_thenALLOKStatusReturned(){
         //given
-        List<IndividualTestResult> listOfPassingTests = getIndividualTestResults(new IndividualTestResult("com.blah", "method", true), new IndividualTestResult("com.blah", "method2", true));
+        List<IndividualTestResult> listOfPassingTests = getIndividualTestResults(new IndividualTestResult("com.blah", "method", "default", true), new IndividualTestResult("com.blah", "method2", "default", true));
         //when
         TestsRunResult testsRunResult = new TestsRunResult(listOfPassingTests);
         //then
@@ -25,7 +25,7 @@ public class TestsRunResultTest {
     @Test
     public void givenTestRunResultCreatedWithPassingAndFailingTests_whenGetStatusCalled_thenFailuresStatusReturned(){
         //given
-        List<IndividualTestResult> listOfPassingAndFailingTests = getIndividualTestResults(new IndividualTestResult("com.blah", "method", false), new IndividualTestResult("com.blah", "method2", true));
+        List<IndividualTestResult> listOfPassingAndFailingTests = getIndividualTestResults(new IndividualTestResult("com.blah", "method", "default", false), new IndividualTestResult("com.blah", "method2", "default", true));
         //when
         TestsRunResult testsRunResult = new TestsRunResult(listOfPassingAndFailingTests);
         //then
@@ -36,7 +36,7 @@ public class TestsRunResultTest {
     @Test
     public void givenTestRunResultCreatedWithOnlyFailingTests_whenGetStatusCalled_thenFailuresStatusReturned(){
         //given
-        List<IndividualTestResult> listOfPassingAndFailingTests = getIndividualTestResults(new IndividualTestResult("com.blah", "method", false), new IndividualTestResult("com.blah", "method2", false));
+        List<IndividualTestResult> listOfPassingAndFailingTests = getIndividualTestResults(new IndividualTestResult("com.blah", "method", "default", false), new IndividualTestResult("com.blah", "method2", "default", false));
         //when
         TestsRunResult testsRunResult = new TestsRunResult(listOfPassingAndFailingTests);
         //then
