@@ -10,7 +10,9 @@ import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
-import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.*;
+import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.MAX_ATTEMPTS;
+import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.RETRY_POLL_INTERVAL;
+import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.TEN_SECONDS_IN_MILLIS;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -50,7 +52,7 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
         assertThat(testRunResult.getTests().size(), is(1));
         assertThat(
                 testRunResult.getTests(),
-                hasItem(new IndividualTestResult(PassingTest.class.getName(), "testThatPasses", true))
+                hasItem(new IndividualTestResult(PassingTest.class.getName(), "testThatPasses", "priority-1", true))
         );
     }
 }
