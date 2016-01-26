@@ -17,7 +17,7 @@ zabbix, icinga, pingdom etc etc)
     <dependency>    
        <groupId>me.atam</groupId>    
        <artifactId>atam4j</artifactId>    
-       <version>0.6.0</version>    
+       <version>0.45</version>    
     </dependency>
     
 [http://mvnrepository.com/artifact/me.atam/atam4j](http://mvnrepository.com/artifact/me.atam/atam4j)
@@ -35,16 +35,18 @@ detect them or simply supply an array of classes to the builder.
 
     If specifying an explicit array of Test classes:
 
-        new Atam4j.Atam4jBuilder(metricsHealthCheckRegistry)     
+        new Atam4j.Atam4jBuilder(jerseyEnvironment)     
             .withTestClasses(HelloWorldTest.class) 
             .build()      
             .initialise();
             
     If using `@Monitor` annotations to auto-detect test classes:            
             
-        new Atam4j.Atam4jBuilder(metricsHealthCheckRegistry)      
+        new Atam4j.Atam4jBuilder(jerseyEnvironment)      
             .build()      
-            .initialise();            
+            .initialise();     
+                   
+    where `jerseyEnvironment` is an object of type `io.dropwizard.jersey.setup.JerseyEnvironment`                   
 
 4. Run your app and observe the status of the acceptance tests reported by the `/tests` endpoint.
 
@@ -57,6 +59,9 @@ Refer to [atam4j-sample-app](acceptance-tests/src/main/java) for a complete work
 #### Releases
 Look for non-snapshot version
 [https://oss.sonatype.org/content/groups/public/me/atam/atam4j/](https://oss.sonatype.org/content/groups/public/me/atam/atam4j/)
+
+### Additional usage documentation
+Refer to our [Wiki](https://github.com/atam4j/atam4j/wiki)
 
 ## Developing atam4j
     
