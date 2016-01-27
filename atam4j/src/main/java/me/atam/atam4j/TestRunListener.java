@@ -14,22 +14,23 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class TestRunListener extends RunListener{
+public class TestRunListener extends RunListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TestRunListener.class);
-    private Map<TestIdentifier, IndividualTestResult> individualTestReportMap;
+    private Map<TestIdentifier, IndividualTestResult> testResults;
+    private Map<TestIdentifier, IndividualTestResult> previousTestResults;
     private boolean testsFinished = false;
-
 
     @Override
     public void testRunStarted(Description description) throws Exception {
-        individualTestReportMap =  new HashMap<>();
+        testResults =  new HashMap<>();
+        testsFinished = false;
     }
 
     @Override
     public void testStarted(Description description) throws Exception {
 
-        individualTestReportMap.put(
+        testResults.put(
                 new TestIdentifier(description),
                 new IndividualTestResult(
                         description.getClassName(),
@@ -41,20 +42,25 @@ public class TestRunListener extends RunListener{
 
     @Override
     public void testFailure(Failure failure) throws Exception {
-        IndividualTestResult individualTestResult = individualTestReportMap.get(new TestIdentifier(failure.getDescription()));
+        IndividualTestResult individualTestResult = testResults.get(new TestIdentifier(failure.getDescription()));
         individualTestResult.setPassed(false);
     }
 
-    public TestsRunResult getTestRunResult() {
+    public TestsRunResult getTestsRunResult() {
         if (!testsFinished) {
-            return new TestsRunResult(TestsRunResult.Status.TOO_EARLY);
+            if (previousTestResults != null) {
+                return new TestsRunResult(previousTestResults.values());
+            } else {
+                return new TestsRunResult(TestsRunResult.Status.TOO_EARLY);
+            }
         }
-        return new TestsRunResult(individualTestReportMap.values());
+        return new TestsRunResult(testResults.values());
     }
 
     @Override
     public void testRunFinished(Result result) throws Exception {
         this.testsFinished = true;
+        previousTestResults = testResults;
     }
 
     private String getCategoryName(Description description) {

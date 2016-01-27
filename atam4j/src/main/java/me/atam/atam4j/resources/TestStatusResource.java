@@ -21,7 +21,7 @@ public class TestStatusResource {
     @GET
     @Produces("application/json")
     public Response getTestStatus(){
-        TestsRunResult testRunResult = testRunListener.getTestRunResult();
+        TestsRunResult testRunResult = testRunListener.getTestsRunResult();
         if (testRunResult.getStatus().equals(TestsRunResult.Status.FAILURES)){
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(testRunResult).build();
         }
@@ -35,11 +35,11 @@ public class TestStatusResource {
 
         // filter out tests that don't match category
         testRunListener
-                .getTestRunResult()
+                .getTestsRunResult()
                 .getTests()
                 .removeIf(testResult -> !testResult.getCategory().equalsIgnoreCase(category));
 
-        TestsRunResult categorisedTestsResult = new TestsRunResult(testRunListener.getTestRunResult().getTests());
+        TestsRunResult categorisedTestsResult = new TestsRunResult(testRunListener.getTestsRunResult().getTests());
 
         if (categorisedTestsResult.getTests().size() <= 0) {
             return Response.status(Response.Status.NOT_FOUND).build();

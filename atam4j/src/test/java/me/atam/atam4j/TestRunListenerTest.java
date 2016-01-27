@@ -16,7 +16,7 @@ public class TestRunListenerTest {
 
     @Test
     public void givenTestRunNotFinished_whenGetTestRunResultCalled_thenStatusIsTooEarly() throws Exception {
-        assertThat(testRunListener.getTestRunResult().getStatus(), CoreMatchers.is(TestsRunResult.Status.TOO_EARLY));
+        assertThat(testRunListener.getTestsRunResult().getStatus(), CoreMatchers.is(TestsRunResult.Status.TOO_EARLY));
     }
 
     @Test
@@ -26,7 +26,7 @@ public class TestRunListenerTest {
         //given 2nd run
         testRunOf(() -> failingTest(getMockedTestDescription("testThatFails", "com.blah.MyTest")));
         //when
-        TestsRunResult secondResult = testRunListener.getTestRunResult();
+        TestsRunResult secondResult = testRunListener.getTestsRunResult();
         //then
         assertThat(secondResult.getStatus(), CoreMatchers.is(TestsRunResult.Status.FAILURES));
     }
@@ -46,7 +46,7 @@ public class TestRunListenerTest {
         //given 2nd run
         testRunOf(() -> passingTest(getMockedTestDescription("testThatPasses", "com.blah.MyTest")));
         //when
-        TestsRunResult secondResult = testRunListener.getTestRunResult();
+        TestsRunResult secondResult = testRunListener.getTestsRunResult();
         //then
         assertThat(secondResult.getStatus(), CoreMatchers.is(TestsRunResult.Status.ALL_OK));
     }
@@ -56,8 +56,8 @@ public class TestRunListenerTest {
         //given
         testRunOf(() -> passingTest(getMockedTestDescription("testThatPasses", "com.blah.MyTest")));
         //when then
-        assertThat(testRunListener.getTestRunResult().getStatus(), CoreMatchers.is(TestsRunResult.Status.ALL_OK));
-        assertThat(testRunListener.getTestRunResult().getTests().size(), CoreMatchers.is(1));
+        assertThat(testRunListener.getTestsRunResult().getStatus(), CoreMatchers.is(TestsRunResult.Status.ALL_OK));
+        assertThat(testRunListener.getTestsRunResult().getTests().size(), CoreMatchers.is(1));
     }
 
     @Test
@@ -67,8 +67,8 @@ public class TestRunListenerTest {
         //when
         testRunOf(() -> failingTest(testThatFails));
         //then
-        assertThat(testRunListener.getTestRunResult().getStatus(), CoreMatchers.is(TestsRunResult.Status.FAILURES));
-        assertThat(testRunListener.getTestRunResult().getTests().size(), CoreMatchers.is(1));
+        assertThat(testRunListener.getTestsRunResult().getStatus(), CoreMatchers.is(TestsRunResult.Status.FAILURES));
+        assertThat(testRunListener.getTestsRunResult().getTests().size(), CoreMatchers.is(1));
     }
 
     @Test
@@ -84,8 +84,8 @@ public class TestRunListenerTest {
         });
 
         //then
-        assertThat(testRunListener.getTestRunResult().getStatus(), CoreMatchers.is(TestsRunResult.Status.FAILURES));
-        assertThat(testRunListener.getTestRunResult().getTests().size(), CoreMatchers.is(2));
+        assertThat(testRunListener.getTestsRunResult().getStatus(), CoreMatchers.is(TestsRunResult.Status.FAILURES));
+        assertThat(testRunListener.getTestsRunResult().getTests().size(), CoreMatchers.is(2));
     }
 
     private Failure mockedFailureOf(Description testThatFails) {
