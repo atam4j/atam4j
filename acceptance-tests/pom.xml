@@ -4,7 +4,7 @@
     <parent>
         <artifactId>atam4j-parent</artifactId>
         <groupId>me.atam</groupId>
-        <version>0.47</version>
+        <version>0.48-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <artifactId>acceptance-tests</artifactId>
