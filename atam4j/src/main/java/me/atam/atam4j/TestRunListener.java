@@ -17,20 +17,21 @@ import java.util.Objects;
 public class TestRunListener extends RunListener{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TestRunListener.class);
-    private Map<TestIdentifier, IndividualTestResult> testResults;
+    private Map<TestIdentifier, IndividualTestResult> latestTestResults;
     private Map<TestIdentifier, IndividualTestResult> previousTestResults;
     private boolean testsFinished = false;
 
     @Override
     public void testRunStarted(Description description) throws Exception {
-        testResults =  new HashMap<>();
+        previousTestResults = latestTestResults;
+        latestTestResults =  new HashMap<>();
         testsFinished = false;
     }
 
     @Override
     public void testStarted(Description description) throws Exception {
 
-        testResults.put(
+        latestTestResults.put(
                 new TestIdentifier(description),
                 new IndividualTestResult(
                         description.getClassName(),
@@ -42,15 +43,20 @@ public class TestRunListener extends RunListener{
 
     @Override
     public void testFailure(Failure failure) throws Exception {
-        IndividualTestResult individualTestResult = testResults.get(new TestIdentifier(failure.getDescription()));
+        IndividualTestResult individualTestResult = latestTestResults.get(new TestIdentifier(failure.getDescription()));
         individualTestResult.setPassed(false);
     }
 
     public TestsRunResult getTestsRunResult() {
-        if (!testsFinished) {
-            return new TestsRunResult(TestsRunResult.Status.TOO_EARLY);
+
+        if (testsFinished) {
+            return new TestsRunResult(latestTestResults.values());
         }
-        return new TestsRunResult(testResults.values());
+
+        return previousTestResults == null
+                ? new TestsRunResult(TestsRunResult.Status.TOO_EARLY)
+                : new TestsRunResult(previousTestResults.values());
+
     }
 
     @Override
