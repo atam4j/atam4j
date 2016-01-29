@@ -8,6 +8,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
+import java.util.stream.Collectors;
 
 @Path("/tests")
 public class TestStatusResource {
@@ -34,12 +35,13 @@ public class TestStatusResource {
     public Response getTestStatusForACategory(@PathParam("category") String category) {
 
         // filter out tests that don't match category
-        testRunListener
-                .getTestsRunResult()
-                .getTests()
-                .removeIf(testResult -> !testResult.getCategory().equalsIgnoreCase(category));
-
-        TestsRunResult categorisedTestsResult = new TestsRunResult(testRunListener.getTestsRunResult().getTests());
+        TestsRunResult categorisedTestsResult = new TestsRunResult(
+                testRunListener
+                        .getTestsRunResult()
+                        .getTests()
+                        .parallelStream()
+                        .filter(testResult -> testResult.getCategory().equalsIgnoreCase(category))
+                        .collect(Collectors.toList()));
 
         if (categorisedTestsResult.getTests().size() <= 0) {
             return Response.status(Response.Status.NOT_FOUND).build();
