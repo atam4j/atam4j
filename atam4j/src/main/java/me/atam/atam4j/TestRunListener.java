@@ -17,21 +17,19 @@ import java.util.Objects;
 public class TestRunListener extends RunListener{
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TestRunListener.class);
-    private Map<TestIdentifier, IndividualTestResult> latestTestResults;
-    private Map<TestIdentifier, IndividualTestResult> previousTestResults;
+    private Map<TestIdentifier, IndividualTestResult> inProgressTestResults;
+    private Map<TestIdentifier, IndividualTestResult> completedTestResults;
     private boolean testsFinished = false;
 
     @Override
     public void testRunStarted(Description description) throws Exception {
-        previousTestResults = latestTestResults;
-        latestTestResults =  new HashMap<>();
-        testsFinished = false;
+        inProgressTestResults =  new HashMap<>();
     }
 
     @Override
     public void testStarted(Description description) throws Exception {
 
-        latestTestResults.put(
+        inProgressTestResults.put(
                 new TestIdentifier(description),
                 new IndividualTestResult(
                         description.getClassName(),
@@ -43,25 +41,23 @@ public class TestRunListener extends RunListener{
 
     @Override
     public void testFailure(Failure failure) throws Exception {
-        IndividualTestResult individualTestResult = latestTestResults.get(new TestIdentifier(failure.getDescription()));
+        IndividualTestResult individualTestResult = inProgressTestResults.get(new TestIdentifier(failure.getDescription()));
         individualTestResult.setPassed(false);
     }
 
     public TestsRunResult getTestsRunResult() {
 
         if (testsFinished) {
-            return new TestsRunResult(latestTestResults.values());
+            return new TestsRunResult(completedTestResults.values());
         }
 
-        return previousTestResults == null
-                ? new TestsRunResult(TestsRunResult.Status.TOO_EARLY)
-                : new TestsRunResult(previousTestResults.values());
-
+        return new TestsRunResult(TestsRunResult.Status.TOO_EARLY);
     }
 
     @Override
     public void testRunFinished(Result result) throws Exception {
         this.testsFinished = true;
+        completedTestResults = inProgressTestResults;
     }
 
     private String getCategoryName(Description description) {
