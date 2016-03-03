@@ -7,7 +7,7 @@ import org.junit.Test;
 
 
 @Monitor
-public class PassingTest {
+public class PassingTestWithCategory {
 
     @MonitorCategory(name = "priority-1")
     @Test
