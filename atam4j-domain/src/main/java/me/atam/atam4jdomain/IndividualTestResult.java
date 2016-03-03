@@ -7,7 +7,15 @@ public class IndividualTestResult {
     private String category;
     private boolean passed;
 
-    public IndividualTestResult() {
+    public IndividualTestResult(){
+
+    }
+
+    public IndividualTestResult(String testClass, String testName, boolean passed) {
+        this.testClass = testClass;
+        this.testName = testName;
+        this.passed = passed;
+        this.category = "default";
     }
 
     public IndividualTestResult(String testClass, String testName, String category, boolean passed) {

@@ -1,7 +1,7 @@
 package me.atam.atam4jsampleapp;
 
 import me.atam.atam4j.PollingPredicate;
-import me.atam.atam4j.dummytests.PassingTest;
+import me.atam.atam4j.dummytests.PassingTestWithNoCategory;
 import me.atam.atam4jdomain.IndividualTestResult;
 import me.atam.atam4jdomain.TestsRunResult;
 import me.atam.atam4jsampleapp.testsupport.AcceptanceTest;
@@ -24,7 +24,7 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
     public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledBeforeTestRun_thenTooEarlyMessageReceived(){
 
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter
-                                            .startApplicationWith(TEN_SECONDS_IN_MILLIS, PassingTest.class);
+                                            .startApplicationWith(TEN_SECONDS_IN_MILLIS, PassingTestWithNoCategory.class);
 
         Response testRunResultFromServer = getTestRunResultFromServer();
         assertThat(testRunResultFromServer.getStatus(), is(Response.Status.OK.getStatusCode()));
@@ -37,7 +37,7 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
     @Test
     public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledAfterTestRUn_thenOKMessageReceived(){
 
-        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTest.class);
+        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTestWithNoCategory.class);
 
         PollingPredicate<Response> responsePollingPredicate = new PollingPredicate<>(
                 MAX_ATTEMPTS,
@@ -52,7 +52,7 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
         assertThat(testRunResult.getTests().size(), is(1));
         assertThat(
                 testRunResult.getTests(),
-                hasItem(new IndividualTestResult(PassingTest.class.getName(), "testThatPasses", "priority-1", true))
+                hasItem(new IndividualTestResult(PassingTestWithNoCategory.class.getName(), "testThatPasses", true))
         );
     }
 }
