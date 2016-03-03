@@ -1,6 +1,5 @@
 package me.atam.atam4jsampleapp;
 
-import me.atam.atam4j.PollingPredicate;
 import me.atam.atam4j.dummytests.PassingTestWithNoCategory;
 import me.atam.atam4jdomain.IndividualTestResult;
 import me.atam.atam4jdomain.TestsRunResult;
@@ -10,18 +9,15 @@ import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
-import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.MAX_ATTEMPTS;
-import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.RETRY_POLL_INTERVAL;
 import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.TEN_SECONDS_IN_MILLIS;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 public class PassingTestAcceptanceTest extends AcceptanceTest {
 
     @Test
-    public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledBeforeTestRun_thenTooEarlyMessageReceived(){
+    public void givenPassingTest_whenTestsEndpointCalledBeforeTestRun_thenTooEarlyMessageReceived(){
 
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter
                                             .startApplicationWith(TEN_SECONDS_IN_MILLIS, PassingTestWithNoCategory.class);
@@ -35,19 +31,13 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
-    public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledAfterTestRUn_thenOKMessageReceived(){
-
+    public void givenPassingTest_whenTestsEndpointCalledAfterTestRun_thenOKMessageReceived(){
+        //given
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTestWithNoCategory.class);
-
-        PollingPredicate<Response> responsePollingPredicate = new PollingPredicate<>(
-                MAX_ATTEMPTS,
-                RETRY_POLL_INTERVAL,
-                response -> response.readEntity(TestsRunResult.class).getStatus().equals(TestsRunResult.Status.ALL_OK),
-                this::getTestRunResultFromServer);
-
-        assertTrue(responsePollingPredicate.pollUntilPassedOrMaxAttemptsExceeded());
-        Response response = getTestRunResultFromServer();
+        //when
+        Response response = getResponseFromTestsEndpointOnceAllOKResponseReceived();
         TestsRunResult testRunResult = response.readEntity(TestsRunResult.class);
+        //then
         assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
         assertThat(testRunResult.getTests().size(), is(1));
         assertThat(
@@ -55,4 +45,8 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
                 hasItem(new IndividualTestResult(PassingTestWithNoCategory.class.getName(), "testThatPasses", true))
         );
     }
+
+
+
+
 }
