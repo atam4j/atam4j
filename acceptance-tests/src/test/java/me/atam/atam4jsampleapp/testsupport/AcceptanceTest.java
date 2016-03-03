@@ -38,10 +38,18 @@ public abstract class AcceptanceTest {
     }
 
     public Response getResponseFromTestsEndpointOnceAllOKResponseReceived() {
+        return getResponseFromTestsEndpointOnceResponseIsOfType(TestsRunResult.Status.ALL_OK);
+    }
+
+    public Response getResponseFromTestsEndpointFailedResponseReceived() {
+        return getResponseFromTestsEndpointOnceResponseIsOfType(TestsRunResult.Status.FAILURES);
+    }
+
+    private Response getResponseFromTestsEndpointOnceResponseIsOfType(TestsRunResult.Status status) {
         PollingPredicate<Response> responsePollingPredicate = new PollingPredicate<>(
                 MAX_ATTEMPTS,
                 RETRY_POLL_INTERVAL,
-                response -> response.readEntity(TestsRunResult.class).getStatus().equals(TestsRunResult.Status.ALL_OK),
+                response -> response.readEntity(TestsRunResult.class).getStatus().equals(status),
                 this::getTestRunResultFromServer);
 
         assertTrue(responsePollingPredicate.pollUntilPassedOrMaxAttemptsExceeded());
