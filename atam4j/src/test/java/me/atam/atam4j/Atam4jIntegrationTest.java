@@ -1,7 +1,7 @@
 package me.atam.atam4j;
 
 import io.dropwizard.jersey.setup.JerseyEnvironment;
-import me.atam.atam4j.dummytests.PassingTestWithCategory;
+import me.atam.atam4j.dummytests.PassingTest;
 import me.atam.atam4j.resources.TestStatusResource;
 import me.atam.atam4jdomain.TestsRunResult;
 import org.hamcrest.CoreMatchers;
@@ -23,7 +23,7 @@ public class Atam4jIntegrationTest {
         ArgumentCaptor<TestStatusResource> argumentCaptor = ArgumentCaptor.forClass(TestStatusResource.class);
 
         new Atam4j.Atam4jBuilder(jerseyEnvironment)
-                .withTestClasses(PassingTestWithCategory.class)
+                .withTestClasses(PassingTest.class)
                 .withInitialDelay(0)
                 .build()
                 .initialise();

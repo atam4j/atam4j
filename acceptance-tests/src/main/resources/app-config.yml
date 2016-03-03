@@ -1,7 +1,7 @@
 initialDelayInMillis: 1
 
 testClasses:
-  - me.atam.atam4j.dummytests.PassingTestWithCategory
+  - me.atam.atam4j.dummytests.PassingTest
 
 server:
 
