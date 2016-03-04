@@ -17,43 +17,40 @@ public abstract class AcceptanceTest {
 
     protected DropwizardTestSupport<ApplicationConfiguration> dropwizardTestSupportAppConfig;
 
-
     @After
     public void stopApplication() {
         dropwizardTestSupportAppConfig.after();
     }
 
-    public Response getTestRunResultFromServer(){
+    public Response getTestRunResultFromServer(String testsURI){
         return new JerseyClientBuilder().build().target(
-                String.format("http://localhost:%d/tests", dropwizardTestSupportAppConfig.getLocalPort()))
+                testsURI)
                 .request()
                 .get();
     }
 
-    public Response getTestRunResultFromServerWithCategory(String category){
-        return new JerseyClientBuilder().build().target(
-                String.format("http://localhost:%d/tests/%s", dropwizardTestSupportAppConfig.getLocalPort(), category))
-                .request()
-                .get();
+    public String getTestsURI() {
+        return String.format("http://localhost:%d/tests", dropwizardTestSupportAppConfig.getLocalPort());
     }
 
-    public Response getResponseFromTestsEndpointOnceAllOKResponseReceived() {
-        return getResponseFromTestsEndpointOnceResponseIsOfType(TestsRunResult.Status.ALL_OK);
+    public Response getResponseFromTestsWithCategoryOnceTestRunHasCompleted(String category) {
+        waitUntilTestRunHasCompleted();
+        return getTestRunResultFromServer(getTestsURI() + "/" + category);
     }
 
-    public Response getResponseFromTestsEndpointFailedResponseReceived() {
-        return getResponseFromTestsEndpointOnceResponseIsOfType(TestsRunResult.Status.FAILURES);
+    public Response getResponseFromTestsEndpointOnceTestsRunHasCompleted() {
+        waitUntilTestRunHasCompleted();
+        return getTestRunResultFromServer(getTestsURI());
     }
 
-    private Response getResponseFromTestsEndpointOnceResponseIsOfType(TestsRunResult.Status status) {
+    private void waitUntilTestRunHasCompleted() {
         PollingPredicate<Response> responsePollingPredicate = new PollingPredicate<>(
                 MAX_ATTEMPTS,
                 RETRY_POLL_INTERVAL,
-                response -> response.readEntity(TestsRunResult.class).getStatus().equals(status),
-                this::getTestRunResultFromServer);
+                response -> !response.readEntity(TestsRunResult.class).getStatus().equals(TestsRunResult.Status.TOO_EARLY),
+                () ->  getTestRunResultFromServer(getTestsURI()));
 
         assertTrue(responsePollingPredicate.pollUntilPassedOrMaxAttemptsExceeded());
-        return getTestRunResultFromServer();
     }
 
 }

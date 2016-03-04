@@ -1,6 +1,5 @@
 package me.atam.atam4jsampleapp;
 
-import me.atam.atam4j.PollingPredicate;
 import me.atam.atam4j.dummytests.PassingTestsWithCategories;
 import me.atam.atam4jdomain.IndividualTestResult;
 import me.atam.atam4jdomain.TestsRunResult;
@@ -10,11 +9,9 @@ import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
-import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.*;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 public class PassingTestsByCategoryAcceptanceTest extends AcceptanceTest {
 
@@ -23,14 +20,7 @@ public class PassingTestsByCategoryAcceptanceTest extends AcceptanceTest {
 
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTestsWithCategories.class);
 
-        PollingPredicate<Response> responsePollingPredicate = new PollingPredicate<>(
-                MAX_ATTEMPTS,
-                RETRY_POLL_INTERVAL,
-                response -> response.readEntity(TestsRunResult.class).getStatus().equals(TestsRunResult.Status.ALL_OK),
-                () -> getTestRunResultFromServerWithCategory("A"));
-
-        assertTrue(responsePollingPredicate.pollUntilPassedOrMaxAttemptsExceeded());
-        Response response = getTestRunResultFromServerWithCategory("A");
+        Response response = getResponseFromTestsWithCategoryOnceTestRunHasCompleted("A");
         TestsRunResult testRunResult = response.readEntity(TestsRunResult.class);
         assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
         assertThat(testRunResult.getTests().size(), is(1));
@@ -45,7 +35,7 @@ public class PassingTestsByCategoryAcceptanceTest extends AcceptanceTest {
 
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTestsWithCategories.class);
 
-        Response response = getResponseFromTestsEndpointOnceAllOKResponseReceived();
+        Response response = getResponseFromTestsEndpointOnceTestsRunHasCompleted();
         TestsRunResult testRunResult = response.readEntity(TestsRunResult.class);
         assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
         assertThat(testRunResult.getTests().size(), is(2));

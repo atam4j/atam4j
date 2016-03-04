@@ -1,6 +1,5 @@
 package me.atam.atam4jsampleapp;
 
-import me.atam.atam4j.PollingPredicate;
 import me.atam.atam4j.dummytests.FailingTest;
 import me.atam.atam4j.dummytests.PassingAndFailingTests;
 import me.atam.atam4jdomain.IndividualTestResult;
@@ -11,12 +10,9 @@ import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
-import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.MAX_ATTEMPTS;
-import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.RETRY_POLL_INTERVAL;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
 
 public class FailingTestAcceptanceTest extends AcceptanceTest {
 
@@ -25,14 +21,7 @@ public class FailingTestAcceptanceTest extends AcceptanceTest {
 
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, FailingTest.class);
 
-        PollingPredicate<Response> responsePollingPredicate = new PollingPredicate<>(
-                MAX_ATTEMPTS,
-                RETRY_POLL_INTERVAL,
-                response -> response.readEntity(TestsRunResult.class).getStatus().equals(TestsRunResult.Status.FAILURES),
-                this::getTestRunResultFromServer);
-
-        assertTrue(responsePollingPredicate.pollUntilPassedOrMaxAttemptsExceeded());
-        Response response = getTestRunResultFromServer();
+        Response response = getResponseFromTestsEndpointOnceTestsRunHasCompleted();
         assertThat(response.getStatus(), is(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()));
         TestsRunResult testRunResult = response.readEntity(TestsRunResult.class);
         assertThat(testRunResult.getTests().size(), is(1));
@@ -47,14 +36,7 @@ public class FailingTestAcceptanceTest extends AcceptanceTest {
 
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingAndFailingTests.class);
 
-        PollingPredicate<Response> responsePollingPredicate = new PollingPredicate<>(
-                MAX_ATTEMPTS,
-                RETRY_POLL_INTERVAL,
-                response -> response.readEntity(TestsRunResult.class).getStatus().equals(TestsRunResult.Status.FAILURES),
-                this::getTestRunResultFromServer);
-
-        assertTrue(responsePollingPredicate.pollUntilPassedOrMaxAttemptsExceeded());
-        Response response = getTestRunResultFromServer();
+        Response response = getResponseFromTestsEndpointOnceTestsRunHasCompleted();
         assertThat(response.getStatus(), is(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()));
         TestsRunResult testRunResult = response.readEntity(TestsRunResult.class);
         assertThat(testRunResult.getTests().size(), is(2));

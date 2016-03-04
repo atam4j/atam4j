@@ -22,7 +22,7 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter
                                             .startApplicationWith(TEN_SECONDS_IN_MILLIS, PassingTestWithNoCategory.class);
 
-        Response testRunResultFromServer = getTestRunResultFromServer();
+        Response testRunResultFromServer = getTestRunResultFromServer(getTestsURI());
         assertThat(testRunResultFromServer.getStatus(), is(Response.Status.OK.getStatusCode()));
         assertThat(
                 testRunResultFromServer.readEntity(TestsRunResult.class).getStatus(),
@@ -35,7 +35,7 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
         //given
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTestWithNoCategory.class);
         //when
-        Response response = getResponseFromTestsEndpointOnceAllOKResponseReceived();
+        Response response = getResponseFromTestsEndpointOnceTestsRunHasCompleted();
         TestsRunResult testRunResult = response.readEntity(TestsRunResult.class);
         //then
         assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
