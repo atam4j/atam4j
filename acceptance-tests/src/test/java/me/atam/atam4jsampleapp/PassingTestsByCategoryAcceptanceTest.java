@@ -30,6 +30,17 @@ public class PassingTestsByCategoryAcceptanceTest extends AcceptanceTest {
         );
     }
 
+
+    @Test
+    public void givenPassingTestsWithMultipleCategories_whenTestsByCategoryEndpointCalledAfterTestRunWithInvalidCategory_thenNotFoundMessageReceived(){
+        //given
+        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTestsWithCategories.class);
+        //when
+        Response response = getResponseFromTestsWithCategoryOnceTestRunHasCompleted("non-existent-category");
+        //then
+        assertThat(response.getStatus(), is(Response.Status.NOT_FOUND.getStatusCode()));
+    }
+
     @Test
     public void givenPassingTests_whenTestsEndpointCalledAfterTestRun_thenOKMessageReceivedForTwoTests(){
 
@@ -46,4 +57,6 @@ public class PassingTestsByCategoryAcceptanceTest extends AcceptanceTest {
                 hasItem(new IndividualTestResult(PassingTestsWithCategories.class.getName(), "testThatPassesWithCategoryB", "B", true))
         );
     }
+
+
 }
