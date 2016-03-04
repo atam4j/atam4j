@@ -18,11 +18,12 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
 
     @Test
     public void givenPassingTest_whenTestsEndpointCalledBeforeTestRun_thenTooEarlyMessageReceived(){
-
+        //given
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter
                                             .startApplicationWith(TEN_SECONDS_IN_MILLIS, PassingTestWithNoCategory.class);
-
+        //when
         Response testRunResultFromServer = getTestRunResultFromServer(getTestsURI());
+        //then
         assertThat(testRunResultFromServer.getStatus(), is(Response.Status.OK.getStatusCode()));
         assertThat(
                 testRunResultFromServer.readEntity(TestsRunResult.class).getStatus(),

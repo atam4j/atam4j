@@ -17,10 +17,11 @@ public class PassingTestsByCategoryAcceptanceTest extends AcceptanceTest {
 
     @Test
     public void givenPassingTestsWithMultipleCategories_whenTestsByCategoryEndpointCalledAfterTestRun_thenOKMessageReceivedForOneTestOnly(){
-
+        //given
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTestsWithCategories.class);
-
+        //when
         Response response = getResponseFromTestsWithCategoryOnceTestRunHasCompleted("A");
+        //then
         TestsRunResult testRunResult = response.readEntity(TestsRunResult.class);
         assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
         assertThat(testRunResult.getTests().size(), is(1));
@@ -43,10 +44,11 @@ public class PassingTestsByCategoryAcceptanceTest extends AcceptanceTest {
 
     @Test
     public void givenPassingTests_whenTestsEndpointCalledAfterTestRun_thenOKMessageReceivedForTwoTests(){
-
+        //given
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTestsWithCategories.class);
-
+        //when
         Response response = getResponseFromTestsEndpointOnceTestsRunHasCompleted();
+        //then
         TestsRunResult testRunResult = response.readEntity(TestsRunResult.class);
         assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
         assertThat(testRunResult.getTests().size(), is(2));

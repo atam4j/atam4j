@@ -18,10 +18,11 @@ public class FailingTestAcceptanceTest extends AcceptanceTest {
 
     @Test
     public void givenSampleApplicationStartedWithFailingTest_whenHealthCheckCalledAfterTestRun_thenFailuresMessageReceived(){
-
+        //given
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, FailingTest.class);
-
+        //when
         Response response = getResponseFromTestsEndpointOnceTestsRunHasCompleted();
+        //then
         assertThat(response.getStatus(), is(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()));
         TestsRunResult testRunResult = response.readEntity(TestsRunResult.class);
         assertThat(testRunResult.getTests().size(), is(1));
@@ -33,10 +34,11 @@ public class FailingTestAcceptanceTest extends AcceptanceTest {
 
     @Test
     public void givenSampleApplicationStartedWithPassingAndFailingTest_whenHealthCheckCalledAfterTestRun_thenFailuresMessageReceived(){
-
+        //given
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingAndFailingTests.class);
-
+        //when
         Response response = getResponseFromTestsEndpointOnceTestsRunHasCompleted();
+        //then
         assertThat(response.getStatus(), is(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()));
         TestsRunResult testRunResult = response.readEntity(TestsRunResult.class);
         assertThat(testRunResult.getTests().size(), is(2));
