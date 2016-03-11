@@ -35,6 +35,20 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
     }
 
     @Test
+    public void givenSampleApplicationStartedWithPassingTest_whenCriticalHealthCheckCalledBeforeTestRun_thenTooEarlyMessageReceived(){
+
+        dropwizardTestSupportAppConfig = Atam4jApplicationStarter
+                .startApplicationWith(TEN_SECONDS_IN_MILLIS, PassingTest.class);
+
+        Response testRunResultFromServer = getCriticalTestRunResultFromServer();
+        assertThat(testRunResultFromServer.getStatus(), is(Response.Status.OK.getStatusCode()));
+        assertThat(
+                testRunResultFromServer.readEntity(TestsRunResult.class).getStatus(),
+                is(TestsRunResult.Status.TOO_EARLY)
+        );
+    }
+
+    @Test
     public void givenSampleApplicationStartedWithPassingTest_whenHealthCheckCalledAfterTestRUn_thenOKMessageReceived(){
 
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTest.class);
