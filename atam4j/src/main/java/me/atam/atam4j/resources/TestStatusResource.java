@@ -8,47 +8,37 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
-import java.util.stream.Collectors;
 
 @Path("/tests")
+@Produces("application/json")
 public class TestStatusResource {
 
-    private TestRunListener testRunListener;
+    private final TestRunListener testRunListener;
 
     public TestStatusResource(TestRunListener testRunListener) {
         this.testRunListener = testRunListener;
     }
 
     @GET
-    @Produces("application/json")
     public Response getTestStatus(){
-        TestsRunResult testRunResult = testRunListener.getTestsRunResult();
-        if (testRunResult.getStatus().equals(TestsRunResult.Status.FAILURES)){
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(testRunResult).build();
-        }
-        return Response.status(Response.Status.OK).entity(testRunResult).build();
+        return buildResponse(testRunListener.getTestsRunResult());
     }
 
     @GET
     @Path("{category}")
-    @Produces("application/json")
     public Response getTestStatusForACategory(@PathParam("category") String category) {
+        return buildResponse(testRunListener.getTestsRunResult(category));
+    }
 
-        // filter out tests that don't match category
-        TestsRunResult categorisedTestsResult = new TestsRunResult(
-                testRunListener
-                        .getTestsRunResult()
-                        .getTests()
-                        .parallelStream()
-                        .filter(testResult -> testResult.getCategory().equalsIgnoreCase(category))
-                        .collect(Collectors.toList()));
-
-        if (categorisedTestsResult.getTests().size() <= 0) {
-            return Response.status(Response.Status.NOT_FOUND).build();
-        } else if (categorisedTestsResult.getStatus().equals(TestsRunResult.Status.FAILURES)){
-            return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(categorisedTestsResult).build();
+    private Response buildResponse(TestsRunResult testRunResult) {
+        if (testRunResult.getStatus().equals(TestsRunResult.Status.FAILURES)) {
+            return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
+                           .entity(testRunResult)
+                           .build();
         } else {
-            return Response.status(Response.Status.OK).entity(categorisedTestsResult).build();
+            return Response.status(Response.Status.OK)
+                           .entity(testRunResult)
+                           .build();
         }
     }
 }

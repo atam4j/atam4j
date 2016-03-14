@@ -10,25 +10,27 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
-public class TestRunListener extends RunListener{
+public class TestRunListener extends RunListener {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TestRunListener.class);
-    private Map<TestIdentifier, IndividualTestResult> inProgressTestResults;
-    private Map<TestIdentifier, IndividualTestResult> completedTestResults;
-    private boolean testsFinished = false;
+
+    private volatile Map<TestIdentifier, IndividualTestResult> inProgressTestResults;
+    private volatile Map<TestIdentifier, IndividualTestResult> completedTestResults;
+    private volatile boolean testsFinished = false;
 
     @Override
     public void testRunStarted(Description description) throws Exception {
-        inProgressTestResults =  new HashMap<>();
+        inProgressTestResults = new HashMap<>();
     }
 
     @Override
     public void testStarted(Description description) throws Exception {
-
         inProgressTestResults.put(
                 new TestIdentifier(description),
                 new IndividualTestResult(
@@ -46,17 +48,28 @@ public class TestRunListener extends RunListener{
     }
 
     public TestsRunResult getTestsRunResult() {
-
         if (testsFinished) {
             return new TestsRunResult(completedTestResults.values());
         }
+        return new TestsRunResult(Collections.emptyList(), TestsRunResult.Status.TOO_EARLY);
+    }
 
-        return new TestsRunResult(TestsRunResult.Status.TOO_EARLY);
+    public TestsRunResult getTestsRunResult(String category) {
+        if (testsFinished) {
+            // filter out tests that don't match category
+            return new TestsRunResult(completedTestResults
+                    .values()
+                    .stream()
+                    .filter(testResult -> testResult.getCategory().equalsIgnoreCase(category))
+                    .collect(Collectors.toList())
+            );
+        }
+        return new TestsRunResult(Collections.emptyList(), TestsRunResult.Status.TOO_EARLY);
     }
 
     @Override
     public void testRunFinished(Result result) throws Exception {
-        this.testsFinished = true;
+        testsFinished = true;
         completedTestResults = inProgressTestResults;
     }
 
@@ -78,7 +91,7 @@ public class TestRunListener extends RunListener{
         return category;
     }
 
-    private static class TestIdentifier{
+    private static class TestIdentifier {
         private Class testClass;
         private String testName;
 
