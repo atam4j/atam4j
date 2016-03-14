@@ -1,7 +1,7 @@
 package me.atam.atam4j;
 
 import me.atam.atam4j.dummytests.FailingTest;
-import me.atam.atam4j.dummytests.PassingTest;
+import me.atam.atam4j.dummytests.PassingTestWithNoCategory;
 import me.atam.atam4j.dummytests.TestThatFailsOnInitialisation;
 import me.atam.atam4j.health.AcceptanceTestsState;
 import me.atam.atam4j.logging.LoggingListener;
@@ -22,7 +22,7 @@ public class AcceptanceTestsRunnerTaskTest {
 
     @Test
     public void testPassingTestsRun(){
-        assertTrue(runTestsAndGetResult(PassingTest.class).wasSuccessful());
+        assertTrue(runTestsAndGetResult(PassingTestWithNoCategory.class).wasSuccessful());
     }
 
     @Test
@@ -33,7 +33,7 @@ public class AcceptanceTestsRunnerTaskTest {
 
     @Test
     public void testPassingAndFailingTestReportsFailure() {
-        assertFalse(runTestsAndGetResult(FailingTest.class, PassingTest.class).wasSuccessful());
+        assertFalse(runTestsAndGetResult(FailingTest.class, PassingTestWithNoCategory.class).wasSuccessful());
     }
 
     @Test
