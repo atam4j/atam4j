@@ -1,5 +1,6 @@
 package me.atam.atam4jsampleapp;
 
+import me.atam.atam4j.dummytests.PassingTestWithNoCategory;
 import me.atam.atam4j.dummytests.PassingTestsWithCategories;
 import me.atam.atam4jdomain.IndividualTestResult;
 import me.atam.atam4jdomain.TestsRunResult;
@@ -9,6 +10,7 @@ import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
+import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.TEN_SECONDS_IN_MILLIS;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -28,6 +30,21 @@ public class PassingTestsByCategoryAcceptanceTest extends AcceptanceTest {
         assertThat(
                 testRunResult.getTests(),
                 hasItem(new IndividualTestResult(PassingTestsWithCategories.class.getName(), "testThatPassesWithCategoryA", "A", true))
+        );
+    }
+
+    @Test
+    public void givenPassingTests_withMultiplCategories_whenTestsByCategoryEndpointCalledBeforeTestRun_thenTooEarlyMessageReceived(){
+        //given
+        dropwizardTestSupportAppConfig = Atam4jApplicationStarter
+                .startApplicationWith(TEN_SECONDS_IN_MILLIS, PassingTestWithNoCategory.class);
+        //when
+        Response testRunResultFromServer = getTestRunResultFromServer(getTestsURI()+"/A");
+        //then
+        assertThat(testRunResultFromServer.getStatus(), is(Response.Status.OK.getStatusCode()));
+        assertThat(
+                testRunResultFromServer.readEntity(TestsRunResult.class).getStatus(),
+                is(TestsRunResult.Status.TOO_EARLY)
         );
     }
 

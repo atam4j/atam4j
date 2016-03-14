@@ -3,32 +3,21 @@ package me.atam.atam4jdomain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Collection;
-import java.util.List;
 
 public class TestsRunResult {
 
-    @JsonProperty
-    private Collection<IndividualTestResult> tests;
-    @JsonProperty
-    private Status status = Status.TOO_EARLY;
+    private final Collection<IndividualTestResult> tests;
+    private final Status status;
 
-
-    //for jackson
-    public TestsRunResult() {
-    }
-
-    public TestsRunResult(Status status) {
+    public TestsRunResult(final @JsonProperty("tests")  Collection<IndividualTestResult> tests,
+                          final @JsonProperty("status") Status status) {
+        this.tests = tests;
         this.status = status;
     }
 
-    public TestsRunResult(Collection<IndividualTestResult> tests) {
+    public TestsRunResult(final Collection<IndividualTestResult> tests) {
         this.tests = tests;
-        if (tests.parallelStream().filter(testReport -> !testReport.isPassed()).findAny().isPresent()){
-            this.status = Status.FAILURES;
-        }
-        else{
-            this.status = Status.ALL_OK;
-        }
+        this.status = buildStatus(tests);
     }
 
     public Collection<IndividualTestResult> getTests() {
@@ -39,15 +28,27 @@ public class TestsRunResult {
         return status;
     }
 
-    public static enum Status{
-        TOO_EARLY("Too early to tell - tests not complete yet"), ALL_OK("All is A OK!"), FAILURES("Failues");
+    private Status buildStatus(final Collection<IndividualTestResult> testResults) {
+        if (testResults.isEmpty()) {
+            return Status.CATEGORY_NOT_FOUND;
+        }
+        return testResults.stream()
+                          .filter(testReport -> !testReport.isPassed())
+                          .findAny()
+                          .map(failures -> Status.FAILURES)
+                          .orElse(Status.ALL_OK);
+    }
 
-        private String message;
+    public enum Status {
+        TOO_EARLY("Too early to tell - tests not complete yet"),
+        CATEGORY_NOT_FOUND("This category does not exist"),
+        ALL_OK("All is A OK!"),
+        FAILURES("Failues");
+
+        private final String message;
 
         Status(String message) {
             this.message = message;
         }
     }
-
-
 }
