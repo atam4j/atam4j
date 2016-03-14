@@ -35,6 +35,9 @@ public class TestStatusResource {
             return Response.status(Response.Status.INTERNAL_SERVER_ERROR)
                            .entity(testRunResult)
                            .build();
+        } else if (testRunResult.getStatus().equals(TestsRunResult.Status.CATEGORY_NOT_FOUND)) {
+            return Response.status(Response.Status.NOT_FOUND)
+                           .build();
         } else {
             return Response.status(Response.Status.OK)
                            .entity(testRunResult)

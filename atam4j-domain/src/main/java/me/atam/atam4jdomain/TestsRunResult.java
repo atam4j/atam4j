@@ -17,11 +17,7 @@ public class TestsRunResult {
 
     public TestsRunResult(final Collection<IndividualTestResult> tests) {
         this.tests = tests;
-        this.status = tests.stream()
-                           .filter(testReport -> !testReport.isPassed())
-                           .findAny()
-                           .map(failures -> Status.FAILURES)
-                           .orElse(Status.ALL_OK);
+        this.status = buildStatus(tests);
     }
 
     public Collection<IndividualTestResult> getTests() {
@@ -32,8 +28,20 @@ public class TestsRunResult {
         return status;
     }
 
+    private Status buildStatus(final Collection<IndividualTestResult> testResults) {
+        if (testResults.isEmpty()) {
+            return Status.CATEGORY_NOT_FOUND;
+        }
+        return testResults.stream()
+                          .filter(testReport -> !testReport.isPassed())
+                          .findAny()
+                          .map(failures -> Status.FAILURES)
+                          .orElse(Status.ALL_OK);
+    }
+
     public enum Status {
         TOO_EARLY("Too early to tell - tests not complete yet"),
+        CATEGORY_NOT_FOUND("This category does not exist"),
         ALL_OK("All is A OK!"),
         FAILURES("Failues");
 
