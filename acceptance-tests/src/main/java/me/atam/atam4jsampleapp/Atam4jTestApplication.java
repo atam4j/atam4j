@@ -29,7 +29,7 @@ public class Atam4jTestApplication extends Application<ApplicationConfiguration>
         new Atam4j.Atam4jBuilder(environment.jersey())
                 .withUnit(TimeUnit.MILLISECONDS)
                 .withInitialDelay(configuration.getInitialDelayInMillis())
-                .withPeriod(5000)
+                .withPeriod(configuration.getPeriodInMillis())
                 .withTestClasses(configuration.getTestClasses())
                 .build()
                 .initialise();

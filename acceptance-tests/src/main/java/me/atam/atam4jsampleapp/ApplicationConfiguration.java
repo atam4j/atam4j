@@ -10,6 +10,7 @@ public class ApplicationConfiguration extends Configuration {
 
     @JsonProperty
     private Class[] testClasses;
+    private long periodInMillis;
 
     public Class[] getTestClasses(){
         return testClasses;
@@ -17,5 +18,9 @@ public class ApplicationConfiguration extends Configuration {
 
     public int getInitialDelayInMillis() {
         return initialDelayInMillis;
+    }
+
+    public long getPeriodInMillis() {
+        return periodInMillis;
     }
 }

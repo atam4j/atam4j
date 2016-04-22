@@ -1,5 +1,6 @@
 package me.atam.atam4jdomain;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -45,6 +46,10 @@ public class TestsRunResultTest {
     }
 
 
+    @Test
+    public void equalsContract() {
+        EqualsVerifier.forClass(TestsRunResult.class).verify();
+    }
 
 
 
@@ -54,7 +59,6 @@ public class TestsRunResultTest {
         return tests;
     }
 
-    //TODO test for immutability
 
 
 }
