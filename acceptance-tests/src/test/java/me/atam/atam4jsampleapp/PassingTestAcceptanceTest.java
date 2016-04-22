@@ -1,6 +1,7 @@
 package me.atam.atam4jsampleapp;
 
 import me.atam.atam4j.dummytests.PassingTestWithNoCategory;
+import me.atam.atam4j.dummytests.TestThatCanBePaused;
 import me.atam.atam4jdomain.IndividualTestResult;
 import me.atam.atam4jdomain.TestsRunResult;
 import me.atam.atam4jsampleapp.testsupport.AcceptanceTest;
@@ -10,6 +11,7 @@ import org.junit.Test;
 import javax.ws.rs.core.Response;
 
 import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.TEN_SECONDS_IN_MILLIS;
+import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
@@ -20,7 +22,7 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
     public void givenPassingTest_whenTestsEndpointCalledBeforeTestRun_thenTooEarlyMessageReceived(){
         //given
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter
-                                            .startApplicationWith(TEN_SECONDS_IN_MILLIS, PassingTestWithNoCategory.class);
+                                            .startApplicationWith(TEN_SECONDS_IN_MILLIS, PassingTestWithNoCategory.class, 1);
         //when
         Response testRunResultFromServer = getTestRunResultFromServer(getTestsURI());
         //then
@@ -34,7 +36,7 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
     @Test
     public void givenPassingTest_whenTestsEndpointCalledAfterTestRun_thenOKMessageReceived(){
         //given
-        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTestWithNoCategory.class);
+        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTestWithNoCategory.class, 1);
         //when
         Response response = getResponseFromTestsEndpointOnceTestsRunHasCompleted();
         TestsRunResult testRunResult = response.readEntity(TestsRunResult.class);
@@ -47,6 +49,23 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
         );
     }
 
+
+    @Test
+    public void givenPassingTest_whenTestsEndpointCalledDuringTestRun_thenStatusOfLastRunReturned() throws InterruptedException {
+        //given
+        int periodInMillis = 1000;
+        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, TestThatCanBePaused.class, periodInMillis);
+        Response response = getResponseFromTestsEndpointOnceTestsRunHasCompleted();
+        TestsRunResult firstTestRunResult = response.readEntity(TestsRunResult.class);
+        //when
+        TestThatCanBePaused.lock.lock();
+        System.out.println("TESTS PAUSED");
+        Thread.sleep(periodInMillis * 5);
+
+        //then
+        TestsRunResult testsRunResult = getResponseFromTestsEndpointOnceTestsRunHasCompleted().readEntity(TestsRunResult.class);
+        assertThat(testsRunResult, is(equalTo(firstTestRunResult)));
+    }
 
 
 

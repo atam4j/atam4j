@@ -20,7 +20,7 @@ public class PassingTestsByCategoryAcceptanceTest extends AcceptanceTest {
     @Test
     public void givenPassingTestsWithMultipleCategories_whenTestsByCategoryEndpointCalledAfterTestRun_thenOKMessageReceivedForOneTestOnly(){
         //given
-        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTestsWithCategories.class);
+        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTestsWithCategories.class, 1);
         //when
         Response response = getResponseFromTestsWithCategoryOnceTestRunHasCompleted("A");
         //then
@@ -37,7 +37,7 @@ public class PassingTestsByCategoryAcceptanceTest extends AcceptanceTest {
     public void givenPassingTests_withMultiplCategories_whenTestsByCategoryEndpointCalledBeforeTestRun_thenTooEarlyMessageReceived(){
         //given
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter
-                .startApplicationWith(TEN_SECONDS_IN_MILLIS, PassingTestWithNoCategory.class);
+                .startApplicationWith(TEN_SECONDS_IN_MILLIS, PassingTestWithNoCategory.class, 1);
         //when
         Response testRunResultFromServer = getTestRunResultFromServer(getTestsURI()+"/A");
         //then
@@ -52,7 +52,7 @@ public class PassingTestsByCategoryAcceptanceTest extends AcceptanceTest {
     @Test
     public void givenPassingTestsWithMultipleCategories_whenTestsByCategoryEndpointCalledAfterTestRunWithInvalidCategory_thenNotFoundMessageReceived(){
         //given
-        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTestsWithCategories.class);
+        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTestsWithCategories.class, 1);
         //when
         Response response = getResponseFromTestsWithCategoryOnceTestRunHasCompleted("non-existent-category");
         //then
@@ -62,7 +62,7 @@ public class PassingTestsByCategoryAcceptanceTest extends AcceptanceTest {
     @Test
     public void givenPassingTests_whenTestsEndpointCalledAfterTestRun_thenOKMessageReceivedForTwoTests(){
         //given
-        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTestsWithCategories.class);
+        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingTestsWithCategories.class, 1);
         //when
         Response response = getResponseFromTestsEndpointOnceTestsRunHasCompleted();
         //then

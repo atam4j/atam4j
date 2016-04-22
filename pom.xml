@@ -75,6 +75,7 @@
         <commons-lang3.version>3.4</commons-lang3.version>
         <jackson.atam.version>2.5.1</jackson.atam.version>
 
+        <equalsverifier.version>2.0.2</equalsverifier.version>
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
         <maven-javadoc-plugin.version>2.10.3</maven-javadoc-plugin.version>
@@ -195,6 +196,12 @@
                 <groupId>org.hamcrest</groupId>
                 <artifactId>hamcrest-all</artifactId>
                 <version>${hamcrest-all.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>nl.jqno.equalsverifier</groupId>
+                <artifactId>equalsverifier</artifactId>
+                <version>${equalsverifier.version}</version>
+                <scope>test</scope>
             </dependency>
         </dependencies>
 

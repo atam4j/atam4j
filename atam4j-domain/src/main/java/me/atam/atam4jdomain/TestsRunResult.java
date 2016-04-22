@@ -3,16 +3,20 @@ package me.atam.atam4jdomain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Collection;
+import java.util.UUID;
 
-public class TestsRunResult {
+public final class TestsRunResult {
 
     private final Collection<IndividualTestResult> tests;
     private final Status status;
+    @JsonProperty("testRunID")
+    private final String testRunID = UUID.randomUUID().toString();
 
     public TestsRunResult(final @JsonProperty("tests")  Collection<IndividualTestResult> tests,
                           final @JsonProperty("status") Status status) {
         this.tests = tests;
         this.status = status;
+
     }
 
     public TestsRunResult(final Collection<IndividualTestResult> tests) {
@@ -22,6 +26,10 @@ public class TestsRunResult {
 
     public Collection<IndividualTestResult> getTests() {
         return tests;
+    }
+
+    public String getTestRunID(){
+        return testRunID;
     }
 
     public Status getStatus() {
@@ -50,5 +58,35 @@ public class TestsRunResult {
         Status(String message) {
             this.message = message;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TestsRunResult that = (TestsRunResult) o;
+
+        if (tests != null ? !tests.equals(that.tests) : that.tests != null) return false;
+        if (status != that.status) return false;
+        return testRunID != null ? testRunID.equals(that.testRunID) : that.testRunID == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = tests != null ? tests.hashCode() : 0;
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (testRunID != null ? testRunID.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "TestsRunResult{" +
+                "tests=" + tests +
+                ", status=" + status +
+                ", testRunID='" + testRunID + '\'' +
+                '}';
     }
 }
