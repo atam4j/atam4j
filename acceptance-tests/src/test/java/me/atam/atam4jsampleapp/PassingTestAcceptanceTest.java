@@ -1,11 +1,12 @@
 package me.atam.atam4jsampleapp;
 
 import me.atam.atam4j.dummytests.PassingTestWithNoCategory;
-import me.atam.atam4j.dummytests.TestThatCanBePaused;
+import me.atam.atam4j.dummytests.TestsThatTakeTimeAndCanPassOrFail;
 import me.atam.atam4jdomain.IndividualTestResult;
 import me.atam.atam4jdomain.TestsRunResult;
 import me.atam.atam4jsampleapp.testsupport.AcceptanceTest;
 import me.atam.atam4jsampleapp.testsupport.Atam4jApplicationStarter;
+import org.apache.log4j.spi.LoggerFactory;
 import org.junit.Test;
 
 import javax.ws.rs.core.Response;
@@ -53,17 +54,21 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
     @Test
     public void givenPassingTest_whenTestsEndpointCalledDuringTestRun_thenStatusOfLastRunReturned() throws InterruptedException {
         //given
-        int periodInMillis = 1000;
-        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, TestThatCanBePaused.class, periodInMillis);
+        TestsThatTakeTimeAndCanPassOrFail.setDelay(0);
+        TestsThatTakeTimeAndCanPassOrFail.SHOULD_PASS=true;
+
+        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, TestsThatTakeTimeAndCanPassOrFail.class, 1000);
         Response response = getResponseFromTestsEndpointOnceTestsRunHasCompleted();
         TestsRunResult firstTestRunResult = response.readEntity(TestsRunResult.class);
         //when
-        TestThatCanBePaused.lock.lock();
-        System.out.println("TESTS PAUSED");
-        Thread.sleep(periodInMillis * 5);
+
+        TestsThatTakeTimeAndCanPassOrFail.setDelay(1000);
+        TestsThatTakeTimeAndCanPassOrFail.SHOULD_PASS=false;
+        org.slf4j.LoggerFactory.getLogger(PassingTestAcceptanceTest.class).info("SET DELAY!!!");
+        Thread.sleep(3500);
 
         //then
-        TestsRunResult testsRunResult = getResponseFromTestsEndpointOnceTestsRunHasCompleted().readEntity(TestsRunResult.class);
+        TestsRunResult testsRunResult = getTestRunResultFromServer(getTestsURI()).readEntity(TestsRunResult.class);
         assertThat(testsRunResult, is(equalTo(firstTestRunResult)));
     }
 
