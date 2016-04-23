@@ -1,23 +1,31 @@
 package me.atam.atam4jsampleapp;
 
+import me.atam.atam4j.PollingPredicate;
 import me.atam.atam4j.dummytests.PassingTestWithNoCategory;
-import me.atam.atam4j.dummytests.TestsThatTakeTimeAndCanPassOrFail;
+import me.atam.atam4j.dummytests.TestThatKnowsIfItsBeingRun;
 import me.atam.atam4jdomain.IndividualTestResult;
 import me.atam.atam4jdomain.TestsRunResult;
 import me.atam.atam4jsampleapp.testsupport.AcceptanceTest;
 import me.atam.atam4jsampleapp.testsupport.Atam4jApplicationStarter;
-import org.apache.log4j.spi.LoggerFactory;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import javax.ws.rs.core.Response;
+
+import java.util.function.Predicate;
+import java.util.function.Supplier;
 
 import static me.atam.atam4jsampleapp.testsupport.AcceptanceTestTimeouts.TEN_SECONDS_IN_MILLIS;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
+import static org.slf4j.LoggerFactory.*;
 
 public class PassingTestAcceptanceTest extends AcceptanceTest {
+
+    public static final Logger LOGGER = getLogger(PassingTestAcceptanceTest.class);
 
     @Test
     public void givenPassingTest_whenTestsEndpointCalledBeforeTestRun_thenTooEarlyMessageReceived(){
@@ -50,28 +58,24 @@ public class PassingTestAcceptanceTest extends AcceptanceTest {
         );
     }
 
-
+    /*
+        TODO - Currently this test relies on a junit test that "knows" if it is being run or not.  Once/if we build support for exposing the if
+        a test run is in progress then this test's implementation can change.
+    */
     @Test
     public void givenPassingTest_whenTestsEndpointCalledDuringTestRun_thenStatusOfLastRunReturned() throws InterruptedException {
-        //given
-        TestsThatTakeTimeAndCanPassOrFail.setDelay(0);
-        TestsThatTakeTimeAndCanPassOrFail.SHOULD_PASS=true;
+        //given test run completed
+        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, TestThatKnowsIfItsBeingRun.class, 1000);
+        TestsRunResult firstTestRunResult = getResponseFromTestsEndpointOnceTestsRunHasCompleted().readEntity(TestsRunResult.class);
 
-        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, TestsThatTakeTimeAndCanPassOrFail.class, 1000);
-        Response response = getResponseFromTestsEndpointOnceTestsRunHasCompleted();
-        TestsRunResult firstTestRunResult = response.readEntity(TestsRunResult.class);
-        //when
+        //when tests are in progress
+        new PollingPredicate(100, 10, o -> TestThatKnowsIfItsBeingRun.testInProgress(), () -> null).pollUntilPassedOrFail("Tests were never seen to be In Progress");
+        TestsRunResult testRunResultWhenTestsInProgress = getTestRunResultFromServer(getTestsURI()).readEntity(TestsRunResult.class);
+        //check they are still in progress once the status endpoint has been called.
+        assertTrue(TestThatKnowsIfItsBeingRun.testInProgress());
 
-        TestsThatTakeTimeAndCanPassOrFail.setDelay(1000);
-        TestsThatTakeTimeAndCanPassOrFail.SHOULD_PASS=false;
-        org.slf4j.LoggerFactory.getLogger(PassingTestAcceptanceTest.class).info("SET DELAY!!!");
-        Thread.sleep(3500);
-
-        //then
-        TestsRunResult testsRunResult = getTestRunResultFromServer(getTestsURI()).readEntity(TestsRunResult.class);
-        assertThat(testsRunResult, is(equalTo(firstTestRunResult)));
+        //then number of tests run are the same
+        assertThat(testRunResultWhenTestsInProgress.getStatus(), is(equalTo(firstTestRunResult.getStatus())));
+        assertThat(testRunResultWhenTestsInProgress.getTests().size(), is(equalTo(firstTestRunResult.getTests().size())));
     }
-
-
-
 }
