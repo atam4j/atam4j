@@ -3,14 +3,11 @@ package me.atam.atam4jdomain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Collection;
-import java.util.UUID;
 
 public final class TestsRunResult {
 
     private final Collection<IndividualTestResult> tests;
     private final Status status;
-    @JsonProperty("testRunID")
-    private final String testRunID = UUID.randomUUID().toString();
 
     public TestsRunResult(final @JsonProperty("tests")  Collection<IndividualTestResult> tests,
                           final @JsonProperty("status") Status status) {
@@ -28,9 +25,6 @@ public final class TestsRunResult {
         return tests;
     }
 
-    public String getTestRunID(){
-        return testRunID;
-    }
 
     public Status getStatus() {
         return status;
@@ -68,8 +62,7 @@ public final class TestsRunResult {
         TestsRunResult that = (TestsRunResult) o;
 
         if (tests != null ? !tests.equals(that.tests) : that.tests != null) return false;
-        if (status != that.status) return false;
-        return testRunID != null ? testRunID.equals(that.testRunID) : that.testRunID == null;
+        return status == that.status;
 
     }
 
@@ -77,7 +70,6 @@ public final class TestsRunResult {
     public int hashCode() {
         int result = tests != null ? tests.hashCode() : 0;
         result = 31 * result + (status != null ? status.hashCode() : 0);
-        result = 31 * result + (testRunID != null ? testRunID.hashCode() : 0);
         return result;
     }
 
@@ -86,7 +78,6 @@ public final class TestsRunResult {
         return "TestsRunResult{" +
                 "tests=" + tests +
                 ", status=" + status +
-                ", testRunID='" + testRunID + '\'' +
                 '}';
     }
 }
