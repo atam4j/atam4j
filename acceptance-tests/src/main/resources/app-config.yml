@@ -20,7 +20,7 @@ server:
         timeZone: UTC
 
 logging:
-  level: INFO
+  level: ERROR
   loggers:
     io.dropwizard: DEBUG
   appenders:
