@@ -10,7 +10,7 @@ import static junit.framework.TestCase.assertTrue;
 
 public class TestThatKnowsIfItsBeingRun {
 
-    private static final int DELAY = 10;
+    private static final int DELAY = 100;
     public static final int NUMBER_OF_TESTS = 10;
 
     private static AtomicInteger testCounter = new AtomicInteger(0);
