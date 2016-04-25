@@ -8,8 +8,8 @@ import me.atam.atam4jsampleapp.Atam4jTestApplication;
 
 public class Atam4jApplicationStarter {
 
-    public static DropwizardTestSupport<ApplicationConfiguration> startApplicationWith(int initialDelayInMillis,
-                                                                                       Class testClass, int periodInMillis) {
+    public static DropwizardTestSupport<ApplicationConfiguration> startApplicationWith(
+            int initialDelayInMillis, Class testClass, int periodInMillis) {
 
         ConfigOverride[] configOverrides = {
             ConfigOverride.config("testClasses", testClass.getName()),
