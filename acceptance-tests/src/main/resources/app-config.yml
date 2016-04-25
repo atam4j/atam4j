@@ -1,4 +1,5 @@
 initialDelayInMillis: 1
+periodInMillis: 1
 
 testClasses:
   - me.atam.atam4j.dummytests.PassingTestWithNoCategory
@@ -19,8 +20,9 @@ server:
         timeZone: UTC
 
 logging:
-  level: INFO
+  level: ERROR
   loggers:
     io.dropwizard: DEBUG
   appenders:
     - type: console
+      logFormat: '[%d{ISO8601}] %-5level [%thread] %logger{15} - %msg%n'

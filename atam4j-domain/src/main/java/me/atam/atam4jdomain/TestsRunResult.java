@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Collection;
 
-public class TestsRunResult {
+public final class TestsRunResult {
 
     private final Collection<IndividualTestResult> tests;
     private final Status status;
@@ -13,6 +13,7 @@ public class TestsRunResult {
                           final @JsonProperty("status") Status status) {
         this.tests = tests;
         this.status = status;
+
     }
 
     public TestsRunResult(final Collection<IndividualTestResult> tests) {
@@ -23,6 +24,7 @@ public class TestsRunResult {
     public Collection<IndividualTestResult> getTests() {
         return tests;
     }
+
 
     public Status getStatus() {
         return status;
@@ -50,5 +52,32 @@ public class TestsRunResult {
         Status(String message) {
             this.message = message;
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        TestsRunResult that = (TestsRunResult) o;
+
+        if (tests != null ? !tests.equals(that.tests) : that.tests != null) return false;
+        return status == that.status;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = tests != null ? tests.hashCode() : 0;
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "TestsRunResult{" +
+                "tests=" + tests +
+                ", status=" + status +
+                '}';
     }
 }

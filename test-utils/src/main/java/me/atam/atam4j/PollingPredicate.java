@@ -18,9 +18,18 @@ public class PollingPredicate<T> {
     }
 
     public boolean pollUntilPassedOrMaxAttemptsExceeded() {
+        return eventOccurs();
+    }
+
+    public void pollUntilPassedOrFail(String errorMessage) {
+        if (!eventOccurs()) {
+            throw new RuntimeException(errorMessage);
+        }
+    }
+
+    private boolean eventOccurs() {
         for (int i=0; i< maxAttempts; i++){
             if (predicate.test(supplier.get())){
-                System.out.println(i);
                 return true;
             }
             try {

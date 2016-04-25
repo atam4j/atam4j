@@ -8,12 +8,13 @@ import me.atam.atam4jsampleapp.Atam4jTestApplication;
 
 public class Atam4jApplicationStarter {
 
-    public static DropwizardTestSupport<ApplicationConfiguration> startApplicationWith(int initialDelayInMillis,
-                                                                                       Class testClass) {
+    public static DropwizardTestSupport<ApplicationConfiguration> startApplicationWith(
+            int initialDelayInMillis, Class testClass, int periodInMillis) {
 
         ConfigOverride[] configOverrides = {
             ConfigOverride.config("testClasses", testClass.getName()),
-            ConfigOverride.config("initialDelayInMillis", String.valueOf(initialDelayInMillis))
+            ConfigOverride.config("initialDelayInMillis", String.valueOf(initialDelayInMillis)),
+            ConfigOverride.config("periodInMillis", String.valueOf(periodInMillis))
         };
 
         DropwizardTestSupport<ApplicationConfiguration> applicationConfigurationDropwizardTestSupport =
