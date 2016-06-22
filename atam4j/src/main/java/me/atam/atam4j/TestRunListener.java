@@ -74,20 +74,12 @@ public class TestRunListener extends RunListener {
     }
 
     private String getCategoryName(Description description) {
-
         String category = "default";
 
-        try {
-            Class testClass = Class.forName(description.getClassName());
-            Method testMethod = testClass.getMethod(description.getMethodName());
-            if (testMethod.isAnnotationPresent(MonitorCategory.class)) {
-                MonitorCategory monitorCategory = testMethod.getAnnotation(MonitorCategory.class);
-                category = monitorCategory.name();
-            }
-        } catch (ClassNotFoundException | NoSuchMethodException e) {
-            LOGGER.warn("Test class or method not found", e);
+        MonitorCategory monitorCategoryAnnotation = description.getAnnotation(MonitorCategory.class);
+        if (monitorCategoryAnnotation != null) {
+            category = monitorCategoryAnnotation.name();
         }
-
         return category;
     }
 
