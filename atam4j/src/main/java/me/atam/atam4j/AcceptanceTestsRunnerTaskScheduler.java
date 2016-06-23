@@ -2,7 +2,9 @@ package me.atam.atam4j;
 
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import me.atam.atam4j.health.AcceptanceTestsState;
+import org.junit.runner.notification.RunListener;
 
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -14,18 +16,18 @@ public class AcceptanceTestsRunnerTaskScheduler {
     private final long period;
     private final TimeUnit unit;
     private final ScheduledExecutorService scheduler;
-    private final TestRunListener testRunListener;
+    private final List<RunListener> runListeners;
 
     public AcceptanceTestsRunnerTaskScheduler(final Class[] testClasses,
                                               final long initialDelay,
                                               final long period,
                                               final TimeUnit unit,
-                                              final TestRunListener testRunListener) {
+                                              final List<RunListener> runListeners) {
         this.testClasses = testClasses;
         this.initialDelay = initialDelay;
         this.period = period;
         this.unit = unit;
-        this.testRunListener = testRunListener;
+        this.runListeners = runListeners;
         this.scheduler = Executors.newSingleThreadScheduledExecutor(
                 new ThreadFactoryBuilder()
                         .setNameFormat("acceptance-tests-runner")
@@ -35,7 +37,7 @@ public class AcceptanceTestsRunnerTaskScheduler {
 
     public void scheduleAcceptanceTestsRunnerTask(final AcceptanceTestsState acceptanceTestsState) {
         scheduler.scheduleAtFixedRate(
-                new AcceptanceTestsRunnerTask(acceptanceTestsState, testRunListener, testClasses),
+                new AcceptanceTestsRunnerTask(acceptanceTestsState, runListeners, testClasses),
                 initialDelay,
                 period,
                 unit);

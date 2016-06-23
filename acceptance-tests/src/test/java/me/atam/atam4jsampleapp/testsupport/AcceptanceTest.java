@@ -43,6 +43,15 @@ public abstract class AcceptanceTest {
         return getTestRunResultFromServer(getTestsURI());
     }
 
+    public Response getCustomListenerStatusOnceTestsRunHasCompleted() {
+        waitUntilTestRunHasCompleted();
+        return getTestRunResultFromServer(getCustomListenerStatusURI());
+    }
+
+    public String getCustomListenerStatusURI() {
+        return String.format("http://localhost:%d/customlistenerstatus", dropwizardTestSupportAppConfig.getLocalPort());
+    }
+
     private void waitUntilTestRunHasCompleted() {
         PollingPredicate<Response> responsePollingPredicate = new PollingPredicate<>(
                 MAX_ATTEMPTS,
