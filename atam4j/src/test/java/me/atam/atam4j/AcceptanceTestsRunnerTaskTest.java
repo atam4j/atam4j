@@ -10,10 +10,9 @@ import org.junit.runner.Result;
 import uk.org.lidalia.slf4jtest.TestLogger;
 import uk.org.lidalia.slf4jtest.TestLoggerFactory;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.hasItem;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class AcceptanceTestsRunnerTaskTest {
 
@@ -43,7 +42,7 @@ public class AcceptanceTestsRunnerTaskTest {
     }
 
     private Result runTestsAndGetResult(Class... passingTests) {
-        new AcceptanceTestsRunnerTask(acceptanceTestsState, new TestRunListener(), passingTests).run();
+        new AcceptanceTestsRunnerTask(acceptanceTestsState, asList(new TestRunListener()), passingTests).run();
         return acceptanceTestsState.getResult().get();
     }
 }

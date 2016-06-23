@@ -3,12 +3,15 @@ package me.atam.atam4j;
 import io.dropwizard.jersey.setup.JerseyEnvironment;
 import me.atam.atam4j.health.AcceptanceTestsState;
 import me.atam.atam4j.resources.TestStatusResource;
+import org.junit.runner.notification.RunListener;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
 import org.reflections.scanners.TypeAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
@@ -40,6 +43,7 @@ public class Atam4j {
         private long period = 300;
         private TimeUnit unit = TimeUnit.SECONDS;
         private JerseyEnvironment jerseyEnvironment;
+        private final List<RunListener> runListeners = new ArrayList<>();
 
         public Atam4jBuilder(JerseyEnvironment jerseyEnvironment) {
             this.jerseyEnvironment = jerseyEnvironment;
@@ -65,15 +69,23 @@ public class Atam4j {
             return this;
         }
 
+        public Atam4jBuilder withListener(RunListener listener) {
+            this.runListeners.add(listener);
+            return this;
+        }
+
         public Atam4j build() {
             TestRunListener testRunListener = new TestRunListener();
+            List<RunListener> runListenersWithAtam4jListener = new ArrayList<>();
+            runListenersWithAtam4jListener.add(testRunListener);
+            runListenersWithAtam4jListener.addAll(this.runListeners);
             return new Atam4j(jerseyEnvironment, testRunListener,
                     new AcceptanceTestsRunnerTaskScheduler(
                         findTestClasses(),
                         initialDelay,
                         period,
                         unit,
-                        testRunListener));
+                        runListenersWithAtam4jListener));
         }
 
         private Class[] findTestClasses() {
