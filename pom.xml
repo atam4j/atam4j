@@ -15,7 +15,6 @@
         <module>atam4j-domain</module>
     </modules>
 
-
     <name>${project.artifactId}</name>
     <description>Library that enables using acceptance tests as monitors</description>
     <url>http://atam.me</url>
@@ -32,7 +31,7 @@
         <developer>
             <name>Anurag Kapur</name>
             <email>anurag@beancrunch.com</email>
-            <organization>BeanCrunch</organization>
+            <organization>Beancrunch</organization>
         </developer>
         <developer>
             <name>Phill Barber</name>
@@ -45,8 +44,8 @@
         <connection>scm:git:git@github.com:atam4j/atam4j.git</connection>
         <developerConnection>scm:git:git@github.com:atam4j/atam4j.git</developerConnection>
         <url>git@github.com:atam4j/atam4j.git</url>
-      <tag>atam4j-parent-0.47</tag>
-  </scm>
+        <tag>atam4j-parent-0.47</tag>
+    </scm>
 
     <distributionManagement>
         <snapshotRepository>
@@ -74,7 +73,6 @@
         <cucumber.version>1.1.5</cucumber.version>
         <commons-lang3.version>3.4</commons-lang3.version>
         <jackson.atam.version>2.8.8</jackson.atam.version>
-
         <equalsverifier.version>2.0.2</equalsverifier.version>
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
@@ -97,7 +95,6 @@
                 <artifactId>atam4j-annotations</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>me.atam</groupId>
                 <artifactId>atam4j-domain</artifactId>
@@ -114,16 +111,19 @@
                 <artifactId>test-utils</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>io.dropwizard</groupId>
                 <artifactId>dropwizard-testing</artifactId>
@@ -145,8 +145,6 @@
                 <artifactId>jackson-core</artifactId>
                 <version>${jackson.version}</version>
             </dependency>
-
-
             <dependency>
                 <groupId>com.fasterxml.jackson.core</groupId>
                 <artifactId>jackson-databind</artifactId>
@@ -169,16 +167,19 @@
                 <artifactId>junit</artifactId>
                 <version>${junit.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.reflections</groupId>
                 <artifactId>reflections</artifactId>
                 <version>${reflections.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
             </dependency>
+
             <!-- Test Dependencies -->
             <dependency>
                 <groupId>org.mockito</groupId>
@@ -203,8 +204,8 @@
                 <version>${equalsverifier.version}</version>
                 <scope>test</scope>
             </dependency>
-        </dependencies>
 
+        </dependencies>
     </dependencyManagement>
 
     <build>
