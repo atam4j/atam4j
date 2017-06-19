@@ -1,8 +1,6 @@
 atam4j
 ======
 
-[![Join the chat at https://gitter.im/atam4j/atam4j](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/atam4j/atam4j?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-
 Acceptance Tests As Monitors
 
 * A simple library that allows you to run junit tests as monitoring checks.
@@ -14,13 +12,17 @@ zabbix, icinga, pingdom etc etc)
 [![Build Status](https://travis-ci.org/atam4j/atam4j.svg?branch=master)](https://travis-ci.org/atam4j/atam4j)
 
 ## Maven Dependency
-    <dependency>    
-       <groupId>me.atam</groupId>    
-       <artifactId>atam4j</artifactId>    
-       <version>0.51</version>    
-    </dependency>
-    
-[http://mvnrepository.com/artifact/me.atam/atam4j](http://mvnrepository.com/artifact/me.atam/atam4j)
+```xml
+<dependency>    
+   <groupId>me.atam</groupId>    
+   <artifactId>atam4j</artifactId>    
+   <version>{atam4j.version}</version>    
+</dependency>
+```
+
+where `atam4j.version` is the version number you want to use. The latest version is as shown below    
+     
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/me.atam/atam4j/badge.svg)](https://maven-badges.herokuapp.com/maven-central/me.atam/atam4j)
 
 ## Using atam4j
 
@@ -51,14 +53,6 @@ detect them or simply supply an array of classes to the builder.
 4. Run your app and observe the status of the acceptance tests reported by the `/tests` endpoint.
 
 Refer to [atam4j-sample-app](acceptance-tests/src/main/java) for a complete working example.
-
-### Available Versions
-#### Snapshots
-[https://oss.sonatype.org/content/repositories/snapshots/me/atam/atam4j/](https://oss.sonatype.org/content/repositories/snapshots/me/atam/atam4j/)
-
-#### Releases
-Look for non-snapshot version
-[https://oss.sonatype.org/content/groups/public/me/atam/atam4j/](https://oss.sonatype.org/content/groups/public/me/atam/atam4j/)
 
 ### Additional usage documentation
 Refer to our [Wiki](https://github.com/atam4j/atam4j/wiki)
@@ -95,6 +89,14 @@ git push origin v${versionNumber}
 
 5. Deploy to maven central    
 > mvn clean deploy
+
+### Artifact repo
+#### Snapshots
+[https://oss.sonatype.org/content/repositories/snapshots/me/atam/atam4j/](https://oss.sonatype.org/content/repositories/snapshots/me/atam/atam4j/)
+
+#### Releases
+Look for non-snapshot version
+[https://oss.sonatype.org/content/groups/public/me/atam/atam4j/](https://oss.sonatype.org/content/groups/public/me/atam/atam4j/)
 
 ### Overview of modules
 
