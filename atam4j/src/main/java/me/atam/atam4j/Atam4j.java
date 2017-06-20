@@ -1,6 +1,7 @@
 package me.atam.atam4j;
 
 import io.dropwizard.jersey.setup.JerseyEnvironment;
+import me.atam.atam4j.exceptions.NoTestClassFoundException;
 import me.atam.atam4j.health.AcceptanceTestsState;
 import me.atam.atam4j.resources.TestStatusResource;
 import org.junit.runner.notification.RunListener;

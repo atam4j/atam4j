@@ -1,4 +1,4 @@
-package me.atam.atam4j;
+package me.atam.atam4j.exceptions;
 
 public class NoTestClassFoundException extends RuntimeException {
 

@@ -1,8 +1,9 @@
 initialDelayInMillis: 1
-periodInMillis: 1
+periodInMillis: 60000
 
 testClasses:
   - me.atam.atam4j.dummytests.PassingTestWithNoCategory
+  - me.atam.atam4j.dummytests.PassingTestsWithCategories
 
 server:
 
@@ -23,6 +24,7 @@ logging:
   level: ERROR
   loggers:
     io.dropwizard: DEBUG
+    me.atam.atam4j: INFO
   appenders:
     - type: console
       logFormat: '[%d{ISO8601}] %-5level [%thread] %logger{15} - %msg%n'
