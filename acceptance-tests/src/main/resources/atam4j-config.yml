@@ -24,7 +24,7 @@ logging:
   level: ERROR
   loggers:
     io.dropwizard: DEBUG
-    me.atam.atam4j: INFO
+    me.atam.atam4j: ERROR
   appenders:
     - type: console
       logFormat: '[%d{ISO8601}] %-5level [%thread] %logger{15} - %msg%n'
