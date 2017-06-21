@@ -19,7 +19,7 @@ public class Atam4jApplicationStarter {
 
         DropwizardTestSupport<ApplicationConfiguration> applicationConfigurationDropwizardTestSupport =
                 new DropwizardTestSupport<>(Atam4jTestApplication.class,
-                        ResourceHelpers.resourceFilePath("app-config.yml"),
+                        ResourceHelpers.resourceFilePath("atam4j-config.yml"),
                         configOverrides);
 
         applicationConfigurationDropwizardTestSupport.before();

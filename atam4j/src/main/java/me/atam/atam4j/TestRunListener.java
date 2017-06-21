@@ -10,15 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class TestRunListener extends RunListener {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(TestRunListener.class);
 
     private volatile Map<TestIdentifier, IndividualTestResult> inProgressTestResults;
     private volatile Map<TestIdentifier, IndividualTestResult> completedTestResults;
@@ -44,7 +39,19 @@ public class TestRunListener extends RunListener {
     @Override
     public void testFailure(Failure failure) throws Exception {
         IndividualTestResult individualTestResult = inProgressTestResults.get(new TestIdentifier(failure.getDescription()));
-        individualTestResult.setPassed(false);
+        if (individualTestResult == null) {
+            // This can happen is a test class throws an error in the setup phase, before individual tests and hence
+            // testStarted method gets a chance to run
+            IndividualTestResult result = new IndividualTestResult(
+                                            failure.getDescription().getClassName(),
+                                            failure.getDescription().getMethodName(),
+                                            getCategoryName(failure.getDescription()),
+                                            false);
+            TestIdentifier identifier = new TestIdentifier(failure.getDescription());
+            inProgressTestResults.put(identifier, result);
+        } else {
+            individualTestResult.setPassed(false);
+        }
     }
 
     public TestsRunResult getTestsRunResult() {

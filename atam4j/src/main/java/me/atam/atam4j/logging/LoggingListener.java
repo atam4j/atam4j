@@ -29,17 +29,17 @@ public class LoggingListener extends RunListener {
 
     @Override
     public void testStarted(Description description) throws Exception {
-        LOGGER.info("Starting {}", description.getDisplayName());
+        LOGGER.debug("Starting {}", description.getDisplayName());
     }
 
     @Override
     public void testFinished(Description description) throws Exception {
-        LOGGER.info("Finished {}", description.getDisplayName());
+        LOGGER.debug("Finished {}", description.getDisplayName());
     }
 
     @Override
     public void testFailure(Failure failure) throws Exception {
-        LOGGER.info(
+        LOGGER.debug(
             String.format("Test %s failed: %s",
                 failure.getTestHeader(),
                 failure.getDescription()
@@ -50,7 +50,7 @@ public class LoggingListener extends RunListener {
 
     @Override
     public void testAssumptionFailure(Failure failure) {
-        LOGGER.info(
+        LOGGER.debug(
             String.format("Test %s assumption failed: %s",
                     failure.getTestHeader(),
                     failure.getDescription()
@@ -61,6 +61,6 @@ public class LoggingListener extends RunListener {
 
     @Override
     public void testIgnored(Description description) throws Exception {
-        LOGGER.info("Test {} ignored: ", description.getDisplayName());
+        LOGGER.debug("Test {} ignored: ", description.getDisplayName());
     }
 }

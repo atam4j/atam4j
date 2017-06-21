@@ -45,7 +45,7 @@ public final class TestsRunResult {
         TOO_EARLY("Too early to tell - tests not complete yet"),
         CATEGORY_NOT_FOUND("This category does not exist"),
         ALL_OK("All is A OK!"),
-        FAILURES("Failues");
+        FAILURES("Failures");
 
         private final String message;
 

@@ -14,15 +14,10 @@ public class Atam4jTestApplication extends Application<ApplicationConfiguration>
 
     public static void main(String[] args) throws Exception {
         if (args == null || args.length == 0) {
-            args = new String[]{"server", new File(Resources.getResource("app-config.yml").toURI()).getAbsolutePath()};
+            args = new String[]{"server", new File(Resources.getResource("atam4j-config.yml").toURI()).getAbsolutePath()};
         }
 
         new Atam4jTestApplication().run(args);
-    }
-
-    @Override
-    public void initialize(final Bootstrap bootstrap) {
-
     }
 
     @Override
