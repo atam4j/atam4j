@@ -27,8 +27,14 @@ public class FailingTestAcceptanceTest extends AcceptanceTest {
     @Test
     public void givenSampleApplicationStartedWithFailingTest_whenHealthCheckCalledAfterTestRun_thenFailuresMessageReceived(){
 
+        printLoggingInfo("BEFORE START APP");
+
+
+
+
         //given
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, FailingTest.class, 1);
+        printLoggingInfo("AFTER START APP");
         //when
         Response response = getResponseFromTestsEndpointOnceTestsRunHasCompleted();
         //then
@@ -39,6 +45,16 @@ public class FailingTestAcceptanceTest extends AcceptanceTest {
                 testRunResult.getTests(),
                 hasItem(new IndividualTestResult(FailingTest.class.getName(), "testThatFails", "default", false))
         );
+    }
+
+    public static void printLoggingInfo(String suffix) {
+        Logger logger = LoggerFactory.getLogger(LoggingListener.class);
+
+        ch.qos.logback.classic.Logger logbackLogger = (ch.qos.logback.classic.Logger) logger;
+        System.out.println(suffix + "  effecitveLevel: " + logbackLogger.getEffectiveLevel());
+        System.out.println(suffix + "  appender: " + logbackLogger.getAppender("STDOUT"));
+        System.out.println(suffix + "  isInfoEnabled: " + logbackLogger.isInfoEnabled());
+        System.out.println(suffix + "  loggerCOntext: " + logbackLogger.getLoggerContext());
     }
 
     @Test
