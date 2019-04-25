@@ -19,16 +19,12 @@ public class Atam4jApplicationStarter {
 
         String configPath = ResourceHelpers.resourceFilePath("atam4j-config.yml");
 
-        System.out.println("Atam4jApplicationStarter configPath: " + configPath);
-
         DropwizardTestSupport<ApplicationConfiguration> applicationConfigurationDropwizardTestSupport =
                 new DropwizardTestSupport<>(Atam4jTestApplication.class,
                         configPath,
                         configOverrides);
 
         applicationConfigurationDropwizardTestSupport.before();
-
-        System.out.println("Atam4jApplicationStarter loggingFactory: " + applicationConfigurationDropwizardTestSupport.getConfiguration().getLoggingFactory());
 
         return applicationConfigurationDropwizardTestSupport;
     }
