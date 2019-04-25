@@ -60,7 +60,7 @@
 
     <properties>
         <target-jdk>1.8</target-jdk>
-        <dw.version>1.1.1</dw.version>
+        <dw.version>1.3.9</dw.version>
         <jackson.version>2.8.8</jackson.version>
         <javax-ws-rs-api-version>2.0.1</javax-ws-rs-api-version>
         <slf4j.version>1.7.10</slf4j.version>
@@ -72,7 +72,6 @@
         <mockito-core.version>2.7.6</mockito-core.version>
         <cucumber.version>1.1.5</cucumber.version>
         <commons-lang3.version>3.4</commons-lang3.version>
-        <jackson.atam.version>2.8.8</jackson.atam.version>
         <equalsverifier.version>2.0.2</equalsverifier.version>
         <maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
         <maven-surefire-plugin.version>2.18.1</maven-surefire-plugin.version>
@@ -126,35 +125,14 @@
 
             <dependency>
                 <groupId>io.dropwizard</groupId>
-                <artifactId>dropwizard-testing</artifactId>
+                <artifactId>dropwizard-bom</artifactId>
                 <version>${dw.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.dropwizard</groupId>
-                <artifactId>dropwizard-jersey</artifactId>
-                <version>${dw.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.dropwizard</groupId>
-                <artifactId>dropwizard-core</artifactId>
-                <version>${dw.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-core</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-databind</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.fasterxml.jackson.core</groupId>
-                <artifactId>jackson-annotations</artifactId>
-                <version>${jackson.version}</version>
-            </dependency>
+
+
 
             <dependency>
                 <groupId>javax.ws.rs</groupId>
