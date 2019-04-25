@@ -17,12 +17,19 @@ public class Atam4jApplicationStarter {
             ConfigOverride.config("periodInMillis", String.valueOf(periodInMillis))
         };
 
+        String configPath = ResourceHelpers.resourceFilePath("atam4j-config.yml");
+
+        System.out.println("Atam4jApplicationStarter configPath: " + configPath);
+
         DropwizardTestSupport<ApplicationConfiguration> applicationConfigurationDropwizardTestSupport =
                 new DropwizardTestSupport<>(Atam4jTestApplication.class,
-                        ResourceHelpers.resourceFilePath("atam4j-config.yml"),
+                        configPath,
                         configOverrides);
 
         applicationConfigurationDropwizardTestSupport.before();
+
+        System.out.println("Atam4jApplicationStarter loggingFactory: " + applicationConfigurationDropwizardTestSupport.getConfiguration().getLoggingFactory());
+
         return applicationConfigurationDropwizardTestSupport;
     }
 }
