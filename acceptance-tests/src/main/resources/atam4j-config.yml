@@ -23,7 +23,7 @@ server:
 logging:
   level: ERROR
   loggers:
-    io.dropwizard: DEBUG
+    io.dropwizard: INFO
     me.atam.atam4j: ERROR
   appenders:
     - type: console
