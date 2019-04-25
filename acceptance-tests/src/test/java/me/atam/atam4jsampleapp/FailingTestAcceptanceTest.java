@@ -27,22 +27,14 @@ public class FailingTestAcceptanceTest extends AcceptanceTest {
     @Test
     public void givenSampleApplicationStartedWithFailingTest_whenHealthCheckCalledAfterTestRun_thenFailuresMessageReceived(){
 
-        Logger logger = LoggerFactory.getLogger(LoggingListener.class);
+        printLoggingInfo("BEFORE START APP");
 
-        ch.qos.logback.classic.Logger logbackLogger = (ch.qos.logback.classic.Logger) logger;
-        System.out.println("FailingTestAcceptanceTest effecitveLevel: " + logbackLogger.getEffectiveLevel());
-        System.out.println("FailingTestAcceptanceTest STDOUT appender: " + logbackLogger.getAppender("STDOUT"));
-        System.out.println("FailingTestAcceptanceTest STDOUT isInfoEnabled: " + logbackLogger.isInfoEnabled());
-        System.out.println("FailingTestAcceptanceTest STDOUT loggerCOntext: " + logbackLogger.getLoggerContext());
-        Iterator<Appender<ILoggingEvent>> appenderIterator = logbackLogger.iteratorForAppenders();
-        while(appenderIterator.hasNext()){
-            System.out.println("FailingTestAcceptanceTest appenderIterator.next: " + appenderIterator.next());
-        }
 
 
 
         //given
         dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, FailingTest.class, 1);
+        printLoggingInfo("AFTER START APP");
         //when
         Response response = getResponseFromTestsEndpointOnceTestsRunHasCompleted();
         //then
@@ -53,6 +45,16 @@ public class FailingTestAcceptanceTest extends AcceptanceTest {
                 testRunResult.getTests(),
                 hasItem(new IndividualTestResult(FailingTest.class.getName(), "testThatFails", "default", false))
         );
+    }
+
+    public static void printLoggingInfo(String suffix) {
+        Logger logger = LoggerFactory.getLogger(LoggingListener.class);
+
+        ch.qos.logback.classic.Logger logbackLogger = (ch.qos.logback.classic.Logger) logger;
+        System.out.println(suffix + "  effecitveLevel: " + logbackLogger.getEffectiveLevel());
+        System.out.println(suffix + "  appender: " + logbackLogger.getAppender("STDOUT"));
+        System.out.println(suffix + "  isInfoEnabled: " + logbackLogger.isInfoEnabled());
+        System.out.println(suffix + "  loggerCOntext: " + logbackLogger.getLoggerContext());
     }
 
     @Test
