@@ -5,7 +5,10 @@ import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import me.atam.atam4j.Atam4j;
+import me.atam.atam4j.logging.LoggingListener;
 import me.atam.atam4jsampleapp.resources.CustomListenerStatusResource;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.concurrent.TimeUnit;
@@ -32,5 +35,16 @@ public class Atam4jTestApplication extends Application<ApplicationConfiguration>
                 .build()
                 .initialise();
         environment.jersey().register(new CustomListenerStatusResource(customListenerStatus));
+
+
+
+            Logger logger = LoggerFactory.getLogger(LoggingListener.class);
+
+            ch.qos.logback.classic.Logger logbackLogger = (ch.qos.logback.classic.Logger) logger;
+            System.out.println("Atam4jTestApplication:  effecitveLevel: " + logbackLogger.getEffectiveLevel());
+            System.out.println("Atam4jTestApplication:  appender: " + logbackLogger.getAppender("STDOUT"));
+            System.out.println("Atam4jTestApplication:  isInfoEnabled: " + logbackLogger.isInfoEnabled());
+            System.out.println("Atam4jTestApplication:  loggerCOntext: " + logbackLogger.getLoggerContext());
+
     }
 }
