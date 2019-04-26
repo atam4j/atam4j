@@ -1,6 +1,7 @@
 package me.atam.atam4j;
 
 import io.dropwizard.jersey.setup.JerseyEnvironment;
+import io.dropwizard.lifecycle.Managed;
 import me.atam.atam4j.exceptions.NoTestClassFoundException;
 import me.atam.atam4j.health.AcceptanceTestsState;
 import me.atam.atam4j.resources.TestStatusResource;
@@ -16,7 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
-public class Atam4j {
+public class Atam4j implements Managed {
 
     private final AcceptanceTestsState acceptanceTestsState = new AcceptanceTestsState();
     private final AcceptanceTestsRunnerTaskScheduler acceptanceTestsRunnerTaskScheduler;
@@ -32,9 +33,16 @@ public class Atam4j {
         this.acceptanceTestsRunnerTaskScheduler = acceptanceTestsRunnerTaskScheduler;
     }
 
-    public void initialise() {
+
+    @Override
+    public void start() {
         acceptanceTestsRunnerTaskScheduler.scheduleAcceptanceTestsRunnerTask(acceptanceTestsState);
         jerseyEnvironment.register(new TestStatusResource(testRunListener));
+    }
+
+    @Override
+    public void stop() {
+        acceptanceTestsRunnerTaskScheduler.stop();
     }
 
     public static class Atam4jBuilder {
