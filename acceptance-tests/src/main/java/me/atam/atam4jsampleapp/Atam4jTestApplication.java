@@ -2,7 +2,6 @@ package me.atam.atam4jsampleapp;
 
 import com.google.common.io.Resources;
 import io.dropwizard.Application;
-import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
 import me.atam.atam4j.Atam4j;
 import me.atam.atam4jsampleapp.resources.CustomListenerStatusResource;
@@ -23,14 +22,15 @@ public class Atam4jTestApplication extends Application<ApplicationConfiguration>
     @Override
     public void run(final ApplicationConfiguration configuration, final Environment environment) throws Exception {
         CustomListenerStatus customListenerStatus = new CustomListenerStatus();
-        new Atam4j.Atam4jBuilder(environment.jersey())
+        Atam4j atam4j = new Atam4j.Atam4jBuilder(environment.jersey())
                 .withUnit(TimeUnit.MILLISECONDS)
                 .withInitialDelay(configuration.getInitialDelayInMillis())
                 .withPeriod(configuration.getPeriodInMillis())
                 .withTestClasses(configuration.getTestClasses())
                 .withListener(new CustomListener(customListenerStatus))
-                .build()
-                .initialise();
+                .build();
+
+        environment.lifecycle().manage(atam4j);
         environment.jersey().register(new CustomListenerStatusResource(customListenerStatus));
     }
 }
