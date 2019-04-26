@@ -45,6 +45,8 @@ public class Atam4jTestApplication extends Application<ApplicationConfiguration>
             System.out.println("Atam4jTestApplication:  appender: " + logbackLogger.getAppender("STDOUT"));
             System.out.println("Atam4jTestApplication:  isInfoEnabled: " + logbackLogger.isInfoEnabled());
             System.out.println("Atam4jTestApplication:  loggerCOntext: " + logbackLogger.getLoggerContext());
+            logbackLogger.info("DOING AN INFO");
+            logbackLogger.error("DOING AN ERROR");
 
     }
 }
