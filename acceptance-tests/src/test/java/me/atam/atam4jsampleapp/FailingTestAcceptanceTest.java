@@ -38,7 +38,7 @@ public class FailingTestAcceptanceTest extends AcceptanceTest {
     @Test
     public void givenSampleApplicationStartedWithPassingAndFailingTest_whenHealthCheckCalledAfterTestRun_thenFailuresMessageReceived(){
         //given
-        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingAndFailingTests.class, 1);
+        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingAndFailingTests.class, 10000);
         //when
         Response response = getResponseFromTestsEndpointOnceTestsRunHasCompleted();
         //then
