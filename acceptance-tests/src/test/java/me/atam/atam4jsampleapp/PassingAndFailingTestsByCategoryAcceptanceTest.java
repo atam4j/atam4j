@@ -9,8 +9,8 @@ import org.junit.Test;
 
 import javax.ws.rs.core.Response;
 
-import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 public class PassingAndFailingTestsByCategoryAcceptanceTest extends AcceptanceTest {
@@ -24,11 +24,18 @@ public class PassingAndFailingTestsByCategoryAcceptanceTest extends AcceptanceTe
         //then
         TestsRunResult testRunResult = response.readEntity(TestsRunResult.class);
         assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
+
+
         assertThat(testRunResult.getTests().size(), is(1));
-        assertThat(
-                testRunResult.getTests(),
-                hasItem(new IndividualTestResult(PassingAndFailingTestsWithCategories.class.getName(), "testThatPassesWithCategoryA", "A", true))
-        );
+
+
+        IndividualTestResult passingTest = testRunResult.getTestByClassAndName("me.atam.atam4j.dummytests.PassingAndFailingTestsWithCategories", "testThatPassesWithCategoryA").get();
+
+        assertThat(passingTest.getTestName(), is("testThatPassesWithCategoryA"));
+        assertThat(passingTest.getCategory(), is("A"));
+        assertThat(passingTest.isPassed(), is(true));
+        assertThat(passingTest.getException(), is(nullValue()));
+
     }
 
     @Test
@@ -41,11 +48,22 @@ public class PassingAndFailingTestsByCategoryAcceptanceTest extends AcceptanceTe
         TestsRunResult testRunResult = response.readEntity(TestsRunResult.class);
         assertThat(response.getStatus(), is(Response.Status.INTERNAL_SERVER_ERROR.getStatusCode()));
         assertThat(testRunResult.getTests().size(), is(2));
-        assertThat(testRunResult.getTests(),
-                hasItem(new IndividualTestResult(PassingAndFailingTestsWithCategories.class.getName(), "testThatPassesWithCategoryA", "A", true))
-        );
-        assertThat(testRunResult.getTests(),
-                hasItem(new IndividualTestResult(PassingAndFailingTestsWithCategories.class.getName(), "testThatFailsWithCategoryB", "B", false))
-        );
+
+
+        IndividualTestResult passingTest = testRunResult.getTestByClassAndName("me.atam.atam4j.dummytests.PassingAndFailingTestsWithCategories", "testThatPassesWithCategoryA").get();
+
+        assertThat(passingTest.getTestName(), is("testThatPassesWithCategoryA"));
+        assertThat(passingTest.getCategory(), is("A"));
+        assertThat(passingTest.isPassed(), is(true));
+        assertThat(passingTest.getException(), is(nullValue()));
+
+
+        IndividualTestResult failingTest = testRunResult.getTestByClassAndName("me.atam.atam4j.dummytests.PassingAndFailingTestsWithCategories", "testThatFailsWithCategoryB").get();
+
+        assertThat(failingTest.getTestName(), is("testThatFailsWithCategoryB"));
+        assertThat(failingTest.getCategory(), is("B"));
+        assertThat(failingTest.isPassed(), is(false));
+        assertThat(failingTest.getException().getMessage(), is("Was expecting false to be true"));
+
     }
 }

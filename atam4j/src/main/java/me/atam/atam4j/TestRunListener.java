@@ -6,10 +6,7 @@ import org.junit.runner.Description;
 import org.junit.runner.Result;
 import org.junit.runner.notification.Failure;
 import org.junit.runner.notification.RunListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.lang.reflect.Method;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -32,7 +29,7 @@ public class TestRunListener extends RunListener {
                         description.getClassName(),
                         description.getMethodName(),
                         getCategoryName(description),
-                        true)
+                        true, null)
         );
     }
 
@@ -46,11 +43,13 @@ public class TestRunListener extends RunListener {
                                             failure.getDescription().getClassName(),
                                             failure.getDescription().getMethodName(),
                                             getCategoryName(failure.getDescription()),
-                                            false);
+                                            false,
+                                            failure.getException());
             TestIdentifier identifier = new TestIdentifier(failure.getDescription());
             inProgressTestResults.put(identifier, result);
         } else {
             individualTestResult.setPassed(false);
+            individualTestResult.setException(failure.getException());
         }
     }
 

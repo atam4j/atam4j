@@ -29,7 +29,7 @@ public class PassingTestsByCategoryAcceptanceTest extends AcceptanceTest {
         assertThat(testRunResult.getTests().size(), is(1));
         assertThat(
                 testRunResult.getTests(),
-                hasItem(new IndividualTestResult(PassingTestsWithCategories.class.getName(), "testThatPassesWithCategoryA", "A", true))
+                hasItem(new IndividualTestResult(PassingTestsWithCategories.class.getName(), "testThatPassesWithCategoryA", "A", true, null))
         );
     }
 
@@ -70,10 +70,10 @@ public class PassingTestsByCategoryAcceptanceTest extends AcceptanceTest {
         assertThat(response.getStatus(), is(Response.Status.OK.getStatusCode()));
         assertThat(testRunResult.getTests().size(), is(2));
         assertThat(testRunResult.getTests(),
-                hasItem(new IndividualTestResult(PassingTestsWithCategories.class.getName(), "testThatPassesWithCategoryA", "A", true))
+                hasItem(new IndividualTestResult(PassingTestsWithCategories.class.getName(), "testThatPassesWithCategoryA", "A", true, null))
         );
         assertThat(testRunResult.getTests(),
-                hasItem(new IndividualTestResult(PassingTestsWithCategories.class.getName(), "testThatPassesWithCategoryB", "B", true))
+                hasItem(new IndividualTestResult(PassingTestsWithCategories.class.getName(), "testThatPassesWithCategoryB", "B", true, null))
         );
     }
 
