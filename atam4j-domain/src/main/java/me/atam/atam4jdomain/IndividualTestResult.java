@@ -1,8 +1,6 @@
 package me.atam.atam4jdomain;
 
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.util.Objects;
 public class IndividualTestResult {
     private String testClass;
