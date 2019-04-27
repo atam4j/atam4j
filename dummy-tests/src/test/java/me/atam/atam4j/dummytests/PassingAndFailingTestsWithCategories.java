@@ -12,11 +12,10 @@ public class PassingAndFailingTestsWithCategories {
         Assert.assertTrue(true);
     }
 
-
     @Test
     @MonitorCategory(name="B")
     public void testThatFailsWithCategoryB(){
-        Assert.assertTrue(false);
+        Assert.assertTrue("Was expecting false to be true", false);
     }
 
 }

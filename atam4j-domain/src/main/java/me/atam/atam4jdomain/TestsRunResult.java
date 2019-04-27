@@ -3,6 +3,7 @@ package me.atam.atam4jdomain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.Collection;
+import java.util.Optional;
 
 public final class TestsRunResult {
 
@@ -26,6 +27,8 @@ public final class TestsRunResult {
     }
 
 
+
+
     public Status getStatus() {
         return status;
     }
@@ -39,6 +42,10 @@ public final class TestsRunResult {
                           .findAny()
                           .map(failures -> Status.FAILURES)
                           .orElse(Status.ALL_OK);
+    }
+
+    public Optional<IndividualTestResult> getTestByClassAndName(String className, String testName) {
+        return tests.stream().filter(t -> t.getTestClass().equals(className)).filter(t -> t.getTestName().equals(testName)).findFirst();
     }
 
     public enum Status {
