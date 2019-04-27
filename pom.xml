@@ -64,7 +64,6 @@
         <jackson.version>2.8.8</jackson.version>
         <javax-ws-rs-api-version>2.0.1</javax-ws-rs-api-version>
         <slf4j.version>1.7.10</slf4j.version>
-        <guava.version>19.0</guava.version>
         <slf4j-test.version>1.1.0</slf4j-test.version>
         <junit.version>4.12</junit.version>
         <reflections.version>0.9.10</reflections.version>
@@ -117,11 +116,6 @@
                 <version>${slf4j.version}</version>
             </dependency>
 
-            <dependency>
-                <groupId>com.google.guava</groupId>
-                <artifactId>guava</artifactId>
-                <version>${guava.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>io.dropwizard</groupId>
@@ -150,6 +144,12 @@
                 <groupId>org.reflections</groupId>
                 <artifactId>reflections</artifactId>
                 <version>${reflections.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>com.google.guava</groupId>
+                        <artifactId>guava</artifactId>
+                    </exclusion>
+                </exclusions>
             </dependency>
 
             <dependency>
