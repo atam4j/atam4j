@@ -15,8 +15,7 @@ after_success:
 - openssl aes-256-cbc -pass pass:$ENCRYPTION_PASSWORD -in keys/pubring.gpg.enc -out
   ~/pubring.gpg -d
 
-- openssl aes-256-cbc -pass pass:$PEM_ENCRYPTION_PASSWORD -in keys/atam4j_id_rsa.pem.enc -out
-  ~/atam4j_id_rsa.pem -d
+- openssl aes-256-cbc -pass pass:$PEM_ENCRYPTION_PASSWORD -in keys/atam4j_id_rsa.enc -out ~/atam4j_id_rsa -d
 
 - git config --global user.email "travis@atam.me"
 
@@ -24,9 +23,9 @@ after_success:
 
 - eval "$(ssh-agent -s)"
 
-- chmod 600 ~/atam4j_id_rsa.pem
+- chmod 600 ~/atam4j_id_rsa
 
-- ssh-add ~/atam4j_id_rsa.pem
+- ssh-add ~/atam4j_id_rsa
 
 after_script:
   scripts/release.sh
