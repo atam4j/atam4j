@@ -18,7 +18,7 @@ public class PassingAndFailingTestsByCategoryAcceptanceTest extends AcceptanceTe
     @Test
     public void givenPassingAndFailingTests_whenPassngTestsByCategoryEndpointCalledAfterTestRun_thenOKMessageReceivedForOneTestOnly(){
         //given
-        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingAndFailingTestsWithCategories.class, 1);
+        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingAndFailingTestsWithCategories.class, 10000);
         //when
         Response response = getResponseFromTestsWithCategoryOnceTestRunHasCompleted("A");
         //then
@@ -41,7 +41,7 @@ public class PassingAndFailingTestsByCategoryAcceptanceTest extends AcceptanceTe
     @Test
     public void givenPassingAndFailingTests_whenTestsEndpointCalledAfterTestRun_thenErrorMessageReceivedForTwoTests(){
         //given
-        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingAndFailingTestsWithCategories.class, 1);
+        dropwizardTestSupportAppConfig = Atam4jApplicationStarter.startApplicationWith(0, PassingAndFailingTestsWithCategories.class, 10000);
         //when
         Response response = getResponseFromTestsEndpointOnceTestsRunHasCompleted();
         //then

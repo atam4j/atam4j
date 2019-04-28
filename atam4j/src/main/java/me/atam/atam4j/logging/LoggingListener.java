@@ -39,7 +39,7 @@ public class LoggingListener extends RunListener {
 
     @Override
     public void testFailure(Failure failure) throws Exception {
-        LOGGER.debug(
+        LOGGER.error(
             String.format("Test %s failed: %s",
                 failure.getTestHeader(),
                 failure.getDescription()
@@ -50,7 +50,7 @@ public class LoggingListener extends RunListener {
 
     @Override
     public void testAssumptionFailure(Failure failure) {
-        LOGGER.debug(
+        LOGGER.error(
             String.format("Test %s assumption failed: %s",
                     failure.getTestHeader(),
                     failure.getDescription()
