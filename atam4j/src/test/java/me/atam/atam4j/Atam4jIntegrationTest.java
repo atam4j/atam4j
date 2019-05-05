@@ -1,6 +1,7 @@
 package me.atam.atam4j;
 
 import io.dropwizard.jersey.setup.JerseyEnvironment;
+import io.dropwizard.setup.Environment;
 import me.atam.atam4j.dummytests.PassingTestWithNoCategory;
 import me.atam.atam4j.resources.TestStatusResource;
 import me.atam.atam4jdomain.TestsRunResult;
@@ -11,21 +12,22 @@ import org.mockito.ArgumentCaptor;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 public class Atam4jIntegrationTest {
 
     Atam4j atam4j = null;
 
     @Test
-    public void givenHealthCheckManagerWithPassingTest_whenInitialized_thenTestsAreHealthy() throws Exception{
+    public void givenHealthCheckManagerWithPassingTest_whenInitialized_thenTestsAreHealthy() {
 
+        Environment environment = mock(Environment.class);
         JerseyEnvironment jerseyEnvironment = mock(JerseyEnvironment.class);
+        when(environment.jersey()).thenReturn(jerseyEnvironment);
 
         ArgumentCaptor<TestStatusResource> argumentCaptor = ArgumentCaptor.forClass(TestStatusResource.class);
 
-        atam4j = new Atam4j.Atam4jBuilder(jerseyEnvironment)
+        atam4j = new Atam4j.Atam4jBuilder(environment)
                 .withTestClasses(PassingTestWithNoCategory.class)
                 .withInitialDelay(0)
                 .build();
@@ -40,12 +42,14 @@ public class Atam4jIntegrationTest {
     }
 
     @Test
-    public void givenHealthCheckManagerUsingAnnotationScanning_whenInitialized_thenTestsAreHealthy() throws Exception{
+    public void givenHealthCheckManagerUsingAnnotationScanning_whenInitialized_thenTestsAreHealthy() {
+        Environment environment = mock(Environment.class);
         JerseyEnvironment jerseyEnvironment = mock(JerseyEnvironment.class);
+        when(environment.jersey()).thenReturn(jerseyEnvironment);
 
         ArgumentCaptor<TestStatusResource> argumentCaptor = ArgumentCaptor.forClass(TestStatusResource.class);
 
-        atam4j = new Atam4j.Atam4jBuilder(jerseyEnvironment)
+        atam4j = new Atam4j.Atam4jBuilder(environment)
                 .withInitialDelay(0)
                 .build();
         atam4j.start();
@@ -58,7 +62,7 @@ public class Atam4jIntegrationTest {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown()  {
         atam4j.stop();
     }
 

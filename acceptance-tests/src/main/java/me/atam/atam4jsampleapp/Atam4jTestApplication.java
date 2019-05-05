@@ -22,12 +22,13 @@ public class Atam4jTestApplication extends Application<ApplicationConfiguration>
     @Override
     public void run(final ApplicationConfiguration configuration, final Environment environment) throws Exception {
         CustomListenerStatus customListenerStatus = new CustomListenerStatus();
-        Atam4j atam4j = new Atam4j.Atam4jBuilder(environment.jersey())
+        Atam4j atam4j = new Atam4j.Atam4jBuilder(environment)
                 .withUnit(TimeUnit.MILLISECONDS)
                 .withInitialDelay(configuration.getInitialDelayInMillis())
                 .withPeriod(configuration.getPeriodInMillis())
                 .withTestClasses(configuration.getTestClasses())
                 .withListener(new CustomListener(customListenerStatus))
+                .withTestMetrics()
                 .build();
 
         environment.lifecycle().manage(atam4j);

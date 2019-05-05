@@ -2,9 +2,12 @@ package me.atam.atam4j;
 
 import io.dropwizard.jersey.setup.JerseyEnvironment;
 import io.dropwizard.lifecycle.Managed;
+import io.dropwizard.setup.Environment;
+import io.prometheus.client.exporter.MetricsServlet;
 import me.atam.atam4j.exceptions.NoTestClassFoundException;
 import me.atam.atam4j.health.AcceptanceTestsState;
 import me.atam.atam4j.resources.TestStatusResource;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.junit.runner.notification.RunListener;
 import org.reflections.Reflections;
 import org.reflections.scanners.SubTypesScanner;
@@ -51,11 +54,14 @@ public class Atam4j implements Managed {
         private long initialDelay = 60;
         private long period = 300;
         private TimeUnit unit = TimeUnit.SECONDS;
-        private JerseyEnvironment jerseyEnvironment;
+        private Environment environment;
+        private boolean metrics = false;
+
         private final List<RunListener> runListeners = new ArrayList<>();
 
-        public Atam4jBuilder(JerseyEnvironment jerseyEnvironment) {
-            this.jerseyEnvironment = jerseyEnvironment;
+
+        public Atam4jBuilder(Environment environment) {
+            this.environment = environment;
         }
 
         public Atam4jBuilder withTestClasses(Class... testClasses) {
@@ -83,12 +89,24 @@ public class Atam4j implements Managed {
             return this;
         }
 
+
+        public Atam4jBuilder withTestMetrics(){
+            this.metrics = true;
+            return this;
+        }
+
         public Atam4j build() {
+
+            if (metrics){
+                ServletHolder servletHolder = new ServletHolder(new MetricsServlet());
+                environment.getApplicationContext().addServlet(servletHolder, "/metrics");
+            }
+
             TestRunListener testRunListener = new TestRunListener();
             List<RunListener> runListenersWithAtam4jListener = new ArrayList<>();
             runListenersWithAtam4jListener.add(testRunListener);
             runListenersWithAtam4jListener.addAll(this.runListeners);
-            return new Atam4j(jerseyEnvironment, testRunListener,
+            return new Atam4j(environment.jersey(), testRunListener,
                     new AcceptanceTestsRunnerTaskScheduler(
                         findTestClasses(),
                         initialDelay,

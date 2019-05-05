@@ -1,5 +1,5 @@
 initialDelayInMillis: 1
-periodInMillis: 60000
+periodInMillis: 5000
 
 testClasses:
   - me.atam.atam4j.dummytests.PassingTestWithNoCategory
